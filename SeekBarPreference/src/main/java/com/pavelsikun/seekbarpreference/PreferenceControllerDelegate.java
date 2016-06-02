@@ -225,7 +225,7 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
         isEnabled = enabled;
 
         if(viewStateListener != null) {
-          //  viewStateListener.setEnabled(enabled);
+         //   viewStateListener.setEnabled(enabled);
         }
 
         if(seekBarView != null) { //theoretically might not always work

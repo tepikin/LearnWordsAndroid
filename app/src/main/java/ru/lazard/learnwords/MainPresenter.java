@@ -26,19 +26,23 @@ public class MainPresenter {
         @Override
         public void run() {
 
-            Model model = InitModel.getModel(activity);
-            Word randomWord = model.getRandomWord();
-
-            activity.showWord(randomWord);
-            if (settings.isBlinkEnable()) {
-                activity.blink();
-            }
-            playAudio(randomWord);
+            doStep();
 
             int delayMillis = settings.delayBetweenWords() * 1000;
             handler.postDelayed(this, delayMillis);
         }
     };
+
+    public void doStep() {
+        Model model = InitModel.getModel(activity);
+        Word randomWord = model.getRandomWord();
+
+        activity.showWord(randomWord);
+        if (settings.isBlinkEnable()) {
+            activity.blink();
+        }
+        playAudio(randomWord);
+    }
 
     public MainPresenter(MainActivity mainActivity) {
         this.activity = mainActivity;
