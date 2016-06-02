@@ -1,5 +1,6 @@
-package ru.lazard.learnwords;
+package ru.lazard.learnwords.learn;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
@@ -14,9 +15,10 @@ import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.preferences.Settings;
 
 
-public class MainPresenter {
+public class LearnPresenter {
     private final TextToSpeech ttsEn;
-    private final MainActivity activity;
+    private final LearnFragment fragment;
+    private final Context context;
     private Handler handler;
     private boolean isPlay;
     private Settings settings;
@@ -34,21 +36,22 @@ public class MainPresenter {
     };
 
     public void doStep() {
-        Model model = InitModel.getModel(activity);
+        Model model = InitModel.getModel(fragment.getContext());
         Word randomWord = model.getRandomWord();
 
-        activity.showWord(randomWord);
+        fragment.showWord(randomWord);
         if (settings.isBlinkEnable()) {
-            activity.blink();
+            fragment.blink();
         }
         playAudio(randomWord);
     }
 
-    public MainPresenter(MainActivity mainActivity) {
-        this.activity = mainActivity;
-        settings = new Settings(activity);
+    public LearnPresenter(LearnFragment mainActivity) {
+        this.fragment = mainActivity;
+        context = fragment.getContext();
+        settings = new Settings(context);
         handler = new Handler(Looper.getMainLooper());
-        ttsEn = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
+        ttsEn = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
