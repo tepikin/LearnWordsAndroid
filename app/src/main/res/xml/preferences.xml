@@ -1,32 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="Base">
-    <SwitchPreference
-        android:key="read_words_enable"
-        android:title="Read words"
-        android:summary="Read english words aloud"
-        android:defaultValue="true" />
-    <SwitchPreference
-        android:dependency="read_words_enable"
-        android:key="read_translates_enable"
-        android:title="Read translate"
-        android:summary="Read translate of words aloud"
-        android:defaultValue="true" />
-    <SwitchPreference
-        android:key="blink_screen_enable"
-        android:title="Blink"
-        android:summary="Blink screen on word change"
-        android:defaultValue="false" />
         <EditTextPreference
-            android:key="delay_between_words_change"
-            android:title="Words change delay"
-            android:inputType="number"
-            android:hint="Seconds delay"
-            android:summary="Delay betwin words change in seconds"
             android:defaultValue="10"
+            android:hint="Seconds delay"
+            android:inputType="number"
+            android:key="delay_between_words_change"
+            android:summary="Delay betwin words change in seconds"
+            android:title="Words change delay"
             />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Timers">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="blink_screen_enable"
+            android:summary="Blink screen on word change"
+            android:title="Blink"/>
 
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Text to speech">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="read_words_enable"
+            android:summary="Read english words aloud"
+            android:title="Read words"/>
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:defaultValue="30"
+            android:dependency="read_words_enable"
+            android:key="words_read_speed"
+            android:summary="Speed of read words"
+            android:title="Speed rate"
+
+            app:msbp_dialogEnabled="true"
+            app:msbp_interval="1"
+            app:msbp_maxValue="200"
+            app:msbp_measurementUnit="% "
+            app:msbp_minValue="1"
+            app:msbp_view_enabled="true"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="read_words_enable"
+            android:key="read_translates_enable"
+            android:summary="Read translate of words aloud"
+            android:title="Read translate"/>
+
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:defaultValue="100"
+            android:dependency="read_translates_enable"
+            android:key="translate_read_speed"
+            android:summary="Speed of read translates"
+            android:title="Speed rate"
+
+            app:msbp_dialogEnabled="true"
+            app:msbp_interval="1"
+            app:msbp_maxValue="200"
+            app:msbp_measurementUnit="% "
+            app:msbp_minValue="1"/>
     </PreferenceCategory>
 </PreferenceScreen>

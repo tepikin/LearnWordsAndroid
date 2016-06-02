@@ -13,18 +13,15 @@ import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.preferences.Settings;
 
-/**
- * Created by Egor on 02.06.2016.
- */
+
 public class MainPresenter {
     private final TextToSpeech ttsEn;
     private final MainActivity activity;
     private Handler handler;
     private boolean isPlay;
     private Settings settings;
-    private float speechRateEnglish = 0.3f;
-    private float speechRateNational = 1f;
-    private long wordsDelay = 10000;
+
+
     private Runnable playProcess = new Runnable() {
         @Override
         public void run() {
@@ -38,7 +35,8 @@ public class MainPresenter {
             }
             playAudio(randomWord);
 
-            handler.postDelayed(this, wordsDelay);
+            int delayMillis = settings.delayBetweenWords() * 1000;
+            handler.postDelayed(this, delayMillis);
         }
     };
 
@@ -55,7 +53,8 @@ public class MainPresenter {
                         @Override
                         public void onDone(String utteranceId) {
                             if (!settings.isReadTranslate())return;
-                            ttsEn.setSpeechRate(speechRateNational);
+                            float speechRate = settings.speedReadTranslate();
+                            ttsEn.setSpeechRate(speechRate);
                             ttsEn.setLanguage(Locale.getDefault());
                             ttsEn.speak(utteranceId, TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -91,7 +90,8 @@ public class MainPresenter {
     private void playAudio(Word randomWord) {
         if (!settings.isReadWords()) return;
         try {
-            ttsEn.setSpeechRate(speechRateEnglish);
+            float speechRate =  settings.speedReadWords() ;
+            ttsEn.setSpeechRate(speechRate);
             ttsEn.setLanguage(Locale.ENGLISH);
             HashMap<String, String> myHashAlarm = new HashMap<String, String>();
             myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, randomWord.getTranslate());

@@ -10,9 +10,7 @@ import android.preference.PreferenceActivity;
 
 import ru.lazard.learnwords.R;
 
-/**
- * Created by Egor on 02.06.2016.
- */
+
 public class SettingsActivity extends PreferenceActivity {
 
     @Override
