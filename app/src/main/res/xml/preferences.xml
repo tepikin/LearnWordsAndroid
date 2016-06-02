@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Base">
+    <SwitchPreference
+        android:key="read_words_enable"
+        android:title="Read words"
+        android:summary="Read english words aloud"
+        android:defaultValue="true" />
+    <SwitchPreference
+        android:dependency="read_words_enable"
+        android:key="read_translates_enable"
+        android:title="Read translate"
+        android:summary="Read translate of words aloud"
+        android:defaultValue="true" />
+    <SwitchPreference
+        android:key="blink_screen_enable"
+        android:title="Blink"
+        android:summary="Blink screen on word change"
+        android:defaultValue="false" />
+        <EditTextPreference
+            android:key="delay_between_words_change"
+            android:title="Words change delay"
+            android:inputType="number"
+            android:hint="Seconds delay"
+            android:summary="Delay betwin words change in seconds"
+            android:defaultValue="10"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Timers">
+
+    </PreferenceCategory>
+</PreferenceScreen>
