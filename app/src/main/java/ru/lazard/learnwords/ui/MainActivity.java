@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton floatingActionButton;
     private NavigationView navigationView;
     private Toolbar toolbar;
-
+public void setSelectedNavigationMenu(int resId){
+    getNavigationView().getMenu().findItem(resId).setChecked(true);
+}
     public void addFragment(Fragment fragment, boolean isAddToBackStack) {
         String backStateName = fragment.getClass().getName();
         FragmentManager manager = getSupportFragmentManager();
@@ -135,5 +137,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
 }

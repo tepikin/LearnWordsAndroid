@@ -102,6 +102,7 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
         super.onResume();
         ((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
         ((MainActivity)getActivity()).getFloatingActionButton().show();
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_slideshow);
     }
 
     @Override
