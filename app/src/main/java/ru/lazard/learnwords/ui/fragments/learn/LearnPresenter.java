@@ -29,7 +29,7 @@ public class LearnPresenter {
 
             doStep();
 
-            int delayMillis = settings.delayBetweenWords() * 1000;
+            int delayMillis = settings.delayBetweenWords() * 1000+500;
             handler.postDelayed(this, delayMillis);
         }
     };
