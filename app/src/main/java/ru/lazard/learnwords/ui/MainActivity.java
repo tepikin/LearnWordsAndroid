@@ -10,13 +10,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.db.DbHelper;
 import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
+import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
 
 public class MainActivity extends AppCompatActivity
@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main2, menu);
+//        return true;
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity
             addFragment(new LearnFragment(), true);
         } else if (id == R.id.nav_manage) {
             addFragment(new SettingsFragment(), true);
+        } else if (id == R.id.nav_words_list) {
+            addFragment(new WordsListFragment(), true);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

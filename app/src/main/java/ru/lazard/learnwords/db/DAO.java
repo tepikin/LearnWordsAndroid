@@ -36,6 +36,11 @@ public class DAO {
         return count;
     }
 
+    public static List<Word> getAllWords() {
+        Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME, null);
+        return getWordsFromCursor(cursor);
+    }
+
     private static List<Word> getWordsFromCursor(Cursor cursor) {
         List<Word> list = new ArrayList<>();
         if (cursor != null) {

@@ -7,6 +7,10 @@
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Slideshow"/>
         <item
+            android:id="@+id/nav_words_list"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Words list"/>
+        <item
             android:id="@+id/nav_manage"
             android:icon="@android:drawable/ic_menu_preferences"
             android:title="@string/preferences_screen_title"/>

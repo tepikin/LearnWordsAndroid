@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,7 +34,18 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
         if (floatingActionButton==v){
             presenter.onFloatingActionButtonClick();
         }
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main2,menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void setStatePause() {
@@ -105,7 +118,8 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         presenter.onDestroy();
+        super.onDestroy();
+
     }
 }
