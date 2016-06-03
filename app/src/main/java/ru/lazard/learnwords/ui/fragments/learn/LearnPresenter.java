@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.learn;
+package ru.lazard.learnwords.ui.fragments.learn;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,10 +9,9 @@ import android.speech.tts.UtteranceProgressListener;
 import java.util.HashMap;
 import java.util.Locale;
 
-import ru.lazard.learnwords.model.InitModel;
-import ru.lazard.learnwords.model.Model;
+import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Word;
-import ru.lazard.learnwords.preferences.Settings;
+import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
 public class LearnPresenter {
@@ -36,8 +35,8 @@ public class LearnPresenter {
     };
 
     public void doStep() {
-        Model model = InitModel.getModel(fragment.getContext());
-        Word randomWord = model.getRandomWord();
+
+        Word randomWord = DAO.getRandomWord();
 
         fragment.showWord(randomWord);
         if (settings.isBlinkEnable()) {

@@ -6,10 +6,40 @@ package ru.lazard.learnwords.model;
 public class Word {
     private String word;
     private String translate;
+    private int viewCount;
+    private int id;
+    private boolean visible;
 
+    public Word() {
+
+    }
     public Word(String word, String translate) {
         this.word = word;
         this.translate = translate;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public String getWord() {

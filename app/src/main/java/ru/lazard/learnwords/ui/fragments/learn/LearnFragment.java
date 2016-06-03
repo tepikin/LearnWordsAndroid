@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.learn;
+package ru.lazard.learnwords.ui.fragments.learn;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import ru.lazard.learnwords.MainActivity;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
+import ru.lazard.learnwords.ui.MainActivity;
 
 /**
  * Created by Egor on 02.06.2016.
@@ -84,7 +84,12 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
         return view;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
+        ((MainActivity)getActivity()).getFloatingActionButton().show();
+    }
 
     @Override
     public void onPause() {

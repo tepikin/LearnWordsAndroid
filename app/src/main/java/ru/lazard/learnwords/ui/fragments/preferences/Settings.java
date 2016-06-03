@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.preferences;
+package ru.lazard.learnwords.ui.fragments.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

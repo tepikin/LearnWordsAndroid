@@ -8,7 +8,7 @@
     android:keepScreenOn="true"
     android:background="@drawable/bg_main_activity"
     android:orientation="vertical"
-    tools:context="ru.lazard.learnwords.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/word"
