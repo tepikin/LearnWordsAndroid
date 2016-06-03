@@ -2,75 +2,79 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="Base">
+    <PreferenceCategory android:title="@string/preferences_category_base">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="auto_words_switch"
+            android:summary="@string/preferences_item_autoSwitch_summary"
+            android:title="@string/preferences_item_autoSwitch_title"/>
         <EditTextPreference
             android:defaultValue="10"
-            android:hint="Seconds delay"
+            android:dependency="auto_words_switch"
+            android:hint="@string/preferences_item_delayBetweenWordsChange_hint"
             android:inputType="number"
             android:key="delay_between_words_change"
-            android:summary="Delay betwin words change in seconds"
-            android:title="Words change delay"
+            android:summary="@string/preferences_item_delayBetweenWordsChange_summary"
+            android:title="@string/preferences_item_delayBetweenWordsChange_title"
             />
         <SwitchPreference
             android:defaultValue="false"
             android:key="blink_screen_enable"
-            android:summary="Blink screen on word change"
-            android:title="Blink"/>
+            android:summary="@string/preferences_item_blink_summary"
+            android:title="@string/preferences_item_blink_title"/>
 
     </PreferenceCategory>
 
 
-        <PreferenceCategory android:title="Text to speech">
-            <SwitchPreference
-                android:defaultValue="true"
-                android:key="read_words_enable"
-                android:summary="Read english words aloud"
-                android:title="Read words"/>
-            <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-                android:defaultValue="30"
-                android:dependency="read_words_enable"
-                android:key="words_read_speed"
-                android:summary="Speed of read words"
-                android:title="Speed rate"
+    <PreferenceCategory android:title="@string/preferences_category_tts">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="read_words_enable"
+            android:summary="@string/preferences_item_readWords_summary"
+            android:title="@string/preferences_item_readWords_title"/>
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="30"
+            android:dependency="read_words_enable"
+            android:key="words_read_speed"
+            android:summary="@string/preferences_item_readWordsSpeed_summary"
+            android:title="@string/preferences_item_readWordsSpeed_title"
 
-                app:msbp_dialogEnabled="true"
-                app:msbp_interval="1"
-                app:msbp_maxValue="200"
-                app:msbp_measurementUnit="% "
-                app:msbp_minValue="1"
-                app:msbp_view_enabled="true"/>
+            app:msbp_dialogEnabled="true"
+            app:msbp_interval="1"
+            app:msbp_maxValue="200"
+            app:msbp_measurementUnit="@string/preferences_item_readWordsSpeed_units"
+            app:msbp_minValue="1"
+            app:msbp_view_enabled="true"/>
 
-            <SwitchPreference
-                android:defaultValue="true"
-                android:dependency="read_words_enable"
-                android:key="read_translates_enable"
-                android:summary="Read translate of words aloud"
-                android:title="Read translate"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="read_words_enable"
+            android:key="read_translates_enable"
+            android:summary="@string/preferences_item_readTranslates_summary"
+            android:title="@string/preferences_item_readTranslates_title"/>
 
-            <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-                android:defaultValue="100"
-                android:dependency="read_translates_enable"
-                android:key="translate_read_speed"
-                android:summary="Speed of read translates"
-                android:title="Speed rate"
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="read_translates_enable"
+            android:key="translate_read_speed"
+            android:summary="@string/preferences_item_readTranslatesSpeed_summary"
+            android:title="@string/preferences_item_readTranslatesSpeed_title"
 
-                app:msbp_dialogEnabled="true"
-                app:msbp_interval="1"
-                app:msbp_maxValue="200"
-                app:msbp_measurementUnit="% "
-                app:msbp_minValue="1"/>
+            app:msbp_dialogEnabled="true"
+            app:msbp_interval="1"
+            app:msbp_maxValue="200"
+            app:msbp_measurementUnit="@string/preferences_item_readTranslatesSpeed_units"
+            app:msbp_minValue="1"/>
 
-            <PreferenceScreen
-                android:dependency="read_words_enable"
-                android:summary="Settings of text to speech"
-                android:title="TTS settings">
-                <intent
-                    android:action="com.android.settings.TTS_SETTINGS"
-                    />
-            </PreferenceScreen>
+        <PreferenceScreen
+            android:dependency="read_words_enable"
+            android:summary="@string/preferences_item_settingsTTS_summary"
+            android:title="@string/preferences_item_settingsTTS_title">
+            <intent android:action="com.android.settings.TTS_SETTINGS"/>
+        </PreferenceScreen>
 
 
-        </PreferenceCategory>
+    </PreferenceCategory>
 
 
 </PreferenceScreen>

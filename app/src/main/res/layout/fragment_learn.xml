@@ -31,30 +31,5 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="Hello World!"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <ToggleButton
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOff="play"
-            android:textOn="stop"
-            android:src="@android:drawable/ic_media_play"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp" android:layout_weight="1"/>
-        <ImageButton
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOff="sound"
-            android:textOn="sound"
-            android:checked="true"
-            android:src="@android:drawable/ic_menu_preferences"
-            />
 
-    </LinearLayout>
 </android.support.v7.widget.LinearLayoutCompat>

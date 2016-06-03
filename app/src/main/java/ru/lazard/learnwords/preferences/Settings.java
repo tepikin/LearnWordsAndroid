@@ -20,6 +20,9 @@ public class Settings {
     public boolean isReadTranslate() {
         return this.preferences.getBoolean("read_translates_enable", true);
     }
+    public boolean isAutoWordsSwitch() {
+        return this.preferences.getBoolean("auto_words_switch", true);
+    }
 
     public boolean isReadWords() {
         return this.preferences.getBoolean("read_words_enable", true);

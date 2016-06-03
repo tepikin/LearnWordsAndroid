@@ -80,18 +80,53 @@ public class LearnPresenter {
     }
 
     public void onDestroy() {
-        setPlay(false);
+        pause();
+        unbindTTS();
     }
 
-
-
-    public void setPlay(boolean isPlay) {
-        this.isPlay = isPlay;
-        handler.removeCallbacks(playProcess);
-        if (isPlay) {
-            handler.post(playProcess);
+    public void onFloatingActionButtonClick() {
+        if (isPlay){
+            pause();
+            return;
         }
+        if (settings.isAutoWordsSwitch()){
+            play();
+        }else{
+            doStep();
+        }
+
     }
+
+    public void play() {
+        pause();
+        this.isPlay = true;
+        handler.post(playProcess);
+        fragment.setStatePlay();
+    }
+
+
+    private void unbindTTS() {
+        ttsEn.shutdown();
+    }
+
+    public void onDetach() {
+        pause();
+
+    }
+
+    public void onPause() {
+        pause();
+    }
+
+    private void pause() {
+        this.isPlay = false;
+        handler.removeCallbacks(playProcess);
+        ttsEn.stop();
+        fragment.setStatePause();
+    }
+
+
+
 
 
     private void playAudio(Word randomWord) {

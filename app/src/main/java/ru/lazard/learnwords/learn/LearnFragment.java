@@ -3,42 +3,44 @@ package ru.lazard.learnwords.learn;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
+import ru.lazard.learnwords.MainActivity;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
-import ru.lazard.learnwords.preferences.SettingsActivity;
 
 /**
  * Created by Egor on 02.06.2016.
  */
-public class LearnFragment extends Fragment implements  CompoundButton.OnCheckedChangeListener, View.OnClickListener{
+public class LearnFragment extends Fragment implements   View.OnClickListener{
     private View baseLayout;
+    private FloatingActionButton floatingActionButton;
 
-    private ToggleButton playView;
+
     private LearnPresenter presenter;
-    private View settingsView;
     private TextView translateView;
     private TextView wordView;
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (playView==buttonView){
-            presenter.setPlay(isChecked);
-        }
-    }
+
     @Override
     public void onClick(View v) {
-        if (settingsView==v){
-            SettingsActivity.show(getContext());
+        if (floatingActionButton==v){
+            presenter.onFloatingActionButtonClick();
         }
 
+    }
+
+    public void setStatePause() {
+        floatingActionButton.setImageResource(android.R.drawable.ic_media_play);
+    }
+
+    public void setStatePlay() {
+        floatingActionButton.setImageResource(android.R.drawable.ic_media_pause);
     }
 
     public void showWord(Word randomWord) {
@@ -68,17 +70,34 @@ public class LearnFragment extends Fragment implements  CompoundButton.OnChecked
             baseLayout = view.findViewById(R.id.base_layout);
             wordView = (TextView) view.findViewById(R.id.word);
             translateView = (TextView) view.findViewById(R.id.translate);
-            playView = (ToggleButton) view.findViewById(R.id.play);
-            settingsView = view.findViewById(R.id.settings);
 
-            playView.setOnCheckedChangeListener(this);
-            settingsView.setOnClickListener(this);
+            floatingActionButton  = ((MainActivity)getActivity()).getFloatingActionButton();
 
+
+            floatingActionButton.setOnClickListener(this);
+            floatingActionButton.setVisibility(View.VISIBLE);
+            setStatePause();
             presenter = new LearnPresenter(this);
-            presenter.setPlay(playView.isChecked());
+
+
         }
         return view;
     }
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDetach();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
