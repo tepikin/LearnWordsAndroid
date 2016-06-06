@@ -23,7 +23,9 @@ public class LearnPresenter {
     private final Context context;
     private Handler handler;
     private boolean isPlay;
+    private Word randomWord;
     private Settings settings;
+    private AtomicBoolean cancelSync = new AtomicBoolean(false);
 
 
     private Runnable playProcess = new Runnable() {
@@ -47,12 +49,18 @@ public class LearnPresenter {
                 }
             }
         });
+        randomWord = DAO.getRandomWord();
+        fragment.showWord(randomWord);
     }
 
     public void doStep() {
 
-        Word randomWord = DAO.getRandomWord();
+        randomWord = DAO.getRandomWord();
 
+        startWord(randomWord);
+    }
+
+    private void startWord(Word randomWord) {
         fragment.showWord(randomWord);
         if (settings.isBlinkEnable()) {
             fragment.blink();
@@ -97,8 +105,8 @@ public class LearnPresenter {
     public void play() {
         pause();
         this.isPlay = true;
-        doStep();
-        //handler.post(playProcess);
+        startWord(randomWord);//doStep();
+
         fragment.setStatePlay();
     }
 
@@ -111,6 +119,8 @@ public class LearnPresenter {
 
     private void pause() {
         this.isPlay = false;
+        cancelSync.set(true);
+        cancelSync=new AtomicBoolean(false);
         handler.removeCallbacks(playProcess);
         ttsEn.stop();
         fragment.setStatePause();
@@ -141,10 +151,6 @@ public class LearnPresenter {
                     if (callback != null) callback.run();
                 }
 
-                @Override
-                public void onStop(String utteranceId, boolean interrupted) {
-// do nothing
-                }
             });
 
             HashMap<String, String> myHashAlarm = new HashMap<String, String>();
@@ -165,10 +171,13 @@ public class LearnPresenter {
             if (callback != null) callback.run();
             return;
         }
-        AtomicBoolean cancel = new AtomicBoolean(false);
+        final AtomicBoolean cancel = cancelSync;
         playText(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
             @Override
             public void run() {
+                if (cancel.get()){  if (callback != null) callback.run();
+                    return;
+                }
                 if (!settings.isReadTranslate()) {
                     if (callback != null) callback.run();
                     return;
