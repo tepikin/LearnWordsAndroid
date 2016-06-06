@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
 import ru.lazard.learnwords.R;
+import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.MainActivity;
 
@@ -35,7 +37,7 @@ public class WordsListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main2, menu);
+        inflater.inflate(R.menu.menu_words_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -79,5 +81,20 @@ public class WordsListFragment extends Fragment {
         adapter.setList(words);
         adapter.notifyDataSetChanged();
         waiterView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_removeSelection) {
+            DAO.setVisibleForAllWords(false);
+            presenter.init();
+            return true;
+        }if (id == R.id.action_selectAll) {
+            DAO.setVisibleForAllWords(true);
+            presenter.init();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

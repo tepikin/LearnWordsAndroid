@@ -62,6 +62,9 @@ public class LearnPresenter {
 
     private void startWord(Word randomWord) {
         fragment.showWord(randomWord);
+        if (randomWord==null){
+            return;
+        }
         if (settings.isBlinkEnable()) {
             fragment.blink();
         }

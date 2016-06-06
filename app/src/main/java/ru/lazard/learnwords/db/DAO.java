@@ -18,7 +18,7 @@ public class DAO {
     }
 
     public static Word getRandomWord() {
-        Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME+" ORDER BY RANDOM() LIMIT 1;", null);
+        Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME+" WHERE "+DBContract.Words.COLUMN_NAME_VISIBLE+" = 1 ORDER BY RANDOM() LIMIT 1;", null);
         List<Word> wordsFromCursor = getWordsFromCursor(cursor);
         Word word = wordsFromCursor.size() <= 0 ? null : wordsFromCursor.get(0);
         return word;
@@ -39,6 +39,15 @@ public class DAO {
     public static List<Word> getAllWords() {
         Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME, null);
         return getWordsFromCursor(cursor);
+    }
+
+    public static void setVisibleForAllWords(boolean isVisible) {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_VISIBLE +" = "+(isVisible?1:0) );
+    }
+
+    public static void setSelectionForWord(int id, boolean isVisible) {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_VISIBLE +" = "+(isVisible?1:0)+" WHERE "+DBContract.Words._ID+" = "+id );
+
     }
 
     private static List<Word> getWordsFromCursor(Cursor cursor) {

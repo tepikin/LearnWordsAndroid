@@ -57,6 +57,7 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
     }
 
     public void showWord(Word randomWord) {
+        if (randomWord==null){randomWord=new Word("No words selected","Выбирите слова для изучения");}
         wordView.setText(randomWord.getWord());
         translateView.setText(randomWord.getTranslate());
     }

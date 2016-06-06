@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
+import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Word;
 
 /**
@@ -26,9 +27,18 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
         visibleView = (CheckBox) itemView.findViewById(R.id.switch1);
     }
 
-    public void bind(Word word) {
+    public void bind(final Word word) {
         wordView.setText(word.getWord());
         translateView.setText(word.getTranslate());
         visibleView.setChecked(word.isVisible());
+        visibleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isVisible = !word.isVisible();
+                DAO.setSelectionForWord(word.getId(), isVisible);
+                word.setVisible(isVisible);
+                visibleView.setChecked(isVisible);
+            }
+        });
     }
 }

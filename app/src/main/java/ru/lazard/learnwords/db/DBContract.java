@@ -21,7 +21,8 @@ public class DBContract {
         public static final String SQL_DELETE_WORDS =
                 "DROP TABLE IF EXISTS " + Words.TABLE_NAME;
         public static final String SQL_CREATE_WORDS =
-                "CREATE VIRTUAL TABLE " + Words.TABLE_NAME + " USING fts4(" +
+                //"CREATE VIRTUAL TABLE " + Words.TABLE_NAME + " USING fts4(" +
+                        "CREATE TABLE " + Words.TABLE_NAME + " (" +
                         Words._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         Words.COLUMN_NAME_WORD + TEXT_TYPE + COMMA_SEP +
                         Words.COLUMN_NAME_TRANSLATE + TEXT_TYPE + COMMA_SEP +
