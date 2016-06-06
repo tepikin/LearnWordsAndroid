@@ -62,7 +62,9 @@ public class WordsListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
+        if (presenter!=null) {
+            presenter.onDestroy();
+        }
     }
 
     @Override
