@@ -13,6 +13,29 @@ public class Settings {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    /**
+     * Delay between words in seconds
+     *
+     * @return
+     */
+    public int delayBetweenWords() {
+        String delay_between_words_change = this.preferences.getString("delay_between_words_change", "3");
+        int parseInt = 3;
+        try {
+            parseInt = Integer.parseInt(delay_between_words_change);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            SharedPreferences.Editor edit = this.preferences.edit();
+            edit.putString("delay_between_words_change","3");
+            edit.commit();
+        }
+        return parseInt;
+    }
+
+    public boolean isAutoWordsSwitch() {
+        return this.preferences.getBoolean("auto_words_switch", true);
+    }
+
     public boolean isBlinkEnable() {
         return this.preferences.getBoolean("blink_screen_enable", false);
     }
@@ -20,30 +43,18 @@ public class Settings {
     public boolean isReadTranslate() {
         return this.preferences.getBoolean("read_translates_enable", true);
     }
-    public boolean isAutoWordsSwitch() {
-        return this.preferences.getBoolean("auto_words_switch", true);
-    }
 
     public boolean isReadWords() {
         return this.preferences.getBoolean("read_words_enable", true);
     }
 
-    /**
-     * Delay between words in seconds
-     * @return
-     */
-    public int delayBetweenWords() {
-        String delay_between_words_change = this.preferences.getString("delay_between_words_change", "10");
-        return Integer.parseInt(delay_between_words_change);
-    }
-
     public float speedReadTranslate() {
         int value = this.preferences.getInt("translate_read_speed", 100);
-        return 1f*value/100f;
-    }
-    public float speedReadWords() {
-        int value = this.preferences.getInt("words_read_speed", 30);
-        return 1f*value/100f;
+        return 1f * value / 100f;
     }
 
+    public float speedReadWords() {
+        int value = this.preferences.getInt("words_read_speed", 30);
+        return 1f * value / 100f;
+    }
 }
