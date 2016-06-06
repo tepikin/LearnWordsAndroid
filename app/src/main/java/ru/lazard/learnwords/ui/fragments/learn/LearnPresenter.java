@@ -4,13 +4,16 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
+import android.support.annotation.FloatRange;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Word;
+import ru.lazard.learnwords.speach.Listener;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
@@ -28,22 +31,8 @@ public class LearnPresenter {
         public void run() {
 
             doStep();
-
-            int delayMillis = settings.delayBetweenWords() * 1000+500;
-            handler.postDelayed(this, delayMillis);
         }
     };
-
-    public void doStep() {
-
-        Word randomWord = DAO.getRandomWord();
-
-        fragment.showWord(randomWord);
-        if (settings.isBlinkEnable()) {
-            fragment.blink();
-        }
-        playAudio(randomWord);
-    }
 
     public LearnPresenter(LearnFragment mainActivity) {
         this.fragment = mainActivity;
@@ -55,28 +44,29 @@ public class LearnPresenter {
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     ttsEn.setLanguage(Locale.ENGLISH);
-                    ttsEn.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onDone(String utteranceId) {
-                            if (!settings.isReadTranslate())return;
-                            if (!isPlay)return;
-                            float speechRate = settings.speedReadTranslate();
-                            ttsEn.setSpeechRate(speechRate);
-                            ttsEn.setLanguage(Locale.getDefault());
-                            ttsEn.speak(utteranceId, TextToSpeech.QUEUE_FLUSH, null);
-                        }
-
-                        @Override
-                        public void onError(String utteranceId) {
-                        }
-
-                        @Override
-                        public void onStart(String utteranceId) {
-                        }
-                    });
                 }
             }
         });
+    }
+
+    public void doStep() {
+
+        Word randomWord = DAO.getRandomWord();
+
+        fragment.showWord(randomWord);
+        if (settings.isBlinkEnable()) {
+            fragment.blink();
+        }
+        if (settings.isReadWords()) {
+            playWord(randomWord, new Runnable() {
+                @Override
+                public void run() {
+                    onStepDone();
+                }
+            });
+        } else {
+            onStepDone();
+        }
     }
 
     public void onDestroy() {
@@ -84,38 +74,39 @@ public class LearnPresenter {
         unbindTTS();
     }
 
+    public void onDetach() {
+        pause();
+    }
+
     public void onFloatingActionButtonClick() {
-        if (isPlay){
+        if (isPlay) {
             pause();
             return;
         }
-        if (settings.isAutoWordsSwitch()){
+        if (settings.isAutoWordsSwitch()) {
             play();
-        }else{
+        } else {
             doStep();
         }
+    }
 
+    public void onPause() {
+        pause();
     }
 
     public void play() {
         pause();
         this.isPlay = true;
-        handler.post(playProcess);
+        doStep();
+        //handler.post(playProcess);
         fragment.setStatePlay();
     }
 
-
-    private void unbindTTS() {
-        ttsEn.shutdown();
-    }
-
-    public void onDetach() {
-        pause();
-
-    }
-
-    public void onPause() {
-        pause();
+    private void onStepDone() {
+        if (isPlay) {
+            int delayMillis = settings.delayBetweenWords() * 1000 + 500;
+            handler.postDelayed(playProcess, delayMillis);
+        }
     }
 
     private void pause() {
@@ -125,21 +116,69 @@ public class LearnPresenter {
         fragment.setStatePause();
     }
 
-
-
-
-
-    private void playAudio(Word randomWord) {
-        if (!settings.isReadWords()) return;
+    private void playText(String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
+        if (TextUtils.isEmpty(text)) {
+            if (callback != null) callback.run();
+            return;
+        }
+        if (speechRate < 0) {
+            speechRate = 0;
+            return;
+        }
+        if (speechRate > 2) {
+            speechRate = 2;
+            return;
+        }
+        if (locale == null) {
+            locale = Locale.getDefault();
+        }
         try {
-            float speechRate =  settings.speedReadWords() ;
             ttsEn.setSpeechRate(speechRate);
-            ttsEn.setLanguage(Locale.ENGLISH);
+            ttsEn.setLanguage(locale);
+            ttsEn.setOnUtteranceProgressListener(new Listener() {
+                @Override
+                public void onFinish(String utteranceId) {
+                    if (callback != null) callback.run();
+                }
+
+                @Override
+                public void onStop(String utteranceId, boolean interrupted) {
+// do nothing
+                }
+            });
+
             HashMap<String, String> myHashAlarm = new HashMap<String, String>();
-            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, randomWord.getTranslate());
-            ttsEn.speak(randomWord.getWord(), TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "1");
+            ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+
+//            ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+
         } catch (Throwable e) {
             e.printStackTrace();
+            callback.run();
         }
+    }
+
+
+    private void playWord(final Word randomWord, final Runnable callback) {
+        if (randomWord == null) {
+            if (callback != null) callback.run();
+            return;
+        }
+        AtomicBoolean cancel = new AtomicBoolean(false);
+        playText(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
+            @Override
+            public void run() {
+                if (!settings.isReadTranslate()) {
+                    if (callback != null) callback.run();
+                    return;
+                }
+                playText(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
+            }
+        });
+    }
+
+    private void unbindTTS() {
+        ttsEn.shutdown();
     }
 }

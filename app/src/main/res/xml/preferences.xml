@@ -8,8 +8,9 @@
             android:key="auto_words_switch"
             android:summary="@string/preferences_item_autoSwitch_summary"
             android:title="@string/preferences_item_autoSwitch_title"/>
+
         <EditTextPreference
-            android:defaultValue="10"
+            android:defaultValue="5"
             android:dependency="auto_words_switch"
             android:hint="@string/preferences_item_delayBetweenWordsChange_hint"
             android:inputType="number"
