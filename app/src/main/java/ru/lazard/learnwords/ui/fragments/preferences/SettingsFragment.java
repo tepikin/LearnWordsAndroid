@@ -21,7 +21,7 @@ public class SettingsFragment extends android.support.v7.preference.PreferenceFr
         super.onResume();
         //((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
         ((MainActivity)getActivity()).getFloatingActionButton().hide();
-        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_manage);
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_settings);
     }
 
 }

@@ -1,15 +1,20 @@
 <resources>
-    <string name="app_name">LearnWords</string>
+    <string name="app_name" >LearnWords</string>
+
 
     <!-- Main screen -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
 
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">Send email</string>
+    <string name="navigation_menu_rate">Rate app</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Rate app</string>
+    <string name="navigation_menu_preferences">Settings</string>
+    <string name="navigation_menu_wordsList">List of words</string>
+    <string name="navigation_menu_learnWords">Learn words</string>
 
-    <string name="path_play">M16,24L38,24L27.3,30.8L16,38ZM16,10L27.3,17.2L38,24L16,24Z</string>
-    <string name="path_pause">M12,10L20,10L20,38L12,38ZM28,10L36,10L36,38L28,38Z</string>
 
     <!-- WordsList screen -->
     <string name="wordsList_menu_removeSelection">Remove selection</string>

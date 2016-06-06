@@ -18,6 +18,7 @@ import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
 import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
+import ru.lazard.learnwords.utils.Utils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -87,16 +88,17 @@ public void setSelectedNavigationMenu(int resId){
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_learnWords) {
             addFragment(new LearnFragment(), true);
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
             addFragment(new SettingsFragment(), true);
-        } else if (id == R.id.nav_words_list) {
+        } else if (id == R.id.nav_wordsList) {
             addFragment(new WordsListFragment(), true);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_rate) {
+            Utils.showMarketPage(this,R.string.navigation_menu_rate_exception_marketNotExist);
+        } else if (id == R.id.nav_sendEmail) {
+            String subject = String.format("%s [%s]", Utils.getApplicationName(this), Utils.getApplicationVersion(this));
+            Utils.sendEmail(getString(R.string.supportEmail), subject,"",this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

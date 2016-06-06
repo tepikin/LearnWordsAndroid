@@ -98,7 +98,7 @@ public class WordsListFragment extends Fragment {
         super.onResume();
         //((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
         ((MainActivity) getActivity()).getFloatingActionButton().hide();
-        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_words_list);
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_wordsList);
     }
 
     public void setList(List<Word> words) {
