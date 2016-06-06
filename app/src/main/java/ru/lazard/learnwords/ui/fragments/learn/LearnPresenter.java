@@ -59,6 +59,7 @@ public class LearnPresenter {
                         @Override
                         public void onDone(String utteranceId) {
                             if (!settings.isReadTranslate())return;
+                            if (!isPlay)return;
                             float speechRate = settings.speedReadTranslate();
                             ttsEn.setSpeechRate(speechRate);
                             ttsEn.setLanguage(Locale.getDefault());
