@@ -24,6 +24,14 @@ public class DAO {
         return word;
     }
 
+    public static Word getWordById(int id) {
+        Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME+" WHERE "+DBContract.Words._ID+" = "+id, null);
+        List<Word> wordsFromCursor = getWordsFromCursor(cursor);
+        Word word = wordsFromCursor.size() <= 0 ? null : wordsFromCursor.get(0);
+        return word;
+    }
+
+
     public static int getWordsCount() {
         Cursor cursor = getDb().rawQuery("select count(*) from "+DBContract.Words.TABLE_NAME, null);
         int count = 0;

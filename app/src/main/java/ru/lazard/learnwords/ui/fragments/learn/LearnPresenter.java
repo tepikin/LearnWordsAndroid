@@ -1,6 +1,7 @@
 package ru.lazard.learnwords.ui.fragments.learn;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
@@ -18,16 +19,15 @@ import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
 public class LearnPresenter {
+    public static final String KEY_WORD_ID = "Word_ID";
     private final TextToSpeech ttsEn;
     private final LearnFragment fragment;
     private final Context context;
+    private AtomicBoolean cancelSync = new AtomicBoolean(false);
     private Handler handler;
     private boolean isPlay;
     private Word randomWord;
     private Settings settings;
-    private AtomicBoolean cancelSync = new AtomicBoolean(false);
-
-
     private Runnable playProcess = new Runnable() {
         @Override
         public void run() {
@@ -36,7 +36,7 @@ public class LearnPresenter {
         }
     };
 
-    public LearnPresenter(LearnFragment mainActivity) {
+    public LearnPresenter(LearnFragment mainActivity,Bundle savedInstanceState) {
         this.fragment = mainActivity;
         context = fragment.getContext();
         settings = new Settings(context);
@@ -49,8 +49,12 @@ public class LearnPresenter {
                 }
             }
         });
-        randomWord = DAO.getRandomWord();
-        fragment.showWord(randomWord);
+
+//        restoreState(savedInstanceState);
+//        if (randomWord==null) {
+//            randomWord = DAO.getRandomWord();
+//            fragment.showWord(randomWord);
+//        }
     }
 
     public void doStep() {
@@ -58,26 +62,6 @@ public class LearnPresenter {
         randomWord = DAO.getRandomWord();
 
         startWord(randomWord);
-    }
-
-    private void startWord(Word randomWord) {
-        fragment.showWord(randomWord);
-        if (randomWord==null){
-            return;
-        }
-        if (settings.isBlinkEnable()) {
-            fragment.blink();
-        }
-        if (settings.isReadWords()) {
-            playWord(randomWord, new Runnable() {
-                @Override
-                public void run() {
-                    onStepDone();
-                }
-            });
-        } else {
-            onStepDone();
-        }
     }
 
     public void onDestroy() {
@@ -102,7 +86,7 @@ public class LearnPresenter {
     }
 
     public void onPause() {
-        pause();
+      //  pause();
     }
 
     public void play() {
@@ -111,6 +95,36 @@ public class LearnPresenter {
         startWord(randomWord);//doStep();
 
         fragment.setStatePlay();
+    }
+
+    public void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState!=null) {
+            int wordId = savedInstanceState.getInt(KEY_WORD_ID, -1);
+            if (wordId > 0) {
+                if (randomWord != null && randomWord.getId() == wordId) return;
+                Word wordById = DAO.getWordById(wordId);
+                if (wordById != null && wordById.isVisible()) {
+                    randomWord = wordById;
+                    fragment.showWord(randomWord);
+                    return;
+                }
+            }
+        }
+
+        if (randomWord!=null)
+
+        if (randomWord==null){
+            randomWord = DAO.getRandomWord();
+        }
+        if (randomWord!=null){
+            fragment.showWord(randomWord);
+        }
+    }
+
+    public void saveState(Bundle outState) {
+        if (outState == null) return;
+        if (randomWord == null) return;
+        outState.putInt(KEY_WORD_ID, randomWord.getId());
     }
 
     private void onStepDone() {
@@ -123,7 +137,7 @@ public class LearnPresenter {
     private void pause() {
         this.isPlay = false;
         cancelSync.set(true);
-        cancelSync=new AtomicBoolean(false);
+        cancelSync = new AtomicBoolean(false);
         handler.removeCallbacks(playProcess);
         ttsEn.stop();
         fragment.setStatePause();
@@ -153,7 +167,6 @@ public class LearnPresenter {
                 public void onFinish(String utteranceId) {
                     if (callback != null) callback.run();
                 }
-
             });
 
             HashMap<String, String> myHashAlarm = new HashMap<String, String>();
@@ -168,7 +181,6 @@ public class LearnPresenter {
         }
     }
 
-
     private void playWord(final Word randomWord, final Runnable callback) {
         if (randomWord == null) {
             if (callback != null) callback.run();
@@ -178,7 +190,8 @@ public class LearnPresenter {
         playText(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
             @Override
             public void run() {
-                if (cancel.get()){  if (callback != null) callback.run();
+                if (cancel.get()) {
+                    if (callback != null) callback.run();
                     return;
                 }
                 if (!settings.isReadTranslate()) {
@@ -188,6 +201,26 @@ public class LearnPresenter {
                 playText(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
             }
         });
+    }
+
+    private void startWord(Word randomWord) {
+        fragment.showWord(randomWord);
+        if (randomWord == null) {
+            return;
+        }
+        if (settings.isBlinkEnable()) {
+            fragment.blink();
+        }
+        if (settings.isReadWords()) {
+            playWord(randomWord, new Runnable() {
+                @Override
+                public void run() {
+                    onStepDone();
+                }
+            });
+        } else {
+            onStepDone();
+        }
     }
 
     private void unbindTTS() {

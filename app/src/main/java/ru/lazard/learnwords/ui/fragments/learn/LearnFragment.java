@@ -19,19 +19,29 @@ import ru.lazard.learnwords.ui.MainActivity;
 /**
  * Created by Egor on 02.06.2016.
  */
-public class LearnFragment extends Fragment implements   View.OnClickListener{
+public class LearnFragment extends Fragment implements View.OnClickListener {
     private View baseLayout;
     private FloatingActionButton floatingActionButton;
 
 
     private LearnPresenter presenter;
     private TextView translateView;
+    private Word word;
     private TextView wordView;
 
+    public void blink() {
+        baseLayout.setSelected(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                baseLayout.setSelected(false);
+            }
+        }, 100l);
+    }
 
     @Override
     public void onClick(View v) {
-        if (floatingActionButton==v){
+        if (floatingActionButton == v) {
             presenter.onFloatingActionButtonClick();
         }
     }
@@ -44,8 +54,72 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main2,menu);
+        inflater.inflate(R.menu.main2, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        if (view == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_learn, container, false);
+            baseLayout = view.findViewById(R.id.base_layout);
+            wordView = (TextView) view.findViewById(R.id.word);
+            translateView = (TextView) view.findViewById(R.id.translate);
+
+            floatingActionButton = ((MainActivity) getActivity()).getFloatingActionButton();
+
+            floatingActionButton.setOnClickListener(this);
+            floatingActionButton.setVisibility(View.VISIBLE);
+            setStatePause();
+            if (presenter == null) {
+                presenter = new LearnPresenter(this, savedInstanceState);
+            } else {
+                presenter.restoreState(savedInstanceState);
+            }
+        }
+        return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDetach();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
+        ((MainActivity) getActivity()).getFloatingActionButton().show();
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_learnWords);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        presenter.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        presenter.restoreState(savedInstanceState);
     }
 
     public void setStatePause() {
@@ -57,71 +131,10 @@ public class LearnFragment extends Fragment implements   View.OnClickListener{
     }
 
     public void showWord(Word randomWord) {
-        if (randomWord==null){randomWord=new Word("No words selected","Выбирите слова для изучения");}
+        if (randomWord == null) {
+            randomWord = new Word("No words selected", "Выбирите слова для изучения");
+        }
         wordView.setText(randomWord.getWord());
         translateView.setText(randomWord.getTranslate());
-    }
-
-
-    public void blink() {
-        baseLayout.setSelected(true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                baseLayout.setSelected(false);
-            }
-        },100l);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        if (view == null ) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_learn,container,false);
-            baseLayout = view.findViewById(R.id.base_layout);
-            wordView = (TextView) view.findViewById(R.id.word);
-            translateView = (TextView) view.findViewById(R.id.translate);
-
-            floatingActionButton  = ((MainActivity)getActivity()).getFloatingActionButton();
-
-
-            floatingActionButton.setOnClickListener(this);
-            floatingActionButton.setVisibility(View.VISIBLE);
-            setStatePause();
-            presenter = new LearnPresenter(this);
-
-
-        }
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
-        ((MainActivity)getActivity()).getFloatingActionButton().show();
-        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_learnWords);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        presenter.onPause();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.onDetach();
-    }
-
-    @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-
     }
 }
