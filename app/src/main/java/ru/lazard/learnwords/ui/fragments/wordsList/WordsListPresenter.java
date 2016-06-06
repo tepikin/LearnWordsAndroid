@@ -1,5 +1,7 @@
 package ru.lazard.learnwords.ui.fragments.wordsList;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,23 @@ public class WordsListPresenter {
 
     public void onDestroy() {
         // TODO un implemented yaeat
+
+    }
+
+    public void onSearch(String query) {
+        if (words==null)return;
+        if (TextUtils.isEmpty(query)){
+            fragment.setList(words);
+            return;
+        }
+        List<Word> list= new ArrayList<>();
+        for (Word word : words) {
+            if (word ==null)continue;
+            if (word.isContainsText(query)){
+                list.add(word);
+            }
+        }
+        fragment.setList(list);
 
     }
 }

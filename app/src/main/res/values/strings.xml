@@ -14,6 +14,7 @@
     <!-- WordsList screen -->
     <string name="wordsList_menu_removeSelection">Remove selection</string>
     <string name="wordsList_menu_selectAll">Select all</string>
+    <string name="wordsList_menu_search">Search</string>
 
     <!-- Settings screen -->
     <string name="preferences_screen_title">Settings</string>
