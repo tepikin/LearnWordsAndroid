@@ -12,7 +12,6 @@ public class DBContract {
         public static final String COLUMN_NAME_TRANSCRIPTION = "transcription";
         public static final String COLUMN_NAME_TRANSLATE = "translate";
         public static final String COLUMN_NAME_VIEW_COUNT = "view_count";
-        public static final String COLUMN_NAME_VISIBLE = "visible";
         public static final String COLUMN_NAME_STATUS = "status";
         public static final String COLUMN_NAME_DIFFICULTY = "difficulty";
 
@@ -32,18 +31,16 @@ public class DBContract {
                         Words.COLUMN_NAME_TRANSLATE + TEXT_TYPE + COMMA_SEP +
                         Words.COLUMN_NAME_VIEW_COUNT + TEXT_INTEGER + COMMA_SEP +
                         Words.COLUMN_NAME_STATUS + TEXT_INTEGER + COMMA_SEP +
-                        Words.COLUMN_NAME_DIFFICULTY + TEXT_INTEGER + COMMA_SEP +
-                        Words.COLUMN_NAME_VISIBLE + TEXT_BOOLEAN +
+                        Words.COLUMN_NAME_DIFFICULTY + TEXT_INTEGER+
                         " )";
         public static final String SQL_INSERT = "INSERT INTO " + DBContract.Words.TABLE_NAME + " ( " +
                 DBContract.Words.COLUMN_NAME_WORD + " , " +
                 DBContract.Words.COLUMN_NAME_TRANSLATE + " , " +
                 DBContract.Words.COLUMN_NAME_TRANSCRIPTION + " , " +
-                DBContract.Words.COLUMN_NAME_VISIBLE + " , " +
                 DBContract.Words.COLUMN_NAME_STATUS + " , " +
                 DBContract.Words.COLUMN_NAME_DIFFICULTY + " , " +
                 DBContract.Words.COLUMN_NAME_VIEW_COUNT +
-                " ) VALUES (?,?,?,?,?,?,?);";
+                " ) VALUES (?,?,?,?,?,?);";
     }
 
 

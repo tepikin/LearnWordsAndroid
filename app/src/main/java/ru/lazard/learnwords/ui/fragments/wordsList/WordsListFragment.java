@@ -19,6 +19,7 @@ import java.util.List;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.db.DAO;
+import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
 
@@ -111,11 +112,19 @@ public class WordsListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_removeSelection) {
-            DAO.setVisibleForAllWords(false);
+            int statusNone = Word.STATUS_NONE;
+            DAO.setStatusForAllWords(statusNone);
+            for (Word word : Model.getInstance().getWords()) {
+                word.setStatus(statusNone);
+            }
             presenter.init();
             return true;
         }if (id == R.id.action_selectAll) {
-            DAO.setVisibleForAllWords(true);
+            int statusLearn = Word.STATUS_LEARN;
+            DAO.setStatusForAllWords(statusLearn);
+            for (Word word : Model.getInstance().getWords()) {
+                word.setStatus(statusLearn);
+            }
             presenter.init();
             return true;
         }

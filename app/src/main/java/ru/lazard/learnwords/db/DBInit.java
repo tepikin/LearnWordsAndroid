@@ -57,10 +57,9 @@ public class DBInit {
                 statement.bindString(1, word); // 1 WORD
                 statement.bindString(2, translate);// 2 TRANSLATE
                 statement.bindString(3, transcription);// 3 TRANSCRIPTION
-                statement.bindLong(4, dictionaryId == 0 ? 1 : 0);// 4 VISIBLE
-                statement.bindLong(5, dictionaryId == 0 ? 1 : 0);// 5 STATUS
-                statement.bindLong(6, dictionaryId);// 6 DIFFICULTY
-                statement.bindLong(7, 0);// 7 VIEW_COUNT
+                statement.bindLong(4, dictionaryId == 0 ? 1 : 0);// 4 STATUS
+                statement.bindLong(5, dictionaryId);// 5 DIFFICULTY
+                statement.bindLong(6, 0);// 6 VIEW_COUNT
                 statement.execute();
             }
         });

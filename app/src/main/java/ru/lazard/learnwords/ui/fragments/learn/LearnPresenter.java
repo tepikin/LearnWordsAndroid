@@ -1,7 +1,6 @@
 package ru.lazard.learnwords.ui.fragments.learn;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
@@ -12,7 +11,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.Listener;
@@ -37,7 +35,7 @@ public class LearnPresenter {
         }
     };
 
-    public LearnPresenter(LearnFragment mainActivity,Bundle savedInstanceState) {
+    public LearnPresenter(LearnFragment mainActivity) {
         this.fragment = mainActivity;
         context = fragment.getContext();
         settings = new Settings(context);
@@ -51,11 +49,7 @@ public class LearnPresenter {
             }
         });
 
-//        restoreState(savedInstanceState);
-//        if (randomWord==null) {
-//            randomWord = DAO.getRandomWord();
-//            fragment.showWord(randomWord);
-//        }
+
     }
 
     public void doStep() {
@@ -91,7 +85,7 @@ public class LearnPresenter {
     }
 
     public void onResume() {
-        restoreState(null);
+        restoreState();
 
     }
 
@@ -103,37 +97,14 @@ public class LearnPresenter {
         fragment.setStatePlay();
     }
 
-    public void restoreState(Bundle savedInstanceState) {
-        if (savedInstanceState!=null) {
-            int wordId = savedInstanceState.getInt(KEY_WORD_ID, -1);
-            if (wordId > 0) {
-                if (randomWord != null && randomWord.getId() == wordId) return;
-                Word wordById = DAO.getWordById(wordId);
-                if (wordById != null && wordById.isVisible()) {
-                    randomWord = wordById;
-                    fragment.showWord(randomWord);
-                    return;
-                }
-            }
-        }
-
-        if (randomWord!=null){
-            //do nothing
-        }
-
+    public void restoreState() {
         if (randomWord==null){
-            randomWord = DAO.getRandomWord();
+            randomWord = Model.getInstance().getRandomWordForLearning();
         }
-        if (randomWord!=null){
-            fragment.showWord(randomWord);
-        }
+        fragment.showWord(randomWord);
     }
 
-    public void saveState(Bundle outState) {
-        if (outState == null) return;
-        if (randomWord == null) return;
-        outState.putInt(KEY_WORD_ID, randomWord.getId());
-    }
+
 
     private void onStepDone() {
         if (isPlay) {

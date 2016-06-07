@@ -6,13 +6,19 @@ import android.text.TextUtils;
  * Created by Egor on 02.06.2016.
  */
 public class Word {
+    public static final int STATUS_NONE = 0;
+    public static final int STATUS_LEARN = 1;
+    public static final int STATUS_CHECK_1 = 2;
+    public static final int STATUS_CHECK_2 = 3;
+    public static final int STATUS_CHECK_3 = 4;
+    public static final int STATUS_READY = 5;
     private int id;
     private int status;
     private int difficulty;
     private String transcription;
     private String translate;
     private int viewCount;
-    private boolean visible;
+
     private String word;
 
     public int getDifficulty() {
@@ -88,14 +94,11 @@ public class Word {
         if (!TextUtils.isEmpty(translate) && translate.contains(text)) {
             return true;
         }
+        if (!TextUtils.isEmpty(transcription) && transcription.contains(text)) {
+            return true;
+        }
         return false;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
 }

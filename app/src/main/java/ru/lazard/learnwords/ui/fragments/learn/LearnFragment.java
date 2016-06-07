@@ -79,9 +79,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             floatingActionButton.setVisibility(View.VISIBLE);
             setStatePause();
             if (presenter == null) {
-                presenter = new LearnPresenter(this, savedInstanceState);
+                presenter = new LearnPresenter(this);
             } else {
-                presenter.restoreState(savedInstanceState);
+                presenter.restoreState();
             }
         }
         return view;
@@ -114,17 +114,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         presenter.onResume();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        presenter.saveState(outState);
-        super.onSaveInstanceState(outState);
-    }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        presenter.restoreState(savedInstanceState);
-    }
 
     public void setStatePause() {
         floatingActionButton.setImageResource(android.R.drawable.ic_media_play);

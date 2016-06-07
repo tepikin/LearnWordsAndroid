@@ -30,12 +30,7 @@ public class DAO {
         return DbHelper.getInstance().getReadableDatabase();
     }
 
-    public static Word getRandomWord() {
-        Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME+" WHERE "+DBContract.Words.COLUMN_NAME_VISIBLE+" = 1 ORDER BY RANDOM() LIMIT 1;", null);
-        List<Word> wordsFromCursor = getWordsFromCursor(cursor);
-        Word word = wordsFromCursor.size() <= 0 ? null : wordsFromCursor.get(0);
-        return word;
-    }
+
 
     public static Word getWordById(int id) {
         Cursor cursor = getDb().rawQuery("SELECT * FROM "+DBContract.Words.TABLE_NAME+" WHERE "+DBContract.Words._ID+" = "+id, null);
@@ -62,12 +57,12 @@ public class DAO {
         return getWordsFromCursor(cursor);
     }
 
-    public static void setVisibleForAllWords(boolean isVisible) {
-        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_VISIBLE +" = "+(isVisible?1:0) );
+    public static void setStatusForAllWords(int status) {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_STATUS+" = "+status );
     }
 
-    public static void setSelectionForWord(int id, boolean isVisible) {
-        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_VISIBLE +" = "+(isVisible?1:0)+" WHERE "+DBContract.Words._ID+" = "+id );
+    public static void setStatusForWord(int id, int status) {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_STATUS+" = "+status+" WHERE "+DBContract.Words._ID+" = "+id );
 
     }
 
@@ -80,7 +75,6 @@ public class DAO {
                 int columnIndexTranscription = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_TRANSCRIPTION);
                 int columnIndexTranslate = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_TRANSLATE);
                 int columnIndexViewCount = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_VIEW_COUNT);
-                int columnIndexVisible = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_VISIBLE);
                 int columnIndexDifficulty = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_DIFFICULTY);
                 int columnIndexStatus = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_STATUS);
                 int columnIndexId = cursor.getColumnIndex(DBContract.Words._ID);
@@ -91,7 +85,6 @@ public class DAO {
                     String transcriptionWord = cursor.getString(columnIndexTranscription);
                     String translateWord = cursor.getString(columnIndexTranslate);
                     int viewCount = cursor.getInt(columnIndexViewCount);
-                    int visible = cursor.getInt(columnIndexVisible);
                     int id = cursor.getInt(columnIndexId);
                     int status = cursor.getInt(columnIndexStatus);
                     int difficulty= cursor.getInt(columnIndexDifficulty);
@@ -102,7 +95,6 @@ public class DAO {
                     word.setTranslate(translateWord);
                     word.setId(id);
                     word.setViewCount(viewCount);
-                    word.setVisible(visible > 0);
                     word.setStatus(status);
                     word.setDifficulty(difficulty);
 

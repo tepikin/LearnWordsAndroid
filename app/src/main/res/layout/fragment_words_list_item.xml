@@ -17,9 +17,20 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/switch1"
-        android:layout_toStartOf="@+id/switch1"/>
-
+        android:layout_toLeftOf="@+id/status"
+        android:layout_toStartOf="@+id/status"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:fontFamily="sans-serif-light"
+        android:text="Small Text"
+        android:id="@+id/transcription"
+        android:layout_below="@+id/word"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/word"
+        android:layout_alignEnd="@+id/word"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +38,7 @@
         android:fontFamily="sans-serif-light"
         android:text="Small Text"
         android:id="@+id/translate"
-        android:layout_below="@+id/word"
+        android:layout_below="@+id/transcription"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/word"
@@ -50,5 +61,19 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="none"
+        android:id="@+id/status"
+        android:layout_below="@+id/switch1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/switch1"
+        android:layout_alignStart="@+id/switch1"/>
 
 </RelativeLayout>
