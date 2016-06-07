@@ -24,6 +24,19 @@ public class Model {
         return instance;
     }
 
+    public static <T> List<T> getRandomSubItems(int count, List<T> list) {
+        if (list == null) return null;
+        if (count <= 0) return new ArrayList<>();
+        if (list.size() <= count) return new ArrayList<>(list);
+
+        List<T> resultList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            T randomItem = list.get(Utils.randomInt(list.size()));
+            resultList.add(randomItem);
+        }
+        return resultList;
+    }
+
     public static void init(Context context) {
         if (instance != null) return;
         instance = new Model(context);
@@ -40,29 +53,6 @@ public class Model {
         return words;
     }
 
-    public void setLearnWordsListByDifficult(int difficulty) {
-        for (Word word : words) {
-            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
-                    word.setStatus(word.getDifficulty()==difficulty?Word.STATUS_LEARN:Word.STATUS_NONE);
-            }
-        }
-    }
-
-    public void setLearnWordsListClear() {
-        for (Word word : words) {
-            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
-                word.setStatus(Word.STATUS_NONE);
-            }
-        }
-    }
-    public void setLearnWordsListAll() {
-        for (Word word : words) {
-            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
-                word.setStatus(Word.STATUS_LEARN);
-            }
-        }
-    }
-
     public void setWords(List<Word> words) {
         this.words = words;
     }
@@ -75,5 +65,29 @@ public class Model {
             }
         }
         return wordsByStatus;
+    }
+
+    public void setLearnWordsListAll() {
+        for (Word word : words) {
+            if (word.getStatus() == Word.STATUS_NONE || word.getStatus() == Word.STATUS_LEARN) {
+                word.setStatus(Word.STATUS_LEARN);
+            }
+        }
+    }
+
+    public void setLearnWordsListByDifficult(int difficulty) {
+        for (Word word : words) {
+            if (word.getStatus() == Word.STATUS_NONE || word.getStatus() == Word.STATUS_LEARN) {
+                word.setStatus(word.getDifficulty() == difficulty ? Word.STATUS_LEARN : Word.STATUS_NONE);
+            }
+        }
+    }
+
+    public void setLearnWordsListClear() {
+        for (Word word : words) {
+            if (word.getStatus() == Word.STATUS_NONE || word.getStatus() == Word.STATUS_LEARN) {
+                word.setStatus(Word.STATUS_NONE);
+            }
+        }
     }
 }

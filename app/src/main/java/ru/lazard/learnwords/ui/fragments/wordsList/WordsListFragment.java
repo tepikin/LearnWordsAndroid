@@ -142,6 +142,30 @@ public class WordsListFragment extends Fragment {
             presenter.init();
             return true;
         }
+        if (id == R.id.action_random20) {
+            DAO.setLearnWordsListClear();
+            Model.getInstance().setLearnWordsListClear();
+            List<Word> words = Model.getInstance().getWordsWithStatus(Word.STATUS_NONE);
+            List<Word> randomSubItems = Model.getRandomSubItems(20, words);
+            for (Word randomSubItem : randomSubItems) {
+                randomSubItem.setStatus(Word.STATUS_LEARN);
+            }
+            DAO.setStatusForWords(Word.STATUS_LEARN,randomSubItems);
+            presenter.init();
+            return true;
+        }
+        if (id == R.id.action_random50) {
+            DAO.setLearnWordsListClear();
+            Model.getInstance().setLearnWordsListClear();
+            List<Word> words = Model.getInstance().getWordsWithStatus(Word.STATUS_NONE);
+            List<Word> randomSubItems = Model.getRandomSubItems(50, words);
+            for (Word randomSubItem : randomSubItems) {
+                randomSubItem.setStatus(Word.STATUS_LEARN);
+            }
+            DAO.setStatusForWords(Word.STATUS_LEARN,randomSubItems);
+            presenter.init();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

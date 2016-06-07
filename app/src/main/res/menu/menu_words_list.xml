@@ -36,6 +36,14 @@
                 android:id="@+id/action_irregularVerbsShort"
                 android:title="@string/wordsList_menu_choiceWordsForLearn_irregularVerbsShort"
                 app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_random20"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_random20Words"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_random50"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_random50Words"
+                app:showAsAction="never"/>
         </menu>
     </item>
 

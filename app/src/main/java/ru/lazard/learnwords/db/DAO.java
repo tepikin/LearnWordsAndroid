@@ -79,6 +79,19 @@ public class DAO {
 
 
     }
+
+    public static void setStatusForWords(int status, List<Word> randomSubItems) {
+        if (randomSubItems==null)return;
+        if (randomSubItems.size()<=0)return;
+
+        getDb().beginTransaction();
+        for (Word randomSubItem : randomSubItems) {
+            setStatusForWord(randomSubItem.getId(),status);
+        }
+        getDb().setTransactionSuccessful();
+        getDb().endTransaction();
+
+    }
     
     private static List<Word> getWordsFromCursor(Cursor cursor) {
         List<Word> list = new ArrayList<>();

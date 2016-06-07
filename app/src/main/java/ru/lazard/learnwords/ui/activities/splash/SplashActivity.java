@@ -59,8 +59,10 @@ public class SplashActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        if (isAlive) {
+                        try {
                             onApplicationInited();
+                        } catch (Throwable e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -69,7 +71,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void onApplicationInited() {
-        MainActivity.show(this);
+        if (isAlive) {
+            MainActivity.show(this);
+        }
         finish();
     }
 }
