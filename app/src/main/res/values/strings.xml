@@ -17,8 +17,13 @@
 
 
     <!-- WordsList screen -->
-    <string name="wordsList_menu_removeSelection">Remove selection</string>
-    <string name="wordsList_menu_selectAll">Select all</string>
+    <string name="wordsList_menu_choiceWordsForLearn">Choice words</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">Clear learn list</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Learn all words</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">Base words</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Irregular verbs</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Irregular verbs (short)</string>
+    <string name="wordsList_menu_addWord">Add word</string>
     <string name="wordsList_menu_search">Search</string>
     <string-array name="wordsList_status_items">
         <item > </item>

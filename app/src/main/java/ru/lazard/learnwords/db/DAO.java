@@ -66,6 +66,20 @@ public class DAO {
 
     }
 
+    public static void setLearnWordsListClear() {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_NONE+" WHERE "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_NONE +" | "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_LEARN);
+    }
+    public static void setLearnWordsListAll() {
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_LEARN+" WHERE "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_NONE +" | "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_LEARN);
+    }
+    
+    public static void setLearnWordsListByDifficult(int difficulty) {
+        setLearnWordsListClear();
+        getDb().execSQL("UPDATE "+DBContract.Words.TABLE_NAME+" SET "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_LEARN+" WHERE ("+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_NONE +" | "+DBContract.Words.COLUMN_NAME_STATUS+" = "+Word.STATUS_LEARN+") AND "+DBContract.Words.COLUMN_NAME_DIFFICULTY +" = "+difficulty);
+
+
+    }
+    
     private static List<Word> getWordsFromCursor(Cursor cursor) {
         List<Word> list = new ArrayList<>();
         if (cursor != null) {

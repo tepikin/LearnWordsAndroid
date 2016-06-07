@@ -111,20 +111,34 @@ public class WordsListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_removeSelection) {
-            int statusNone = Word.STATUS_NONE;
-            DAO.setStatusForAllWords(statusNone);
-            for (Word word : Model.getInstance().getWords()) {
-                word.setStatus(statusNone);
-            }
+        if (id == R.id.action_clearList) {
+            DAO.setLearnWordsListClear();
+            Model.getInstance().setLearnWordsListClear();
             presenter.init();
             return true;
-        }if (id == R.id.action_selectAll) {
+        }if (id == R.id.action_selectAllWords) {
+            DAO.setLearnWordsListAll();
+            Model.getInstance().setLearnWordsListAll();
+            presenter.init();
+            return true;
+        }
+        if (id == R.id.action_baseWords) {
+            DAO.setLearnWordsListByDifficult(0);
+            Model.getInstance().setLearnWordsListByDifficult(0);
+            presenter.init();
+            return true;
+        }
+        if (id == R.id.action_irregularVerbs) {
             int statusLearn = Word.STATUS_LEARN;
-            DAO.setStatusForAllWords(statusLearn);
-            for (Word word : Model.getInstance().getWords()) {
-                word.setStatus(statusLearn);
-            }
+            DAO.setLearnWordsListByDifficult(4);
+            Model.getInstance().setLearnWordsListByDifficult(4);
+            presenter.init();
+            return true;
+        }
+        if (id == R.id.action_irregularVerbsShort) {
+            int statusLearn = Word.STATUS_LEARN;
+            DAO.setLearnWordsListByDifficult(5);
+            Model.getInstance().setLearnWordsListByDifficult(5);
             presenter.init();
             return true;
         }

@@ -40,6 +40,29 @@ public class Model {
         return words;
     }
 
+    public void setLearnWordsListByDifficult(int difficulty) {
+        for (Word word : words) {
+            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
+                    word.setStatus(word.getDifficulty()==difficulty?Word.STATUS_LEARN:Word.STATUS_NONE);
+            }
+        }
+    }
+
+    public void setLearnWordsListClear() {
+        for (Word word : words) {
+            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
+                word.setStatus(Word.STATUS_NONE);
+            }
+        }
+    }
+    public void setLearnWordsListAll() {
+        for (Word word : words) {
+            if (word.getStatus()==Word.STATUS_NONE||word.getStatus()==Word.STATUS_LEARN) {
+                word.setStatus(Word.STATUS_LEARN);
+            }
+        }
+    }
+
     public void setWords(List<Word> words) {
         this.words = words;
     }

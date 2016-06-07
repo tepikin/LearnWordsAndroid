@@ -13,18 +13,31 @@ import ru.lazard.learnwords.ui.activities.main.MainActivity;
 public class SplashActivity extends AppCompatActivity {
 
 
+    private boolean isAlive = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-        if (Model.getInstance().getWords().size()<=0) {
+        if (Model.getInstance().getWords().size() <= 0) {
             initApplication();
-        }else{
+        } else {
             onApplicationInited();
         }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isAlive = false;
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isAlive = true;
     }
 
     private void initApplication() {
@@ -37,30 +50,22 @@ public class SplashActivity extends AppCompatActivity {
                     if (wordsCount <= 0) {
                         DAO.addDbWordsFromXml(R.xml.en_ru);
                     }
-                    if (Model.getInstance().getWords().size()<=0) {
+                    if (Model.getInstance().getWords().size() <= 0) {
                         Model.getInstance().setWords(DAO.getAllWords());
                     }
-
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isAlive()) {
-                                onApplicationInited();
-                            }
-                        }
-                    });
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    onApplicationInited();
                 }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isAlive) {
+                            onApplicationInited();
+                        }
+                    }
+                });
             }
         }.start();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
     }
 
     private void onApplicationInited() {

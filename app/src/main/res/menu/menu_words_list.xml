@@ -3,16 +3,40 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_search"
+        android:icon="@android:drawable/ic_search_category_default"
         android:title="@string/wordsList_menu_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_search_category_default"/>
+        app:showAsAction="always"/>
     <item
-        android:id="@+id/action_selectAll"
-        android:title="@string/wordsList_menu_selectAll"
+        android:id="@+id/menu_addWord"
+        android:title="@string/wordsList_menu_addWord"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_removeSelection"
-        android:title="@string/wordsList_menu_removeSelection"
-        app:showAsAction="never"/>
+        android:id="@+id/action_choiceWordsForLearn"
+        android:title="@string/wordsList_menu_choiceWordsForLearn"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/action_selectAllWords"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_selectAllWords"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_clearList"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_clearList"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_baseWords"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_baseWords"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_irregularVerbs"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_irregularVerbsFull"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/action_irregularVerbsShort"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_irregularVerbsShort"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+
 </menu>
