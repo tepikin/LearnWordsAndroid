@@ -52,10 +52,13 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        //rewind to base fragment
-        while (manager.popBackStackImmediate()) {
-            ;
-        }
+
+       if (fragment instanceof LearnFragment) {
+           //rewind to base fragment
+           while (manager.popBackStackImmediate()) {
+               ;
+           }
+       }
     }
 
     public DrawerLayout getDrawerLayout() {
