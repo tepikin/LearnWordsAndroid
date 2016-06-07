@@ -89,6 +89,11 @@ public class LearnPresenter {
       //  pause();
     }
 
+    public void onResume() {
+        restoreState(null);
+
+    }
+
     public void play() {
         pause();
         this.isPlay = true;
@@ -111,7 +116,9 @@ public class LearnPresenter {
             }
         }
 
-        if (randomWord!=null)
+        if (randomWord!=null){
+            //do nothing
+        }
 
         if (randomWord==null){
             randomWord = DAO.getRandomWord();
