@@ -7,10 +7,21 @@ import android.text.TextUtils;
  */
 public class Word {
     private int id;
+    private int status;
+    private int difficulty;
+    private String transcription;
     private String translate;
     private int viewCount;
     private boolean visible;
     private String word;
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public Word() {
 
@@ -27,6 +38,22 @@ public class Word {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getTranscription() {
+        return transcription;
+    }
+
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
     }
 
     public String getTranslate() {

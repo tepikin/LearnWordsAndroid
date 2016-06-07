@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.lazard.learnwords.db.DAO;
+import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.Listener;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
@@ -59,7 +60,7 @@ public class LearnPresenter {
 
     public void doStep() {
 
-        randomWord = DAO.getRandomWord();
+        randomWord = Model.getInstance().getRandomWordForLearning();
 
         startWord(randomWord);
     }

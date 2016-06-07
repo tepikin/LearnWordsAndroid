@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import ru.lazard.learnwords.ui.MainActivity;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.R;
 
 /**

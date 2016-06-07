@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" >LearnWords</string>
+    <string name="app_name">LearnWords</string>
 
 
     <!-- Main screen -->
@@ -52,6 +52,8 @@
 
     <string name="preferences_item_settingsTTS_title">TTS settings</string>
     <string name="preferences_item_settingsTTS_summary">Settings of text to speech</string>
+
+
 
 
 

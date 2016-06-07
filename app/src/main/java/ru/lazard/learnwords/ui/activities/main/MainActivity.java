@@ -1,5 +1,7 @@
-package ru.lazard.learnwords.ui;
+package ru.lazard.learnwords.ui.activities.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.db.DbHelper;
 import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
 import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
@@ -27,14 +28,16 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton floatingActionButton;
     private NavigationView navigationView;
     private Toolbar toolbar;
-public void setSelectedNavigationMenu(int resId){
-    getNavigationView().getMenu().findItem(resId).setChecked(true);
-}
+
+    public static void show(Context context){
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
+
     public void addFragment(Fragment fragment, boolean isAddToBackStack) {
         String backStateName = fragment.getClass().getName();
         FragmentManager manager = getSupportFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-        if (fragmentPopped)    return;
+        if (fragmentPopped) return;
 
         Fragment fragmentByTag = manager.findFragmentByTag(backStateName);
 
@@ -50,7 +53,9 @@ public void setSelectedNavigationMenu(int resId){
         }
 
         //rewind to base fragment
-        while(manager.popBackStackImmediate());
+        while (manager.popBackStackImmediate()) {
+            ;
+        }
     }
 
     public DrawerLayout getDrawerLayout() {
@@ -59,6 +64,10 @@ public void setSelectedNavigationMenu(int resId){
 
     public FloatingActionButton getFloatingActionButton() {
         return floatingActionButton;
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
     }
 
     public Toolbar getToolbar() {
@@ -95,10 +104,10 @@ public void setSelectedNavigationMenu(int resId){
         } else if (id == R.id.nav_wordsList) {
             addFragment(new WordsListFragment(), true);
         } else if (id == R.id.nav_rate) {
-            Utils.showMarketPage(this,R.string.navigation_menu_rate_exception_marketNotExist);
+            Utils.showMarketPage(this, R.string.navigation_menu_rate_exception_marketNotExist);
         } else if (id == R.id.nav_sendEmail) {
             String subject = String.format("%s [%s]", Utils.getApplicationName(this), Utils.getApplicationVersion(this));
-            Utils.sendEmail(getString(R.string.supportEmail), subject,"",this);
+            Utils.sendEmail(getString(R.string.supportEmail), subject, "", this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,6 +125,10 @@ public void setSelectedNavigationMenu(int resId){
         return super.onOptionsItemSelected(item);
     }
 
+    public void setSelectedNavigationMenu(int resId) {
+        getNavigationView().getMenu().findItem(resId).setChecked(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,16 +143,8 @@ public void setSelectedNavigationMenu(int resId){
 
         new BackArrowController(this);
 
-        DbHelper.init(this);
-        DbHelper.getInstance().getWritableDatabase();
 
         addFragment(new LearnFragment(), false);
 
-
-
-    }
-
-    public NavigationView getNavigationView() {
-        return navigationView;
     }
 }

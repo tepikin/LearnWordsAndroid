@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.lazard.learnwords.db.DAO;
+import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 
 /**
@@ -17,13 +17,11 @@ public class WordsListPresenter {
 
     public WordsListPresenter(WordsListFragment wordsListFragment) {
         this.fragment = wordsListFragment;
-
     }
 
     public void init() {
-       words= DAO.getAllWords();
+        words = Model.getInstance().getWords();
         fragment.setList(words);
-
     }
 
     public void onDestroy() {
@@ -32,19 +30,18 @@ public class WordsListPresenter {
     }
 
     public void onSearch(String query) {
-        if (words==null)return;
-        if (TextUtils.isEmpty(query)){
+        if (words == null) return;
+        if (TextUtils.isEmpty(query)) {
             fragment.setList(words);
             return;
         }
-        List<Word> list= new ArrayList<>();
+        List<Word> list = new ArrayList<>();
         for (Word word : words) {
-            if (word ==null)continue;
-            if (word.isContainsText(query)){
+            if (word == null) continue;
+            if (word.isContainsText(query)) {
                 list.add(word);
             }
         }
         fragment.setList(list);
-
     }
 }

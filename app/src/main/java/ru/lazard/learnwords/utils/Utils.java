@@ -40,7 +40,15 @@ public class Utils {
         }
         return version;
     }
-
+    /**
+     * Random value from [0, maxValue)
+     *
+     * @param maxValue
+     * @return
+     */
+    public static int randomInt(int maxValue) {
+        return (int) (Math.random() * maxValue);
+    }
     public static int getApplicationVersionCode(Context context) {
         int versionCode = -1;
         try {

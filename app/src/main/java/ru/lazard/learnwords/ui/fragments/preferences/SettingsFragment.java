@@ -3,7 +3,7 @@ package ru.lazard.learnwords.ui.fragments.preferences;
 import android.os.Bundle;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.ui.MainActivity;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
 
 /**
  * Created by Egor on 02.06.2016.

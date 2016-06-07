@@ -8,7 +8,7 @@
     android:keepScreenOn="true"
     android:background="@drawable/bg_main_activity"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.activities.main.MainActivity">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/word"
@@ -19,9 +19,22 @@
         android:paddingRight="16dp"
         android:gravity="center_horizontal|bottom"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorPrimaryText"
         android:text="Hello World!"/>
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/transcription"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal|top"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorSecondaryText"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="[Hello World!]"/>
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/translate"
+        android:textColor="@color/colorSecondaryText"
         android:fontFamily="sans-serif-light"
         android:gravity="center_horizontal|top"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"

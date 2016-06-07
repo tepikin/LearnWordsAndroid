@@ -11,9 +11,10 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "words.db";
     private static DbHelper instance;
-
+private Context context;
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     public static final DbHelper getInstance() {
@@ -28,8 +29,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DBContract.Words.SQL_CREATE_WORDS);
-
-        new DBInit().writeWordsToDb(db);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

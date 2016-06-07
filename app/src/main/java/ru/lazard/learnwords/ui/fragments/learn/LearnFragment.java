@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
-import ru.lazard.learnwords.ui.MainActivity;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
 
 /**
  * Created by Egor on 02.06.2016.
@@ -25,6 +26,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
 
     private LearnPresenter presenter;
+    private TextView transcriptionView;
     private TextView translateView;
     private Word word;
     private TextView wordView;
@@ -69,6 +71,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             baseLayout = view.findViewById(R.id.base_layout);
             wordView = (TextView) view.findViewById(R.id.word);
             translateView = (TextView) view.findViewById(R.id.translate);
+            transcriptionView = (TextView) view.findViewById(R.id.transcription);
 
             floatingActionButton = ((MainActivity) getActivity()).getFloatingActionButton();
 
@@ -135,7 +138,19 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         if (randomWord == null) {
             randomWord = new Word("No words selected", "Выбирите слова для изучения");
         }
-        wordView.setText(randomWord.getWord());
-        translateView.setText(randomWord.getTranslate());
+
+        String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
+
+        setNotNullText(wordView, randomWord.getWord());
+        setNotNullText(transcriptionView, transcription);
+        setNotNullText(translateView, randomWord.getTranslate());
+    }
+
+    private void setNotNullText(TextView textView, String text) {
+        if (TextUtils.isEmpty(text)) {
+            textView.setText("");
+        } else {
+            textView.setText(text);
+        }
     }
 }

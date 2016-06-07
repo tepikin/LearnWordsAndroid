@@ -20,7 +20,7 @@ import java.util.List;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Word;
-import ru.lazard.learnwords.ui.MainActivity;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
 
 /**
  * Created by Egor on 03.06.2016.
