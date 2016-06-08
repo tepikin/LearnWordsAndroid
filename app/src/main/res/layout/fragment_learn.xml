@@ -63,10 +63,25 @@
         android:button="@null"
         android:id="@+id/status"
         android:layout_width="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/colorSecondaryText"
         android:layout_gravity="top|right"
         android:layout_height="wrap_content"
         android:text="@string/learnWords_button_iKnowWord"
         android:padding="16dp"
         />
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/sound"
+        style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_volume_up_grey600_24dp"
+        android:padding="16dp"
+        android:text=""
+        android:layout_gravity="top|left"
+        android:button="@drawable/ic_volume_up_grey600_24dp"
+        android:buttonTint="@color/colorSecondaryText"
+        app:buttonTint="@color/colorSecondaryText"
+        android:scaleType="centerInside"
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

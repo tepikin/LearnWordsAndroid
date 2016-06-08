@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
+import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
@@ -64,12 +65,20 @@ public class LearnPresenter {
         }
     }
 
-    public void onPause() {
-        //  pause();
-    }
+
 
     public void onResume() {
         restoreState();
+    }
+
+    public void onSoundViewClick() {
+        boolean isReadWords = !settings.isReadWords();
+        settings.setReadWords(isReadWords);
+        fragment.setSoundEnable(isReadWords);
+        cancelSync.set(true);
+        cancelSync = new AtomicBoolean(false);
+        getTts().stop();
+
     }
 
     public void onStatusViewClick() {
@@ -100,6 +109,8 @@ public class LearnPresenter {
         }else{
             fragment.setStatePause();
         }
+        fragment.setSoundEnable(settings.isReadWords());
+
     }
 
 
@@ -115,7 +126,7 @@ public class LearnPresenter {
         cancelSync.set(true);
         cancelSync = new AtomicBoolean(false);
         handler.removeCallbacks(playProcess);
-        ((MainActivity) context).getTts().stop();
+        getTts().stop();
         fragment.setStatePause();
     }
 
@@ -126,7 +137,7 @@ public class LearnPresenter {
             return;
         }
         final AtomicBoolean cancel = cancelSync;
-        ((MainActivity) context).getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
+        getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
             @Override
             public void run() {
                 if (cancel.get()) {
@@ -137,9 +148,13 @@ public class LearnPresenter {
                     if (callback != null) callback.run();
                     return;
                 }
-                ((MainActivity) context).getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
+                getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
             }
         });
+    }
+
+    private TTS getTts() {
+        return ((MainActivity) context).getTts();
     }
 
     private void startWord(Word randomWord) {

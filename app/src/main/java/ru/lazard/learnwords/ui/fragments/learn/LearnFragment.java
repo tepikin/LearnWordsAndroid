@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
@@ -31,6 +32,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
 
     private LearnPresenter presenter;
+    private ImageView soundView;
     private CheckBox statusView;
     private TextView transcriptionView;
     private TextView translateView;
@@ -54,6 +56,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         }
         if (statusView == v) {
             presenter.onStatusViewClick();
+        }
+        if (soundView == v) {
+            presenter.onSoundViewClick();
         }
     }
 
@@ -82,10 +87,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             translateView = (TextView) view.findViewById(R.id.translate);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
             statusView = (CheckBox) view.findViewById(R.id.status);
+            soundView = (ImageView) view.findViewById(R.id.sound);
 
             floatingActionButton = ((MainActivity) getActivity()).getFloatingActionButton();
 
             floatingActionButton.setOnClickListener(this);
+            soundView.setOnClickListener(this);
             statusView.setOnClickListener(this);
             floatingActionButton.setVisibility(View.VISIBLE);
             playPauseDrawable = new PlayPauseDrawable(getContext());
@@ -113,11 +120,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         presenter.onDetach();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        presenter.onPause();
-    }
+
 
     @Override
     public void onResume() {
@@ -128,6 +131,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         presenter.onResume();
     }
 
+    public void setSoundEnable(boolean isReadWords) {
+        soundView.setImageResource(isReadWords?R.drawable.ic_volume_up_grey600_24dp:R.drawable.ic_volume_off_grey600_24dp);
+    }
 
 
     public void setStatePause() {
