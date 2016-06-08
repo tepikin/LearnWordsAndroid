@@ -48,6 +48,12 @@ public class Settings {
         return this.preferences.getBoolean("read_words_enable", true);
     }
 
+    public void setReadWords(boolean isReadWords) {
+        SharedPreferences.Editor edit = this.preferences.edit();
+        edit.putBoolean("read_words_enable", isReadWords);
+        edit.commit();
+    }
+
     public float speedReadTranslate() {
         int value = this.preferences.getInt("translate_read_speed", 100);
         return 1f * value / 100f;

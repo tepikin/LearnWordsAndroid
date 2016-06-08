@@ -3,23 +3,18 @@ package ru.lazard.learnwords.ui.fragments.learn;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.speech.tts.TextToSpeech;
-import android.support.annotation.FloatRange;
-import android.text.TextUtils;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
-import ru.lazard.learnwords.speach.Listener;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
 public class LearnPresenter {
     public static final String KEY_WORD_ID = "Word_ID";
-    private final TextToSpeech ttsEn;
     private final LearnFragment fragment;
     private final Context context;
     private AtomicBoolean cancelSync = new AtomicBoolean(false);
@@ -40,16 +35,6 @@ public class LearnPresenter {
         context = fragment.getContext();
         settings = new Settings(context);
         handler = new Handler(Looper.getMainLooper());
-        ttsEn = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    ttsEn.setLanguage(Locale.ENGLISH);
-                }
-            }
-        });
-
-
     }
 
     public void doStep() {
@@ -61,7 +46,6 @@ public class LearnPresenter {
 
     public void onDestroy() {
         pause();
-        unbindTTS();
     }
 
     public void onDetach() {
@@ -81,17 +65,18 @@ public class LearnPresenter {
     }
 
     public void onPause() {
-      //  pause();
+        //  pause();
     }
 
     public void onResume() {
         restoreState();
-
     }
 
     public void onStatusViewClick() {
-        if (randomWord!=null){
-            if(randomWord.getStatus()==Word.STATUS_NONE||randomWord.getStatus()==Word.STATUS_LEARN)randomWord.setStatus(Word.STATUS_CHECK_1);else{
+        if (randomWord != null) {
+            if (randomWord.getStatus() == Word.STATUS_NONE || randomWord.getStatus() == Word.STATUS_LEARN) {
+                randomWord.setStatus(Word.STATUS_CHECK_1);
+            } else {
                 randomWord.setStatus(Word.STATUS_LEARN);
             }
         }
@@ -106,12 +91,11 @@ public class LearnPresenter {
     }
 
     public void restoreState() {
-        if (randomWord==null){
+        if (randomWord == null) {
             randomWord = Model.getInstance().getRandomWordForLearning();
         }
         fragment.showWord(randomWord);
     }
-
 
 
     private void onStepDone() {
@@ -126,47 +110,10 @@ public class LearnPresenter {
         cancelSync.set(true);
         cancelSync = new AtomicBoolean(false);
         handler.removeCallbacks(playProcess);
-        ttsEn.stop();
+        ((MainActivity) context).getTts().stop();
         fragment.setStatePause();
     }
 
-    private void playText(String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
-        if (TextUtils.isEmpty(text)) {
-            if (callback != null) callback.run();
-            return;
-        }
-        if (speechRate < 0) {
-            speechRate = 0;
-            return;
-        }
-        if (speechRate > 2) {
-            speechRate = 2;
-            return;
-        }
-        if (locale == null) {
-            locale = Locale.getDefault();
-        }
-        try {
-            ttsEn.setSpeechRate(speechRate);
-            ttsEn.setLanguage(locale);
-            ttsEn.setOnUtteranceProgressListener(new Listener() {
-                @Override
-                public void onFinish(String utteranceId) {
-                    if (callback != null) callback.run();
-                }
-            });
-
-            HashMap<String, String> myHashAlarm = new HashMap<String, String>();
-            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "1");
-            ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
-
-//            ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-            callback.run();
-        }
-    }
 
     private void playWord(final Word randomWord, final Runnable callback) {
         if (randomWord == null) {
@@ -174,7 +121,7 @@ public class LearnPresenter {
             return;
         }
         final AtomicBoolean cancel = cancelSync;
-        playText(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
+        ((MainActivity) context).getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
             @Override
             public void run() {
                 if (cancel.get()) {
@@ -185,7 +132,7 @@ public class LearnPresenter {
                     if (callback != null) callback.run();
                     return;
                 }
-                playText(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
+                ((MainActivity) context).getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
             }
         });
     }
@@ -208,9 +155,5 @@ public class LearnPresenter {
         } else {
             onStepDone();
         }
-    }
-
-    private void unbindTTS() {
-        ttsEn.shutdown();
     }
 }

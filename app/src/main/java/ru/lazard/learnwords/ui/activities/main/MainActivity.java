@@ -3,6 +3,7 @@ package ru.lazard.learnwords.ui.activities.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,27 +11,33 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import ru.lazard.learnwords.R;
+import ru.lazard.learnwords.speach.TTS;
+import ru.lazard.learnwords.ui.BaseActivity;
 import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
 import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
 import ru.lazard.learnwords.utils.Utils;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private CoordinatorLayout coordinatorLayout;
     private DrawerLayout drawerLayout;
     private FloatingActionButton floatingActionButton;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private TTS tts;
 
-    public static void show(Context context){
-        context.startActivity(new Intent(context,MainActivity.class));
+    public TTS getTts() {
+        return tts;
+    }
+
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     public void addFragment(Fragment fragment, boolean isAddToBackStack) {
@@ -52,13 +59,16 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        if (fragment instanceof LearnFragment) {
+            //rewind to base fragment
+            while (manager.popBackStackImmediate()) {
+                ;
+            }
+        }
+    }
 
-       if (fragment instanceof LearnFragment) {
-           //rewind to base fragment
-           while (manager.popBackStackImmediate()) {
-               ;
-           }
-       }
+    public CoordinatorLayout getCoordinatorLayout() {
+        return coordinatorLayout;
     }
 
     public DrawerLayout getDrawerLayout() {
@@ -142,12 +152,13 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         navigationView.setNavigationItemSelectedListener(this);
 
         new BackArrowController(this);
 
-
         addFragment(new LearnFragment(), false);
-
+        this.tts=new TTS(this);
+        this.tts.checkTTS();
     }
 }

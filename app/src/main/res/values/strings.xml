@@ -5,6 +5,13 @@
     <!-- Main screen -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="mainActivity_tts_noTtsInstalled">No Voices installed</string>
+    <string name="mainActivity_tts_noTtsInstalled_install">Install</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">No Voices installed</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">Install</string>
+    <string name="mainActivity_tts_cantInitTTS">Can\'t init Voice</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">Retry</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">Off TTS</string>
 
 
     <!-- NavigationMenu -->
@@ -82,6 +89,9 @@
 
     <!-- LearnWords screen -->
     <string name="learnWords_button_iKnowWord">I know this word</string>
+
+
+
 
 
 
