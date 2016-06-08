@@ -27,13 +27,33 @@
     <string name="wordsList_menu_choiceWordsForLearn_random50Words">Random 50 words</string>
     <string name="wordsList_menu_addWord">Add word</string>
     <string name="wordsList_menu_search">Search</string>
+    <string name="wordsList_contextMenu_title">Actions</string>
+    <string name="wordsList_contextMenu_edit">Edit</string>
+    <string name="wordsList_contextMenu_createNew">Add</string>
+    <string name="wordsList_contextMenu_remove">Remove</string>
     <string-array name="wordsList_status_items">
         <item > </item>
         <item >learn</item>
         <item >check</item>
-        <item >check</item>
+        <item >trans</item>
         <item >write</item>
         <item >ready</item>
+    </string-array>
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">Done</string>
+    <string name="wordEdit_word">Word</string>
+    <string name="wordEdit_word_error">Word required</string>
+    <string name="wordEdit_transcription">Transcription</string>
+    <string name="wordEdit_translate">Translate</string>
+    <string name="wordEdit_status">Stataus</string>
+    <string-array name="wordEdit_status_items">
+        <item >None</item>
+        <item >Learn</item>
+        <item >Check</item>
+        <item >Check translate</item>
+        <item >Check write</item>
+        <item >Ready!</item>
     </string-array>
 
     <!-- Settings screen -->

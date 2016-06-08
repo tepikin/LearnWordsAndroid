@@ -49,6 +49,15 @@ public class Model {
         return wordsWithStatus.get(randomInt);
     }
 
+    public Word getWordById(int wordId) {
+        for (Word word : words) {
+            if (wordId==word.getId()){
+                return word;
+            }
+        }
+        return null;
+    }
+
     public List<Word> getWords() {
         return words;
     }

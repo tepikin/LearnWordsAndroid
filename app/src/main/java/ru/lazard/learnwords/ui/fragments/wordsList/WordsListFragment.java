@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.ui.fragments.wordsList.edit.WordEditFragment;
 
 /**
  * Created by Egor on 03.06.2016.
@@ -31,6 +33,8 @@ public class WordsListFragment extends Fragment {
     private WordsListAdapter adapter;
     private WordsListPresenter presenter;
     private RecyclerView recyclerView;
+    private SearchView searchView;
+    private View view;
     private View waiterView;
 
     @Override
@@ -45,7 +49,7 @@ public class WordsListFragment extends Fragment {
 
 
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -61,7 +65,12 @@ public class WordsListFragment extends Fragment {
             }
         });
 
-
+if (presenter!=null){
+    if (!TextUtils.isEmpty(presenter.getSearchQuery())) {
+        searchView.setQuery(presenter.getSearchQuery(),true);
+        searchView.setIconified(false);
+    }
+}
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -70,7 +79,7 @@ public class WordsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+
 
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_words_list, container, false);
@@ -80,8 +89,8 @@ public class WordsListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
 
+            if (presenter ==null)
             presenter = new WordsListPresenter(this);
-            presenter.init();
         }
         return view;
     }
@@ -100,6 +109,7 @@ public class WordsListFragment extends Fragment {
         //((MainActivity)getActivity()).getFloatingActionButton().setVisibility(View.INVISIBLE);
         ((MainActivity) getActivity()).getFloatingActionButton().hide();
         ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_wordsList);
+        presenter.init();
     }
 
     public void setList(List<Word> words) {
@@ -108,9 +118,14 @@ public class WordsListFragment extends Fragment {
         waiterView.setVisibility(View.GONE);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (id == R.id.menu_addWord) {
+            ((MainActivity)getActivity()).addFragment(WordEditFragment.newInstance(null),true);
+            return true;
+        }
         if (id == R.id.action_clearList) {
             DAO.setLearnWordsListClear();
             Model.getInstance().setLearnWordsListClear();
@@ -168,4 +183,6 @@ public class WordsListFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -1,14 +1,20 @@
 package ru.lazard.learnwords.ui.fragments.wordsList;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.db.DAO;
+import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.ui.fragments.wordsList.edit.WordEditFragment;
 
 /**
  * Created by Egor on 03.06.2016.
@@ -21,10 +27,14 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
     private final TextView transcriptionView;
     private final CheckBox visibleView;
     private final TextView statusView;
+    private final View baseView;
+    private WordsListAdapter adapter;
 
 
-    public WordsItemViewHolder(View itemView) {
+    public WordsItemViewHolder(View itemView,WordsListAdapter adapter) {
         super(itemView);
+        this.adapter=adapter;
+        baseView =itemView;
         wordView = (TextView) itemView.findViewById(R.id.word);
         translateView = (TextView) itemView.findViewById(R.id.translate);
         transcriptionView = (TextView) itemView.findViewById(R.id.transcription);
@@ -54,7 +64,55 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
                 bind(word);
             }
         });
+
+        baseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)v.getContext()).addFragment(WordEditFragment.newInstance(word),true);
+            }
+        });
+        baseView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
+        baseView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                Resources resources = v.getResources();
+                //menu.setHeaderTitle(resources.getString(R.string.wordsList_contextMenu_title));
+                menu.add(resources.getString(R.string.wordsList_contextMenu_edit))
+                        .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                            ((MainActivity)baseView.getContext()).addFragment(WordEditFragment.newInstance(word),true);
+                        return true;
+                    }
+                });
+                menu.add(resources.getString(R.string.wordsList_contextMenu_createNew)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        ((MainActivity)baseView.getContext()).addFragment(WordEditFragment.newInstance(null),true);
+                        return true;
+                    }
+                });
+                menu.add(resources.getString(R.string.wordsList_contextMenu_remove)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Model.getInstance().getWords().remove(word);
+                        DAO.removeById(word.getId());
+                        adapter.getItems().remove(word);
+                        adapter.notifyDataSetChanged();
+                        return true;
+                    }
+                });;
+            }
+        });
+
     }
+
 
     private void setEmptyText(TextView textView, String text) {
         if (TextUtils.isEmpty(text)) {

@@ -18,10 +18,15 @@ public class WordsListPresenter {
     public WordsListPresenter(WordsListFragment wordsListFragment) {
         this.fragment = wordsListFragment;
     }
-
+    
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+    
     public void init() {
         words = Model.getInstance().getWords();
-        fragment.setList(words);
+        onSearch(searchQuery);
+        //fragment.setList(words);
     }
 
     public void onDestroy() {
@@ -29,7 +34,10 @@ public class WordsListPresenter {
 
     }
 
+    private String searchQuery="";
+
     public void onSearch(String query) {
+        searchQuery=query;
         if (words == null) return;
         if (TextUtils.isEmpty(query)) {
             fragment.setList(words);

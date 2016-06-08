@@ -24,6 +24,10 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsItemViewHolder> 
         return list.size();
     }
 
+    public List<Word> getItems() {
+        return list;
+    }
+
     @Override
     public void onBindViewHolder(WordsItemViewHolder holder, int position) {
         holder.bind(list.get(position));
@@ -32,7 +36,7 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsItemViewHolder> 
     @Override
     public WordsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View  view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_words_list_item, parent, false);
-        return new WordsItemViewHolder(view);
+        return new WordsItemViewHolder(view,this);
     }
 
     public void setList(List<Word> list) {
