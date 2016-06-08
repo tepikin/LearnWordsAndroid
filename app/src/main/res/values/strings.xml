@@ -21,6 +21,7 @@
     <string name="navigation_menu_preferences">Settings</string>
     <string name="navigation_menu_wordsList">List of words</string>
     <string name="navigation_menu_learnWords">Learn words</string>
+    <string name="navigation_menu_checkWords">Check words</string>
 
 
     <!-- WordsList screen -->
