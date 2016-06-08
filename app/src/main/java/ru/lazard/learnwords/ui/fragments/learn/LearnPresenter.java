@@ -3,7 +3,10 @@ package ru.lazard.learnwords.ui.fragments.learn;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -14,7 +17,7 @@ import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
-public class LearnPresenter {
+public class LearnPresenter implements FragmentManager.OnBackStackChangedListener {
     public static final String KEY_WORD_ID = "Word_ID";
     private final LearnFragment fragment;
     private final Context context;
@@ -36,6 +39,7 @@ public class LearnPresenter {
         context = fragment.getContext();
         settings = new Settings(context);
         handler = new Handler(Looper.getMainLooper());
+        fragment.getActivity().getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 
     public void doStep() {
@@ -45,8 +49,20 @@ public class LearnPresenter {
         startWord(randomWord);
     }
 
+    @Override
+    public void onBackStackChanged() {
+        List<Fragment> fragments = fragment.getActivity().getSupportFragmentManager().getFragments();
+        if (fragments!=null&&fragments.size()>0){
+            Fragment topFragment = fragments.get(fragments.size() - 1);
+            if (topFragment!=fragment&&isPlay){
+                pause();
+            }
+        }
+    }
+
     public void onDestroy() {
         pause();
+        fragment.getActivity().getSupportFragmentManager().removeOnBackStackChangedListener(this);
     }
 
     public void onDetach() {
@@ -121,7 +137,7 @@ public class LearnPresenter {
         }
     }
 
-    private void pause() {
+    public void pause() {
         this.isPlay = false;
         cancelSync.set(true);
         cancelSync = new AtomicBoolean(false);
