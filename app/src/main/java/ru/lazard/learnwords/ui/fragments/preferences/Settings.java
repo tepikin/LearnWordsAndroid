@@ -60,7 +60,7 @@ public class Settings {
     }
 
     public float speedReadWords() {
-        int value = this.preferences.getInt("words_read_speed", 30);
+        int value = this.preferences.getInt("words_read_speed", 100);
         return 1f * value / 100f;
     }
 }

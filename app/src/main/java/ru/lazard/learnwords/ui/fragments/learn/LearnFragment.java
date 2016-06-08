@@ -1,5 +1,6 @@
 package ru.lazard.learnwords.ui.fragments.learn;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.utils.view.PlayPauseDrawable;
 
 /**
  * Created by Egor on 02.06.2016.
@@ -24,6 +26,8 @@ import ru.lazard.learnwords.ui.activities.main.MainActivity;
 public class LearnFragment extends Fragment implements View.OnClickListener {
     private View baseLayout;
     private FloatingActionButton floatingActionButton;
+    private Animator pausePlayAnimator;
+    private PlayPauseDrawable playPauseDrawable;
 
 
     private LearnPresenter presenter;
@@ -84,6 +88,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             floatingActionButton.setOnClickListener(this);
             statusView.setOnClickListener(this);
             floatingActionButton.setVisibility(View.VISIBLE);
+            playPauseDrawable = new PlayPauseDrawable(getContext());
+            playPauseDrawable.setPlay();
+            floatingActionButton.setImageDrawable(playPauseDrawable);
             setStatePause();
             if (presenter == null) {
                 presenter = new LearnPresenter(this);
@@ -124,11 +131,16 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
 
     public void setStatePause() {
-        floatingActionButton.setImageResource(android.R.drawable.ic_media_play);
+        //floatingActionButton.setImageResource(android.R.drawable.ic_media_play);
+        if (pausePlayAnimator !=null){pausePlayAnimator.cancel();}
+        pausePlayAnimator = playPauseDrawable.getAnimatorToPlay();
+        pausePlayAnimator.start();
     }
 
     public void setStatePlay() {
-        floatingActionButton.setImageResource(android.R.drawable.ic_media_pause);
+        if (pausePlayAnimator !=null){pausePlayAnimator.cancel();}
+        pausePlayAnimator = playPauseDrawable.getAnimatorToPause();
+        pausePlayAnimator.start();
     }
 
     public void showWord(Word randomWord) {

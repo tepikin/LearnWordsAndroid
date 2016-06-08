@@ -95,6 +95,11 @@ public class LearnPresenter {
             randomWord = Model.getInstance().getRandomWordForLearning();
         }
         fragment.showWord(randomWord);
+        if (isPlay){
+            fragment.setStatePlay();
+        }else{
+            fragment.setStatePause();
+        }
     }
 
 

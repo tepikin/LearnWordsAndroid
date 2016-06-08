@@ -34,7 +34,7 @@
             android:summary="@string/preferences_item_readWords_summary"
             android:title="@string/preferences_item_readWords_title"/>
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-            android:defaultValue="30"
+            android:defaultValue="100"
             android:dependency="read_words_enable"
             android:key="words_read_speed"
             android:summary="@string/preferences_item_readWordsSpeed_summary"
