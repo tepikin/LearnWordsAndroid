@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
@@ -26,6 +27,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
 
     private LearnPresenter presenter;
+    private CheckBox statusView;
     private TextView transcriptionView;
     private TextView translateView;
     private Word word;
@@ -45,6 +47,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (floatingActionButton == v) {
             presenter.onFloatingActionButtonClick();
+        }
+        if (statusView == v) {
+            presenter.onStatusViewClick();
         }
     }
 
@@ -72,10 +77,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             wordView = (TextView) view.findViewById(R.id.word);
             translateView = (TextView) view.findViewById(R.id.translate);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
+            statusView = (CheckBox) view.findViewById(R.id.status);
 
             floatingActionButton = ((MainActivity) getActivity()).getFloatingActionButton();
 
             floatingActionButton.setOnClickListener(this);
+            statusView.setOnClickListener(this);
             floatingActionButton.setVisibility(View.VISIBLE);
             setStatePause();
             if (presenter == null) {
@@ -127,6 +134,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     public void showWord(Word randomWord) {
         if (randomWord == null) {
             randomWord = new Word("No words selected", "Выбирите слова для изучения");
+            statusView.setVisibility(View.GONE);
+        }else {
+            statusView.setVisibility(View.VISIBLE);
         }
 
         String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
@@ -134,6 +144,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         setNotNullText(wordView, randomWord.getWord());
         setNotNullText(transcriptionView, transcription);
         setNotNullText(translateView, randomWord.getTranslate());
+        statusView.setChecked(randomWord.getStatus()>Word.STATUS_LEARN);
     }
 
     private void setNotNullText(TextView textView, String text) {

@@ -60,35 +60,28 @@
     <string name="preferences_screen_title">Settings</string>
     <string name="preferences_category_base">Base</string>
     <string name="preferences_category_tts">Text to speech</string>
-
     <string name="preferences_item_autoSwitch_title">Auto words list</string>
     <string name="preferences_item_autoSwitch_summary">List words automatical</string>
-
     <string name="preferences_item_delayBetweenWordsChange_title">Words change delay</string>
     <string name="preferences_item_delayBetweenWordsChange_summary">Delay between words change in seconds</string>
     <string name="preferences_item_delayBetweenWordsChange_hint">Seconds delay</string>
-
     <string name="preferences_item_blink_title">Blink</string>
     <string name="preferences_item_blink_summary">Blink screen on word change</string>
-
     <string name="preferences_item_readWords_title">Read words</string>
     <string name="preferences_item_readWords_summary">Read english words aloud</string>
-
     <string name="preferences_item_readWordsSpeed_title">Speed rate</string>
     <string name="preferences_item_readWordsSpeed_summary">Speed of read words</string>
     <string name="preferences_item_readWordsSpeed_units">% </string>
-
     <string name="preferences_item_readTranslates_title">Read translate</string>
     <string name="preferences_item_readTranslates_summary">Read translate of words aloud</string>
-
     <string name="preferences_item_readTranslatesSpeed_title">Speed rate</string>
     <string name="preferences_item_readTranslatesSpeed_summary">Speed of read translates</string>
     <string name="preferences_item_readTranslatesSpeed_units">% </string>
-
     <string name="preferences_item_settingsTTS_title">TTS settings</string>
     <string name="preferences_item_settingsTTS_summary">Settings of text to speech</string>
 
-
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">I know this word</string>
 
 
 

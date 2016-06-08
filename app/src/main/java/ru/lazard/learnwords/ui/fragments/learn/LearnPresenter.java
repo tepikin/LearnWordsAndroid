@@ -89,6 +89,14 @@ public class LearnPresenter {
 
     }
 
+    public void onStatusViewClick() {
+        if (randomWord!=null){
+            if(randomWord.getStatus()==Word.STATUS_NONE||randomWord.getStatus()==Word.STATUS_LEARN)randomWord.setStatus(Word.STATUS_CHECK_1);else{
+                randomWord.setStatus(Word.STATUS_LEARN);
+            }
+        }
+    }
+
     public void play() {
         pause();
         this.isPlay = true;

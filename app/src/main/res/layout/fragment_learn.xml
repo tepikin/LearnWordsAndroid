@@ -1,48 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
+<FrameLayout
     android:id="@+id/base_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true"
     android:background="@drawable/bg_main_activity"
+    android:keepScreenOn="true"
     android:orientation="vertical"
-    tools:context=".ui.activities.main.MainActivity">
+    tools:context=".ui.activities.main.MainActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/word"
+
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:gravity="center_horizontal|bottom"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorPrimaryText"
-        android:text="Hello World!"/>
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/transcription"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_horizontal|top"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:orientation="vertical"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/word"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Hello World!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/colorPrimaryText"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/transcription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal|top"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="[Hello World!]"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/colorSecondaryText"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/translate"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal|top"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Hello World!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/colorSecondaryText"/>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:button="@null"
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_gravity="top|right"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorSecondaryText"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="[Hello World!]"/>
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/translate"
-        android:textColor="@color/colorSecondaryText"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_horizontal|top"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Hello World!"/>
+        android:text="@string/learnWords_button_iKnowWord"
+        android:padding="16dp"
+        />
 
-</android.support.v7.widget.LinearLayoutCompat>
+</FrameLayout>
