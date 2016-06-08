@@ -1,6 +1,7 @@
 package ru.lazard.learnwords.speach;
 
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.FloatRange;
 import android.support.design.widget.Snackbar;
@@ -8,12 +9,14 @@ import android.text.TextUtils;
 import android.view.View;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.ui.BaseActivity;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
+import ru.lazard.learnwords.utils.Utils;
 
 /**
  * Created by Egor on 08.06.2016.
@@ -30,8 +33,18 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
     }
 
     public void checkTTS() {
+
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+
+        List<ResolveInfo> resInfo = activity.getPackageManager()
+                .queryIntentActivities(checkTTSIntent, 0);
+        if (resInfo.isEmpty()) {
+            onNoEnginesInstalled();
+            return;
+        }
+
+
         activity.startActivityForResult(checkTTSIntent, KEY_CHECK_TTS);
     }
 
@@ -41,7 +54,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 mTts = new TextToSpeech(activity, this);
             } else {
-                onNoTtsInstalled();
+                onNoTtsVoicesInstalled();
             }
         }
     }
@@ -116,26 +129,32 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
 
     private void onNoEnginesInstalled() {
         mTts = null;
-        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_noTtsEnginesInstalled, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_noTtsEnginesInstalled, Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.mainActivity_tts_noTtsEnginesInstalled_install, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent installIntent = new Intent();
-                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                activity.startActivity(installIntent);
+                Utils.showMarketPage("com.google.android.tts",activity,activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
             }
         });
         snackbar.show();
     }
 
-    private void onNoTtsInstalled() {
+    private void onNoTtsVoicesInstalled() {
         mTts = null;
-        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_noTtsInstalled, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.mainActivity_tts_noTtsInstalled_install, new View.OnClickListener() {
+        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_noTtsVoicesInstalled, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.mainActivity_tts_noTtsVoicesInstalled_install, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent installIntent = new Intent();
                 installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+
+                List<ResolveInfo> resInfo = activity.getPackageManager()
+                        .queryIntentActivities(installIntent, 0);
+                if (resInfo.isEmpty()) {
+                    Utils.showMarketPage("com.google.android.tts",activity,activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
+                    return;
+                }
+
                 activity.startActivity(installIntent);
             }
         });
@@ -177,7 +196,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
 
     private void onTtsNotCreated() {
         mTts = null;
-        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_cantInitTTS, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(activity.getCoordinatorLayout(), R.string.mainActivity_tts_cantInitTTS, Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.mainActivity_tts_cantInitTTS_retry, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

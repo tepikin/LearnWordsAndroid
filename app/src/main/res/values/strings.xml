@@ -5,9 +5,9 @@
     <!-- Main screen -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="mainActivity_tts_noTtsInstalled">No Voices installed</string>
-    <string name="mainActivity_tts_noTtsInstalled_install">Install</string>
-    <string name="mainActivity_tts_noTtsEnginesInstalled">No Voices installed</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">No Voices installed</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">Install</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">No Voice engines</string>
     <string name="mainActivity_tts_noTtsEnginesInstalled_install">Install</string>
     <string name="mainActivity_tts_cantInitTTS">Can\'t init Voice</string>
     <string name="mainActivity_tts_cantInitTTS_retry">Retry</string>
@@ -17,7 +17,7 @@
     <!-- NavigationMenu -->
     <string name="navigation_menu_sendEmail">Send email</string>
     <string name="navigation_menu_rate">Rate app</string>
-    <string name="navigation_menu_rate_exception_marketNotExist">Rate app</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Play not found</string>
     <string name="navigation_menu_preferences">Settings</string>
     <string name="navigation_menu_wordsList">List of words</string>
     <string name="navigation_menu_learnWords">Learn words</string>
