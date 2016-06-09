@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
@@ -101,8 +102,10 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
         if (randomWord != null) {
             if (randomWord.getStatus() == Word.STATUS_NONE || randomWord.getStatus() == Word.STATUS_LEARN) {
                 randomWord.setStatus(Word.STATUS_CHECK_1);
+                DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_1);
             } else {
                 randomWord.setStatus(Word.STATUS_LEARN);
+                DAO.setStatusForWord(randomWord.getId(),Word.STATUS_LEARN);
             }
         }
     }

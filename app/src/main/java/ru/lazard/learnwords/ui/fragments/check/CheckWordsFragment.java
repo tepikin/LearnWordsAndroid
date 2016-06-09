@@ -21,13 +21,12 @@ import ru.lazard.learnwords.ui.activities.main.MainActivity;
  * Created by Egor on 02.06.2016.
  */
 public class CheckWordsFragment extends Fragment implements View.OnClickListener {
+    public enum State {start, success, fail}
     private View applyView;
     private View baseLayout;
     private View cancelView;
-    private View nextCancelView;
     private View nextApplyView;
-
-
+    private View nextCancelView;
     private CheckWordsPresenter presenter;
     private ImageView soundView;
     private TextView transcriptionView;
@@ -79,7 +78,7 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
             baseLayout = view.findViewById(R.id.base_layout);
             wordView = (TextView) view.findViewById(R.id.word);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
-            translateView= (TextView) view.findViewById(R.id.translate);
+            translateView = (TextView) view.findViewById(R.id.translate);
             translateLayout = (View) view.findViewById(R.id.translateLayout);
             translateIcon = (ImageView) view.findViewById(R.id.translateIcon);
             soundView = (ImageView) view.findViewById(R.id.sound);
@@ -100,6 +99,13 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -109,18 +115,16 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
         presenter.onResume();
     }
 
+    ;
+
     public void setSoundEnable(boolean isReadWords) {
         soundView.setImageResource(isReadWords ? R.drawable.ic_volume_up_grey600_24dp : R.drawable.ic_volume_off_grey600_24dp);
     }
 
-public enum State{start,success,fail};
-
-    public void showWord(Word randomWord,State state) {
+    public void showWord(Word randomWord, State state) {
         if (randomWord == null) {
             randomWord = new Word("No words selected", "Выбирите слова для изучения");
         }
-
-
 
         String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
         setNotNullText(wordView, randomWord.getWord());
@@ -133,24 +137,24 @@ public enum State{start,success,fail};
         applyView.setVisibility(View.GONE);
         translateLayout.setVisibility(View.INVISIBLE);
 
-        if (State.start==state){
+        if (State.start == state) {
             cancelView.setVisibility(View.VISIBLE);
             applyView.setVisibility(View.VISIBLE);
         }
-        if (State.success==state){
+        if (State.success == state) {
             cancelView.setVisibility(View.VISIBLE);
             applyView.setVisibility(View.GONE);
             nextApplyView.setVisibility(View.VISIBLE);
             translateLayout.setVisibility(View.VISIBLE);
-            translateIcon.setImageResource(R.drawable.ic_highlight_off_black_362dp);
-            translateIcon.setColorFilter(Color.GREEN);
+            translateIcon.setSelected(true);
+            translateIcon.setColorFilter(Color.parseColor("#00E52A"));
         }
-        if (State.fail==state){
+        if (State.fail == state) {
             applyView.setVisibility(View.VISIBLE);
             nextCancelView.setVisibility(View.VISIBLE);
             translateLayout.setVisibility(View.VISIBLE);
-            translateIcon.setImageResource(R.drawable.ic_highlight_off_black_362dp);
-            translateIcon.setColorFilter(Color.RED);
+            translateIcon.setSelected(false);
+            translateIcon.setColorFilter(Color.parseColor("#FF0030"));
         }
     }
 

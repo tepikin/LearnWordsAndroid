@@ -2,14 +2,14 @@
 <FrameLayout
     android:id="@+id/base_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main_activity"
     android:keepScreenOn="true"
     android:orientation="vertical"
-    tools:context=".ui.activities.main.MainActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".ui.activities.main.MainActivity">
 
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -43,19 +43,32 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/colorSecondaryText"/>
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/translate"
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/translateLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_horizontal|top"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Hello World!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/colorSecondaryText"/>
+            android:layout_weight="1.15"
+            android:orientation="vertical">
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/translate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal|top"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="Hello World!"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorSecondaryText"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/translateIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/selector_check_words_apply"/>
+        </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v7.widget.LinearLayoutCompat>
 
 
@@ -63,14 +76,55 @@
         android:id="@+id/sound"
         style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_volume_up_grey600_24dp"
-        android:padding="16dp"
-        android:text=""
+        android:layout_height="wrap_content"
         android:layout_gravity="top|left"
         android:button="@drawable/ic_volume_up_grey600_24dp"
         android:buttonTint="@color/colorSecondaryText"
-        app:buttonTint="@color/colorSecondaryText"
+        android:padding="16dp"
         android:scaleType="centerInside"
-        android:layout_height="wrap_content"/>
+        android:src="@drawable/ic_volume_up_grey600_24dp"
+        android:text=""
+        app:buttonTint="@color/colorSecondaryText"/>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="16dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/cancel"
+            style="@style/Base.Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I don't know"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/nextCancel"
+            style="@style/Base.Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/nextApply"
+            style="@style/Base.Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/apply"
+            style="@style/Base.Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I know"/>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </FrameLayout>

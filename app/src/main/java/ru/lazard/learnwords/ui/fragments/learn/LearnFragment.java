@@ -101,9 +101,10 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             setStatePause();
             if (presenter == null) {
                 presenter = new LearnPresenter(this);
-            } else {
-                presenter.restoreState();
             }
+//            else {
+//                presenter.restoreState();
+//            }
         }
         return view;
     }

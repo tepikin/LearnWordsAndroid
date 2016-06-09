@@ -9,12 +9,18 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 /**
  * Created by Egor on 06.06.2016.
  */
 public class Utils {
+    public static float dpToPx(float dp, Context context) {
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
+        return size;
+    }
 
     public static final String getApplicationName(Context context) {
         PackageManager pm = context.getPackageManager();
