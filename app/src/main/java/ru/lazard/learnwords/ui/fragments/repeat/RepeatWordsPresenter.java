@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.check;
+package ru.lazard.learnwords.ui.fragments.repeat;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -12,18 +12,18 @@ import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
-import ru.lazard.learnwords.ui.fragments.check.CheckWordsFragment.State;
+import ru.lazard.learnwords.ui.fragments.repeat.RepeatWordsFragment.State;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
-public class CheckWordsPresenter implements FragmentManager.OnBackStackChangedListener{
-    private final CheckWordsFragment fragment;
+public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedListener{
+    private final RepeatWordsFragment fragment;
     private final Context context;
     private Word randomWord;
     private State state= State.start;
     private Settings settings;
 
-    public CheckWordsPresenter(CheckWordsFragment mainActivity) {
+    public RepeatWordsPresenter(RepeatWordsFragment mainActivity) {
         this.fragment = mainActivity;
         context = fragment.getContext();
         settings = new Settings(context);

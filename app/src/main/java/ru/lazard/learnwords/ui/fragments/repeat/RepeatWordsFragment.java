@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.check;
+package ru.lazard.learnwords.ui.fragments.repeat;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,14 +20,14 @@ import ru.lazard.learnwords.ui.activities.main.MainActivity;
 /**
  * Created by Egor on 02.06.2016.
  */
-public class CheckWordsFragment extends Fragment implements View.OnClickListener {
+public class RepeatWordsFragment extends Fragment implements View.OnClickListener {
     public enum State {start, success, fail}
     private View applyView;
     private View baseLayout;
     private View cancelView;
     private View nextApplyView;
     private View nextCancelView;
-    private CheckWordsPresenter presenter;
+    private RepeatWordsPresenter presenter;
     private ImageView soundView;
     private TextView transcriptionView;
     private ImageView translateIcon;
@@ -93,7 +93,7 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
             nextApplyView.setOnClickListener(this);
             applyView.setOnClickListener(this);
             if (presenter == null) {
-                presenter = new CheckWordsPresenter(this);
+                presenter = new RepeatWordsPresenter(this);
             }
         }
         return view;
@@ -111,7 +111,7 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).getFloatingActionButton().hide();
-        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_checkWords);
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_repeatWords);
         presenter.onResume();
     }
 

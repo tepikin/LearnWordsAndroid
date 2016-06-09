@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_slideshow_black_24dp"
             android:title="@string/navigation_menu_learnWords"/>
         <item
-            android:id="@+id/nav_checkWords"
-            android:icon="@drawable/ic_slideshow_black_24dp"
-            android:title="@string/navigation_menu_checkWords"/>
+            android:id="@+id/nav_repeatWords"
+            android:icon="@drawable/ic_repeat_black_24dp"
+            android:title="@string/navigation_menu_repeatWords"/>
         <item
             android:id="@+id/nav_wordsList"
             android:icon="@drawable/ic_list_black_24dp"
