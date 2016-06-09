@@ -21,6 +21,7 @@ import ru.lazard.learnwords.ui.fragments.checkTranslate.CheckTranslateFragment;
 import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
 import ru.lazard.learnwords.ui.fragments.repeat.RepeatWordsFragment;
+import ru.lazard.learnwords.ui.fragments.spellcheck.SpellCheckFragment;
 import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
 import ru.lazard.learnwords.utils.Utils;
@@ -120,6 +121,8 @@ public class MainActivity extends BaseActivity
             addFragment(new CheckTranslateFragment(), true);
         } else if (id == R.id.nav_settings) {
             addFragment(new SettingsFragment(), true);
+        } else if (id == R.id.nav_spellcheck) {
+            addFragment(new SpellCheckFragment(), true);
         } else if (id == R.id.nav_wordsList) {
             addFragment(new WordsListFragment(), true);
         } else if (id == R.id.nav_rate) {
