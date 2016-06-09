@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main_activity"
+        android:keepScreenOn="true"
+        android:orientation="vertical"
+        tools:context=".ui.activities.main.MainActivity">
+
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:keepScreenOn="true"
+            android:orientation="vertical"
+            >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/word"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal|bottom"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="Hello World!"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/transcription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal|top"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="[Hello World!]"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorSecondaryText"/>
+<View
+    android:layout_width="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="8dp"
+    android:layout_height="1dp" android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+    android:background="@color/colorDivider"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/variant1"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="var1"
+                android:textAllCaps="false"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/variant2"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="var1"
+                android:textAllCaps="false"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/variant3"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="var1"
+                android:textAllCaps="false"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/variant4"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="var1"
+                android:textAllCaps="false"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/unknown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/checkTranslate_button_unknown"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/checkTranslate_button_next"
+                android:textAllCaps="false"/>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/sound"
+            style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:button="@drawable/ic_volume_up_grey600_24dp"
+            android:buttonTint="@color/colorSecondaryText"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_volume_up_grey600_24dp"
+            android:text=""
+            app:buttonTint="@color/colorSecondaryText"/>
+
+    </FrameLayout>
+</android.support.v4.widget.NestedScrollView>

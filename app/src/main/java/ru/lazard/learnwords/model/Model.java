@@ -24,6 +24,7 @@ public class Model {
         return instance;
     }
 
+
     public static <T> List<T> getRandomSubItems(int count, List<T> list) {
         if (list == null) return null;
         if (count <= 0) return new ArrayList<>();
@@ -43,7 +44,10 @@ public class Model {
     }
 
     public Word getRandomWordForLearning() {
-        List<Word> wordsWithStatus = getWordsWithStatus(1);
+        return getRandomWordByStatus(1);
+    }
+    public Word getRandomWordByStatus(int status) {
+        List<Word> wordsWithStatus = getWordsWithStatus(status);
         if (wordsWithStatus.size() <= 0) return null;
         int randomInt = Utils.randomInt(wordsWithStatus.size());
         return wordsWithStatus.get(randomInt);

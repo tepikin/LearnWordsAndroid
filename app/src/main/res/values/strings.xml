@@ -22,6 +22,7 @@
     <string name="navigation_menu_wordsList">List of words</string>
     <string name="navigation_menu_learnWords">Learn words</string>
     <string name="navigation_menu_repeatWords">Repeat words</string>
+    <string name="navigation_menu_checkTranslate">Check translate</string>
 
 
     <!-- WordsList screen -->
@@ -91,6 +92,9 @@
     <!-- LearnWords screen -->
     <string name="learnWords_button_iKnowWord">I know this word</string>
 
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">UNKNOWN</string>
+    <string name="checkTranslate_button_next">NEXT</string>
 
 
 

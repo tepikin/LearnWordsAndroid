@@ -1,6 +1,5 @@
 package ru.lazard.learnwords.ui.fragments.repeat;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -74,7 +73,7 @@ public class RepeatWordsFragment extends Fragment implements View.OnClickListene
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_check, container, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_repate, container, false);
             baseLayout = view.findViewById(R.id.base_layout);
             wordView = (TextView) view.findViewById(R.id.word);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
@@ -147,14 +146,14 @@ public class RepeatWordsFragment extends Fragment implements View.OnClickListene
             nextApplyView.setVisibility(View.VISIBLE);
             translateLayout.setVisibility(View.VISIBLE);
             translateIcon.setSelected(true);
-            translateIcon.setColorFilter(Color.parseColor("#00E52A"));
+            translateIcon.setColorFilter(getResources().getColor(R.color.colorGreen));
         }
         if (State.fail == state) {
             applyView.setVisibility(View.VISIBLE);
             nextCancelView.setVisibility(View.VISIBLE);
             translateLayout.setVisibility(View.VISIBLE);
             translateIcon.setSelected(false);
-            translateIcon.setColorFilter(Color.parseColor("#FF0030"));
+            translateIcon.setColorFilter(getResources().getColor(R.color.colorRed));
         }
     }
 

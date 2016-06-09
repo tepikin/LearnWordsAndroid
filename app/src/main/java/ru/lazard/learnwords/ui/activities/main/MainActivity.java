@@ -17,9 +17,10 @@ import android.view.MenuItem;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.BaseActivity;
-import ru.lazard.learnwords.ui.fragments.repeat.RepeatWordsFragment;
+import ru.lazard.learnwords.ui.fragments.checkTranslate.CheckTranslateFragment;
 import ru.lazard.learnwords.ui.fragments.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
+import ru.lazard.learnwords.ui.fragments.repeat.RepeatWordsFragment;
 import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
 import ru.lazard.learnwords.utils.Utils;
@@ -115,6 +116,8 @@ public class MainActivity extends BaseActivity
             addFragment(new LearnFragment(), true);
         } else if (id == R.id.nav_repeatWords) {
             addFragment(new RepeatWordsFragment(), true);
+        } else if (id == R.id.nav_checkTranslate) {
+            addFragment(new CheckTranslateFragment(), true);
         } else if (id == R.id.nav_settings) {
             addFragment(new SettingsFragment(), true);
         } else if (id == R.id.nav_wordsList) {
