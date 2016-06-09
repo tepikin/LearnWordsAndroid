@@ -1,10 +1,8 @@
 package ru.lazard.learnwords.ui.fragments.check;
 
-import android.animation.Animator;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,42 +16,43 @@ import android.widget.TextView;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
-import ru.lazard.learnwords.utils.view.PlayPauseDrawable;
 
 /**
  * Created by Egor on 02.06.2016.
  */
 public class CheckWordsFragment extends Fragment implements View.OnClickListener {
+    private View applyView;
     private View baseLayout;
-    private FloatingActionButton floatingActionButton;
-    private Animator pausePlayAnimator;
-    private PlayPauseDrawable playPauseDrawable;
+    private View cancelView;
+    private View nextCancelView;
+    private View nextApplyView;
 
 
     private CheckWordsPresenter presenter;
     private ImageView soundView;
     private TextView transcriptionView;
+    private ImageView translateIcon;
+    private View translateLayout;
     private TextView translateView;
     private Word word;
     private TextView wordView;
 
-    public void blink() {
-        baseLayout.setSelected(true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                baseLayout.setSelected(false);
-            }
-        }, 100l);
-    }
-
     @Override
     public void onClick(View v) {
-        if (floatingActionButton == v) {
-            presenter.onFloatingActionButtonClick();
-        }
         if (soundView == v) {
             presenter.onSoundViewClick();
+        }
+        if (cancelView == v) {
+            presenter.onCancelViewClick();
+        }
+        if (nextCancelView == v) {
+            presenter.onNextViewClick();
+        }
+        if (nextApplyView == v) {
+            presenter.onNextViewClick();
+        }
+        if (applyView == v) {
+            presenter.onApplyViewClick();
         }
     }
 
@@ -79,40 +78,27 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
             view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_check, container, false);
             baseLayout = view.findViewById(R.id.base_layout);
             wordView = (TextView) view.findViewById(R.id.word);
-            translateView = (TextView) view.findViewById(R.id.translate);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
+            translateView= (TextView) view.findViewById(R.id.translate);
+            translateLayout = (View) view.findViewById(R.id.translateLayout);
+            translateIcon = (ImageView) view.findViewById(R.id.translateIcon);
             soundView = (ImageView) view.findViewById(R.id.sound);
+            cancelView = (View) view.findViewById(R.id.cancel);
+            nextCancelView = (View) view.findViewById(R.id.nextCancel);
+            nextApplyView = (View) view.findViewById(R.id.nextApply);
+            applyView = (View) view.findViewById(R.id.apply);
 
-            floatingActionButton = ((MainActivity) getActivity()).getFloatingActionButton();
-
-            floatingActionButton.setOnClickListener(this);
             soundView.setOnClickListener(this);
-            floatingActionButton.setVisibility(View.VISIBLE);
-            playPauseDrawable = new PlayPauseDrawable(getContext());
-            playPauseDrawable.setPlay();
-            floatingActionButton.setImageDrawable(playPauseDrawable);
-            setStatePause();
+            cancelView.setOnClickListener(this);
+            nextCancelView.setOnClickListener(this);
+            nextApplyView.setOnClickListener(this);
+            applyView.setOnClickListener(this);
             if (presenter == null) {
                 presenter = new CheckWordsPresenter(this);
-            } else {
-                presenter.restoreState();
             }
         }
         return view;
     }
-
-    @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.onDetach();
-    }
-
 
 
     @Override
@@ -124,33 +110,48 @@ public class CheckWordsFragment extends Fragment implements View.OnClickListener
     }
 
     public void setSoundEnable(boolean isReadWords) {
-        soundView.setImageResource(isReadWords?R.drawable.ic_volume_up_grey600_24dp:R.drawable.ic_volume_off_grey600_24dp);
+        soundView.setImageResource(isReadWords ? R.drawable.ic_volume_up_grey600_24dp : R.drawable.ic_volume_off_grey600_24dp);
     }
 
+public enum State{start,success,fail};
 
-    public void setStatePause() {
-        //floatingActionButton.setImageResource(android.R.drawable.ic_media_play);
-        if (pausePlayAnimator !=null){pausePlayAnimator.cancel();}
-        pausePlayAnimator = playPauseDrawable.getAnimatorToPlay();
-        pausePlayAnimator.start();
-    }
-
-    public void setStatePlay() {
-        if (pausePlayAnimator !=null){pausePlayAnimator.cancel();}
-        pausePlayAnimator = playPauseDrawable.getAnimatorToPause();
-        pausePlayAnimator.start();
-    }
-
-    public void showWord(Word randomWord) {
+    public void showWord(Word randomWord,State state) {
         if (randomWord == null) {
             randomWord = new Word("No words selected", "Выбирите слова для изучения");
         }
 
-        String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
 
+
+        String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
         setNotNullText(wordView, randomWord.getWord());
         setNotNullText(transcriptionView, transcription);
         setNotNullText(translateView, randomWord.getTranslate());
+
+        cancelView.setVisibility(View.GONE);
+        nextCancelView.setVisibility(View.GONE);
+        nextApplyView.setVisibility(View.GONE);
+        applyView.setVisibility(View.GONE);
+        translateLayout.setVisibility(View.INVISIBLE);
+
+        if (State.start==state){
+            cancelView.setVisibility(View.VISIBLE);
+            applyView.setVisibility(View.VISIBLE);
+        }
+        if (State.success==state){
+            cancelView.setVisibility(View.VISIBLE);
+            applyView.setVisibility(View.GONE);
+            nextApplyView.setVisibility(View.VISIBLE);
+            translateLayout.setVisibility(View.VISIBLE);
+            translateIcon.setImageResource(R.drawable.ic_highlight_off_black_362dp);
+            translateIcon.setColorFilter(Color.GREEN);
+        }
+        if (State.fail==state){
+            applyView.setVisibility(View.VISIBLE);
+            nextCancelView.setVisibility(View.VISIBLE);
+            translateLayout.setVisibility(View.VISIBLE);
+            translateIcon.setImageResource(R.drawable.ic_highlight_off_black_362dp);
+            translateIcon.setColorFilter(Color.RED);
+        }
     }
 
     private void setNotNullText(TextView textView, String text) {
