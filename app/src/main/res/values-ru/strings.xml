@@ -32,7 +32,7 @@
     <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Изучать все слова разом</string>
     <string name="wordsList_menu_choiceWordsForLearn_baseWords">Базовые слова</string>
     <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Неправильные глаголы</string>
-    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Неправильные глаголы (кратий список)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Простые глаголы</string>
     <string name="wordsList_menu_choiceWordsForLearn_random20Words">Случайные 20 слов</string>
     <string name="wordsList_menu_choiceWordsForLearn_random50Words">Случайные 50 слов</string>
     <string name="wordsList_menu_addWord">Добавить слово</string>
