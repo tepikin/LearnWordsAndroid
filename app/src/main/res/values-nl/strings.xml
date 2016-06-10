@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Leer woorden</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">Open navigatielade</string>
+    <string name="navigation_drawer_close">Sluiten navigatielade</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">Geen Voices geïnstalleerd</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">Installeren</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">Geen stem motoren</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">Installeren</string>
+    <string name="mainActivity_tts_cantInitTTS">Can not init Voice</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">opnieuw proberen</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">Uit TTS</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">e-mail versturen</string>
+    <string name="navigation_menu_rate">Beoordeel app</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Play niet gevonden</string>
+    <string name="navigation_menu_preferences">instellingen</string>
+    <string name="navigation_menu_wordsList">Lijst van woorden</string>
+    <string name="navigation_menu_learnWords">Leer woorden</string>
+    <string name="navigation_menu_repeatWords">Herhaal de woorden</string>
+    <string name="navigation_menu_checkTranslate">Vertaal check</string>
+    <string name="navigation_menu_spellcheck">Spellingscontrole</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">keuze woorden</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">Clear leren lijst</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Leer Alle woorden</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">Base woorden</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Onregelmatige werkwoorden</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Onregelmatige werkwoorden (kort)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">Random 20 woorden</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">Random 50 woorden</string>
+    <string name="wordsList_menu_addWord">woord toe te voegen</string>
+    <string name="wordsList_menu_search">Zoeken</string>
+    <string name="wordsList_contextMenu_title">acties</string>
+    <string name="wordsList_contextMenu_edit">Bewerk</string>
+    <string name="wordsList_contextMenu_createNew">Toevoegen</string>
+    <string name="wordsList_contextMenu_remove">Verwijderen</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >leren</item>
+        <item >vertalen</item>
+        <item >spellen</item>
+        <item >klaar</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">Gedaan</string>
+    <string name="wordEdit_word">Woord</string>
+    <string name="wordEdit_word_error">Word vereist</string>
+    <string name="wordEdit_transcription">Transcriptie</string>
+    <string name="wordEdit_translate">Vertalen</string>
+    <string name="wordEdit_status">toestand</string>
+    <string-array name="wordEdit_status_items">
+        <item >Geen</item>
+        <item >Leren</item>
+        <item >Controleer vertalen</item>
+        <item >cheque uit te schrijven</item>
+        <item >Klaar!</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">instellingen</string>
+    <string name="preferences_category_base">Baseren</string>
+    <string name="preferences_category_tts">Tekst naar spraak</string>
+    <string name="preferences_item_autoSwitch_title">Auto woorden lijst</string>
+    <string name="preferences_item_autoSwitch_summary">Lijst woorden automatisch</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">Woorden veranderen vertraging</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">Vertraging tussen de woorden veranderen in een paar seconden</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">seconden vertraging</string>
+    <string name="preferences_item_blink_title">Knipperen</string>
+    <string name="preferences_item_blink_summary">Blink scherm op woord verandering</string>
+    <string name="preferences_item_readWords_title">Lees woorden</string>
+    <string name="preferences_item_readWords_summary">Lees engels woorden hardop</string>
+    <string name="preferences_item_readWordsSpeed_title">snelheidstarief</string>
+    <string name="preferences_item_readWordsSpeed_summary">Snelheid van gelezen woorden</string>
+    <string name="preferences_item_readWordsSpeed_units">%</string>
+    <string name="preferences_item_readTranslates_title">Lees vertalen</string>
+    <string name="preferences_item_readTranslates_summary">Lees vertalen van woorden hardop</string>
+    <string name="preferences_item_readTranslatesSpeed_title">snelheidstarief</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">Snelheid van gelezen vertaalt</string>
+    <string name="preferences_item_readTranslatesSpeed_units">%</string>
+    <string name="preferences_item_settingsTTS_title">TTS instellingen</string>
+    <string name="preferences_item_settingsTTS_summary">Instellingen van tekst naar spraak</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">Ik weet dat dit woord</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">ONBEKEND</string>
+    <string name="checkTranslate_button_next">NEXT</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">Voer woord vertalen</string>
+    <string name="spellCheck_rightVariant">Rechts variant:</string>
+    <string name="spellCheck_wrongText">Fout</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">Kan de database niet maken</string>
+
+
+</resources>

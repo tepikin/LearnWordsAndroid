@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">単語を学びます</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">オープンナビゲーションドロワー</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーを閉じます</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">いいえ声がインストールされていません</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">インストール</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">いいえ音声エンジンません</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">インストール</string>
+    <string name="mainActivity_tts_cantInitTTS">声をinitにすることはできません。</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">リトライ</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">TTSオフ</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">メールを送る</string>
+    <string name="navigation_menu_rate">アプリを評価</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Playのが見つかりません</string>
+    <string name="navigation_menu_preferences">設定</string>
+    <string name="navigation_menu_wordsList">単語のリスト</string>
+    <string name="navigation_menu_learnWords">言葉を学びます</string>
+    <string name="navigation_menu_repeatWords">繰り返しの言葉</string>
+    <string name="navigation_menu_checkTranslate">チェックを翻訳</string>
+    <string name="navigation_menu_spellcheck">スペルチェック</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">チョイス言葉</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">クリアリストを学びます</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">すべての単語を学びます</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">基本単語</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">不規則動詞</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">不規則動詞（ショート）</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">ランダム20ワード</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">ランダム50の言葉</string>
+    <string name="wordsList_menu_addWord">単語を追加します</string>
+    <string name="wordsList_menu_search">サーチ</string>
+    <string name="wordsList_contextMenu_title">行動</string>
+    <string name="wordsList_contextMenu_edit">編集</string>
+    <string name="wordsList_contextMenu_createNew">加えます</string>
+    <string name="wordsList_contextMenu_remove">削除します</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >学びます</item>
+        <item >翻訳します</item>
+        <item >スペル</item>
+        <item >レディー</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">終わりました</string>
+    <string name="wordEdit_word">単語</string>
+    <string name="wordEdit_word_error">Wordの必要</string>
+    <string name="wordEdit_transcription">転写</string>
+    <string name="wordEdit_translate">翻訳します</string>
+    <string name="wordEdit_status">状態</string>
+    <string-array name="wordEdit_status_items">
+        <item >なし</item>
+        <item >学びます</item>
+        <item >チェック翻訳</item>
+        <item >書き込みをチェック</item>
+        <item >レディ！</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">設定</string>
+    <string name="preferences_category_base">ベース</string>
+    <string name="preferences_category_tts">スピーチへのテキスト</string>
+    <string name="preferences_item_autoSwitch_title">自動単語リスト</string>
+    <string name="preferences_item_autoSwitch_summary">一覧単語オートマチック</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">言葉は遅延を変更します</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">単語間の遅延は秒単位で変更します</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">秒の遅延</string>
+    <string name="preferences_item_blink_title">まばたき</string>
+    <string name="preferences_item_blink_summary">ワード変更の画面を点滅させます</string>
+    <string name="preferences_item_readWords_title">言葉を読みます</string>
+    <string name="preferences_item_readWords_summary">英語の単語を声に出して読みます</string>
+    <string name="preferences_item_readWordsSpeed_title">速度率</string>
+    <string name="preferences_item_readWordsSpeed_summary">読み出しワードの速度</string>
+    <string name="preferences_item_readWordsSpeed_units">％</string>
+    <string name="preferences_item_readTranslates_title">翻訳記事を読みます</string>
+    <string name="preferences_item_readTranslates_summary">声を出しワードの翻訳記事を読みます</string>
+    <string name="preferences_item_readTranslatesSpeed_title">速度率</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">読み取り並進するのスピード</string>
+    <string name="preferences_item_readTranslatesSpeed_units">％</string>
+    <string name="preferences_item_settingsTTS_title">TTSの設定</string>
+    <string name="preferences_item_settingsTTS_summary">スピーチへのテキストの設定</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">私はこの言葉を知っています</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">未知の</string>
+    <string name="checkTranslate_button_next">次</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">翻訳により単語を入力してください</string>
+    <string name="spellCheck_rightVariant">右の変種：</string>
+    <string name="spellCheck_wrongText">違う</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">データベースを作成することはできません。</string>
+
+
+</resources>

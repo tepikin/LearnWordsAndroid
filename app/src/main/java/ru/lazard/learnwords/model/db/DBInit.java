@@ -28,7 +28,7 @@ public class DBInit {
     public static void parseXml(Context context, @XmlRes int xmlResId, XmlParseListener listener) throws ParserConfigurationException, SAXException, XmlPullParserException, IOException {
         if (context == null) throw new IllegalArgumentException("context is null");
         if (listener == null) throw new IllegalArgumentException("listener is null");
-        XmlResourceParser xml = context.getResources().getXml(R.xml.en_ru);
+        XmlResourceParser xml = context.getResources().getXml(R.xml.words);
         xml.getName();
         int eventType = xml.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {

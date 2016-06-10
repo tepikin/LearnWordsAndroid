@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">단어를 알아보기</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">열기 탐색 창</string>
+    <string name="navigation_drawer_close">탐색 창 닫기</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">어떤 목소리​​가 설치되지</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">설치</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">음성 엔진 없음</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">설치</string>
+    <string name="mainActivity_tts_cantInitTTS">음성을 init를 할 수 없습니다</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">다시 해 보다</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">TTS 끄기</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">이메일을 보내</string>
+    <string name="navigation_menu_rate">속도 앱</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">구글은 찾을 수없는 플레이</string>
+    <string name="navigation_menu_preferences">설정</string>
+    <string name="navigation_menu_wordsList">단어의 목록</string>
+    <string name="navigation_menu_learnWords">단어를 알아보기</string>
+    <string name="navigation_menu_repeatWords">반복 단어</string>
+    <string name="navigation_menu_checkTranslate">검사를 번역</string>
+    <string name="navigation_menu_spellcheck">맞춤법 검사</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">선택 단어</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">지우기 목록을 보려면</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">모든 단어를 알아보기</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">기본 단어</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">불규칙 동사</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">불규칙 동사 (짧은)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">임의의 20 자</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">랜덤 50 단어</string>
+    <string name="wordsList_menu_addWord">단어를 추가</string>
+    <string name="wordsList_menu_search">수색</string>
+    <string name="wordsList_contextMenu_title">행위</string>
+    <string name="wordsList_contextMenu_edit">편집하다</string>
+    <string name="wordsList_contextMenu_createNew">더하다</string>
+    <string name="wordsList_contextMenu_remove">없애다</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >배우다</item>
+        <item >옮기다</item>
+        <item >주문</item>
+        <item >준비된</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">끝난</string>
+    <string name="wordEdit_word">워드</string>
+    <string name="wordEdit_word_error">말씀 필요</string>
+    <string name="wordEdit_transcription">전사</string>
+    <string name="wordEdit_translate">옮기다</string>
+    <string name="wordEdit_status">지위</string>
+    <string-array name="wordEdit_status_items">
+        <item >없음</item>
+        <item >배우다</item>
+        <item >번역 체크</item>
+        <item >쓰기 체크</item>
+        <item >준비된!</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">설정</string>
+    <string name="preferences_category_base">베이스</string>
+    <string name="preferences_category_tts">음성을 텍스트</string>
+    <string name="preferences_item_autoSwitch_title">자동 단어 목록</string>
+    <string name="preferences_item_autoSwitch_summary">목록 단어 자동적</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">단어는 지연을 변경</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">단어 사이에 지연은 초 단위로 변경</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">초 지연</string>
+    <string name="preferences_item_blink_title">힐끔 보다</string>
+    <string name="preferences_item_blink_summary">워드 변화에 대한 깜박임 화면</string>
+    <string name="preferences_item_readWords_title">단어 읽기</string>
+    <string name="preferences_item_readWords_summary">큰 소리로 영어 단어 읽기</string>
+    <string name="preferences_item_readWordsSpeed_title">속도 속도</string>
+    <string name="preferences_item_readWordsSpeed_summary">판독 워드 속도</string>
+    <string name="preferences_item_readWordsSpeed_units">%</string>
+    <string name="preferences_item_readTranslates_title">번역 읽기</string>
+    <string name="preferences_item_readTranslates_summary">큰 소리로 단어 번역 읽기</string>
+    <string name="preferences_item_readTranslatesSpeed_title">속도 속도</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">읽기를 번역의 속도</string>
+    <string name="preferences_item_readTranslatesSpeed_units">%</string>
+    <string name="preferences_item_settingsTTS_title">TTS 설정</string>
+    <string name="preferences_item_settingsTTS_summary">음성을 텍스트 설정</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">나는이 단어를 알고</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">알 수 없는</string>
+    <string name="checkTranslate_button_next">다음 것</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">단어를 입력하여 번역</string>
+    <string name="spellCheck_rightVariant">오른쪽 변형 :</string>
+    <string name="spellCheck_wrongText">잘못된</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">데이터베이스를 만들 수 없습니다</string>
+
+
+</resources>

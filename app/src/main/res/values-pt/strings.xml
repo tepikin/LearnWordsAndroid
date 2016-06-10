@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Saiba Words</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">gaveta de navegação aberta</string>
+    <string name="navigation_drawer_close">Feche a gaveta de navegação</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">Nenhuma voz instalado</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">Instalar</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">Sem motores de voz</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">Instalar</string>
+    <string name="mainActivity_tts_cantInitTTS">Não é possível o init Voz</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">tentar novamente</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">off TTS</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">Enviar email</string>
+    <string name="navigation_menu_rate">app taxa</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Play não encontrado</string>
+    <string name="navigation_menu_preferences">Configurações</string>
+    <string name="navigation_menu_wordsList">Lista de palavras</string>
+    <string name="navigation_menu_learnWords">Aprenda palavras</string>
+    <string name="navigation_menu_repeatWords">palavras da repetição</string>
+    <string name="navigation_menu_checkTranslate">traduzir de seleção</string>
+    <string name="navigation_menu_spellcheck">verificação ortográfica</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">palavras escolhidas</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">Limpar lista aprender</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Saiba que todas as palavras</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">palavras de base</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Verbos irregulares</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">verbos irregulares (short)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">Aleatórios 20 palavras</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">Aleatórios 50 palavras</string>
+    <string name="wordsList_menu_addWord">Adicionar palavra</string>
+    <string name="wordsList_menu_search">Pesquisa</string>
+    <string name="wordsList_contextMenu_title">Ações</string>
+    <string name="wordsList_contextMenu_edit">Editar</string>
+    <string name="wordsList_contextMenu_createNew">Adicionar</string>
+    <string name="wordsList_contextMenu_remove">Remover</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >aprender</item>
+        <item >traduzir</item>
+        <item >soletrar</item>
+        <item >pronto</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">Feito</string>
+    <string name="wordEdit_word">Palavra</string>
+    <string name="wordEdit_word_error">palavra necessária</string>
+    <string name="wordEdit_transcription">Transcrição</string>
+    <string name="wordEdit_translate">Traduzir</string>
+    <string name="wordEdit_status">estado</string>
+    <string-array name="wordEdit_status_items">
+        <item >Nenhum</item>
+        <item >Aprender</item>
+        <item >Verifique traduzir</item>
+        <item >Verifique escrever</item>
+        <item >Pronto!</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">Configurações</string>
+    <string name="preferences_category_base">Base</string>
+    <string name="preferences_category_tts">Texto para fala</string>
+    <string name="preferences_item_autoSwitch_title">lista de palavras Auto-</string>
+    <string name="preferences_item_autoSwitch_summary">Lista de palavras automáticos</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">As palavras mudam de atraso</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">Atraso entre as palavras mudam em segundos</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">atraso segundos</string>
+    <string name="preferences_item_blink_title">Piscar</string>
+    <string name="preferences_item_blink_summary">tela piscar sobre a mudança palavra</string>
+    <string name="preferences_item_readWords_title">Leia as palavras</string>
+    <string name="preferences_item_readWords_summary">Leia em voz alta palavras inglesas</string>
+    <string name="preferences_item_readWordsSpeed_title">taxa de velocidade</string>
+    <string name="preferences_item_readWordsSpeed_summary">Velocidade de palavras de leitura</string>
+    <string name="preferences_item_readWordsSpeed_units">%</string>
+    <string name="preferences_item_readTranslates_title">Leia traduzir</string>
+    <string name="preferences_item_readTranslates_summary">Ler traduzir as palavras em voz alta</string>
+    <string name="preferences_item_readTranslatesSpeed_title">taxa de velocidade</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">Velocidade de leitura traduz</string>
+    <string name="preferences_item_readTranslatesSpeed_units">%</string>
+    <string name="preferences_item_settingsTTS_title">configurações TTS</string>
+    <string name="preferences_item_settingsTTS_summary">Configurações de texto para fala</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">Eu sei que esta palavra</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">DESCONHECIDO</string>
+    <string name="checkTranslate_button_next">PRÓXIMO</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">Digite palavra por traduzir</string>
+    <string name="spellCheck_rightVariant">variante de direita:</string>
+    <string name="spellCheck_wrongText">Errado</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">Não é possível criar banco de dados</string>
+
+
+</resources>

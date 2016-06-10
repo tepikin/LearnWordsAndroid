@@ -134,7 +134,7 @@ public class Model {
         long time = System.currentTimeMillis();
         int wordsCount = DAO.getWordsCount();
         if (wordsCount <= 0) {
-            DAO.addDbWordsFromXml(R.xml.en_ru);
+            DAO.addDbWordsFromXml(R.xml.words);
         }
         if (Model.getInstance().getWords().size() <= 0) {
             Model.getInstance().setWords(DAO.getAllWords());

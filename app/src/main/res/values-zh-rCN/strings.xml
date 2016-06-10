@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">学习单词</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">打开抽屉式导航栏</string>
+    <string name="navigation_drawer_close">关闭导览</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">未安装声音</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">安装</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">没有语音引擎</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">安装</string>
+    <string name="mainActivity_tts_cantInitTTS">不能初始化声音</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">重试</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">关闭TTS</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">发电子邮件</string>
+    <string name="navigation_menu_rate">评价应用</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">谷歌玩没找到</string>
+    <string name="navigation_menu_preferences">设置</string>
+    <string name="navigation_menu_wordsList">单词列表</string>
+    <string name="navigation_menu_learnWords">学习单词</string>
+    <string name="navigation_menu_repeatWords">重复字词</string>
+    <string name="navigation_menu_checkTranslate">翻译检查</string>
+    <string name="navigation_menu_spellcheck">拼写检查</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">选词</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">清除学习列表</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">了解所有单词</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">基地的话</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">不规​​则动词</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">不规​​则动词（短）</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">随机20个单词</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">随机50个单词</string>
+    <string name="wordsList_menu_addWord">添加单词</string>
+    <string name="wordsList_menu_search">搜索</string>
+    <string name="wordsList_contextMenu_title">操作</string>
+    <string name="wordsList_contextMenu_edit">编辑</string>
+    <string name="wordsList_contextMenu_createNew">加</string>
+    <string name="wordsList_contextMenu_remove">去掉</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >学习</item>
+        <item >翻译</item>
+        <item >拼写</item>
+        <item >准备</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">做</string>
+    <string name="wordEdit_word">字</string>
+    <string name="wordEdit_word_error">所需的字</string>
+    <string name="wordEdit_transcription">转录</string>
+    <string name="wordEdit_translate">翻译</string>
+    <string name="wordEdit_status">状态</string>
+    <string-array name="wordEdit_status_items">
+        <item >没有</item>
+        <item >学习</item>
+        <item >检查翻译</item>
+        <item >写检查</item>
+        <item >准备！</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">设置</string>
+    <string name="preferences_category_base">基础</string>
+    <string name="preferences_category_tts">文字转语音</string>
+    <string name="preferences_item_autoSwitch_title">自动话清单</string>
+    <string name="preferences_item_autoSwitch_summary">列表中的词自然而然</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">话改变延迟</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">字与字之间延迟秒数改变</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">秒延时</string>
+    <string name="preferences_item_blink_title">眨</string>
+    <string name="preferences_item_blink_summary">对字改变屏幕闪烁</string>
+    <string name="preferences_item_readWords_title">读单词</string>
+    <string name="preferences_item_readWords_summary">读英语单词朗读</string>
+    <string name="preferences_item_readWordsSpeed_title">速率</string>
+    <string name="preferences_item_readWordsSpeed_summary">的读单词的速度</string>
+    <string name="preferences_item_readWordsSpeed_units">％</string>
+    <string name="preferences_item_readTranslates_title">读书翻译</string>
+    <string name="preferences_item_readTranslates_summary">朗读翻译单词的</string>
+    <string name="preferences_item_readTranslatesSpeed_title">速率</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">读的进行翻译速度</string>
+    <string name="preferences_item_readTranslatesSpeed_units">％</string>
+    <string name="preferences_item_settingsTTS_title">TTS设置</string>
+    <string name="preferences_item_settingsTTS_summary">文字设置为语音</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">我知道这个词</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">未知</string>
+    <string name="checkTranslate_button_next">下一个</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">输入文字翻译由</string>
+    <string name="spellCheck_rightVariant">右变种：</string>
+    <string name="spellCheck_wrongText">错误</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">无法创建数据库</string>
+
+
+</resources>

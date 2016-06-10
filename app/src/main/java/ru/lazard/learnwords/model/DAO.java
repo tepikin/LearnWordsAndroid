@@ -26,7 +26,7 @@ import ru.lazard.learnwords.model.db.DbHelper;
 class DAO {
 
     public static void addDbWordsFromXml(@XmlRes int xmlResId) throws ParserConfigurationException, XmlPullParserException, SAXException, IOException {
-        DBInit.writeWordsToDb(BaseApplication.getInstance(), R.xml.en_ru);
+        DBInit.writeWordsToDb(BaseApplication.getInstance(), R.xml.words);
     }
 
     public static List<Word> getAllWords() {

@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Lernen Worte</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
+    <string name="navigation_drawer_close">Schließen Navigationsleiste</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">Keine Stimmen installiert</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">Installieren</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">Keine Sprach Motoren</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">Installieren</string>
+    <string name="mainActivity_tts_cantInitTTS">Can\'t init Sprach</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">Wiederholen</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">Aus TTS</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">E-Mail senden</string>
+    <string name="navigation_menu_rate">Bewertungs App</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Play nicht gefunden</string>
+    <string name="navigation_menu_preferences">Einstellungen</string>
+    <string name="navigation_menu_wordsList">Liste der Wörter,</string>
+    <string name="navigation_menu_learnWords">Lernen Sie Wörter</string>
+    <string name="navigation_menu_repeatWords">Wiederholen Sie Wörter</string>
+    <string name="navigation_menu_checkTranslate">Übersetzen Scheck</string>
+    <string name="navigation_menu_spellcheck">Rechtschreibprüfung</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">Wahl Worte</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">Klar erfahren Liste</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Erfahren Sie alle Wörter</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">Base-Wörter</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Unregelmäßige Verben</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Unregelmäßige Verben (kurz)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">Zufällige 20 Worte</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">Zufällige 50 Wörter</string>
+    <string name="wordsList_menu_addWord">Wort hinzufügen</string>
+    <string name="wordsList_menu_search">Suche</string>
+    <string name="wordsList_contextMenu_title">Aktionen</string>
+    <string name="wordsList_contextMenu_edit">Bearbeiten</string>
+    <string name="wordsList_contextMenu_createNew">Hinzufügen</string>
+    <string name="wordsList_contextMenu_remove">Entfernen</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >lernen</item>
+        <item >Übersetzen</item>
+        <item >buchstabieren</item>
+        <item >bereit</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">Erledigt</string>
+    <string name="wordEdit_word">Wort</string>
+    <string name="wordEdit_word_error">Wort erforderlich</string>
+    <string name="wordEdit_transcription">Transkription</string>
+    <string name="wordEdit_translate">Übersetzen</string>
+    <string name="wordEdit_status">Stataus</string>
+    <string-array name="wordEdit_status_items">
+        <item >Keiner</item>
+        <item >Lernen</item>
+        <item >Lesen Sie übersetzen</item>
+        <item >Scheck</item>
+        <item >Bereit!</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">Einstellungen</string>
+    <string name="preferences_category_base">Base</string>
+    <string name="preferences_category_tts">Text zu Sprache</string>
+    <string name="preferences_item_autoSwitch_title">Auto-Word-Liste</string>
+    <string name="preferences_item_autoSwitch_summary">Liste Wörter automatisch</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">Wörter ändern Verzögerung</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">Verzögerung zwischen den Wörtern ändern in Sekunden</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">Sekunden Verzögerung</string>
+    <string name="preferences_item_blink_title">Blinken</string>
+    <string name="preferences_item_blink_summary">Blink-Bildschirm auf Wortwechsel</string>
+    <string name="preferences_item_readWords_title">Lesen Sie Wörter</string>
+    <string name="preferences_item_readWords_summary">Vorlesen Englisch Wörter</string>
+    <string name="preferences_item_readWordsSpeed_title">Geschwindigkeitsrate</string>
+    <string name="preferences_item_readWordsSpeed_summary">Die Geschwindigkeit der Lese Worte</string>
+    <string name="preferences_item_readWordsSpeed_units">%</string>
+    <string name="preferences_item_readTranslates_title">Lesen Sie übersetzen</string>
+    <string name="preferences_item_readTranslates_summary">Lesen Sie übersetzen von Wörtern laut</string>
+    <string name="preferences_item_readTranslatesSpeed_title">Geschwindigkeitsrate</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">Die Geschwindigkeit der Lese übersetzt</string>
+    <string name="preferences_item_readTranslatesSpeed_units">%</string>
+    <string name="preferences_item_settingsTTS_title">TTS-Einstellungen</string>
+    <string name="preferences_item_settingsTTS_summary">Einstellungen von Text in Sprache</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">Ich weiß, dass dieses Wort</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">UNBEKANNT</string>
+    <string name="checkTranslate_button_next">NÄCHSTER</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">Geben Sie Wort übersetzen</string>
+    <string name="spellCheck_rightVariant">Rechts Variante:</string>
+    <string name="spellCheck_wrongText">Falsch</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">Kann nicht erstellen Datenbank</string>
+
+
+</resources>

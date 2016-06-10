@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Изучение слов</string>
+
+
+    <!-- Main screen -->
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled">Нет установленных голосов</string>
+    <string name="mainActivity_tts_noTtsVoicesInstalled_install">установить</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled">Нет голосовые модулей</string>
+    <string name="mainActivity_tts_noTtsEnginesInstalled_install">установить</string>
+    <string name="mainActivity_tts_cantInitTTS">Не удается инициализировать Голос</string>
+    <string name="mainActivity_tts_cantInitTTS_retry">Повторить попытку</string>
+    <string name="mainActivity_tts_unexpectedException_offVoice">отключить TTS</string>
+
+
+    <!-- NavigationMenu -->
+    <string name="navigation_menu_sendEmail">Отправить по электронной почте</string>
+    <string name="navigation_menu_rate">Оценить приложение</string>
+    <string name="navigation_menu_rate_exception_marketNotExist">Google Play не найден</string>
+    <string name="navigation_menu_preferences">Настройки</string>
+    <string name="navigation_menu_wordsList">Список слов</string>
+    <string name="navigation_menu_learnWords">Изучение слов</string>
+    <string name="navigation_menu_repeatWords">Повторите слов</string>
+    <string name="navigation_menu_checkTranslate">Переводы</string>
+    <string name="navigation_menu_spellcheck">Орфография</string>
+
+
+    <!-- WordsList screen -->
+    <string name="wordsList_menu_choiceWordsForLearn">Выбор слов</string>
+    <string name="wordsList_menu_choiceWordsForLearn_clearList">Очистить список изучения</string>
+    <string name="wordsList_menu_choiceWordsForLearn_selectAllWords">Изучать все слова разом</string>
+    <string name="wordsList_menu_choiceWordsForLearn_baseWords">Базовые слова</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Неправильные глаголы</string>
+    <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Неправильные глаголы (кратий список)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random20Words">Случайные 20 слов</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random50Words">Случайные 50 слов</string>
+    <string name="wordsList_menu_addWord">Добавить слово</string>
+    <string name="wordsList_menu_search">Поиск</string>
+    <string name="wordsList_contextMenu_title">Действия</string>
+    <string name="wordsList_contextMenu_edit">Редактировать</string>
+    <string name="wordsList_contextMenu_createNew">Добавить</string>
+    <string name="wordsList_contextMenu_remove">Удалить</string>
+    <string-array name="wordsList_status_items">
+        <item > </item>
+        <item >учить</item>
+        <item >перевод</item>
+        <item >орфография</item>
+        <item >изучено</item>
+    </string-array>    
+
+    <!-- WordEdit screen -->
+    <string name="wordEdit_menu_done">Готово</string>
+    <string name="wordEdit_word">Слово</string>
+    <string name="wordEdit_word_error">Необходимо ввести слово</string>
+    <string name="wordEdit_transcription">Транскрипция</string>
+    <string name="wordEdit_translate">Перевод</string>
+    <string name="wordEdit_status">Стстус</string>
+    <string-array name="wordEdit_status_items">
+        <item >Отсутствует</item>
+        <item >Учить</item>
+        <item >Проверить перевод</item>
+        <item >Проверить написание</item>
+        <item >Готов!</item>
+    </string-array>    
+
+    <!-- Settings screen -->
+    <string name="preferences_screen_title">Настройки</string>
+    <string name="preferences_category_base">Базовые</string>
+    <string name="preferences_category_tts">Текст в речь</string>
+    <string name="preferences_item_autoSwitch_title">Авто переключение слов</string>
+    <string name="preferences_item_autoSwitch_summary">Автоматически переключать слова при изучении</string>
+    <string name="preferences_item_delayBetweenWordsChange_title">Пауза между словами</string>
+    <string name="preferences_item_delayBetweenWordsChange_summary">Задержка между словами. Измеряется в секундах</string>
+    <string name="preferences_item_delayBetweenWordsChange_hint">Задержка в секундах</string>
+    <string name="preferences_item_blink_title">Мерцание</string>
+    <string name="preferences_item_blink_summary">Мигать экраном при смене слов</string>
+    <string name="preferences_item_readWords_title">Читать слова вслух</string>
+    <string name="preferences_item_readWords_summary">Читать английские слова вслух</string>
+    <string name="preferences_item_readWordsSpeed_title">Скорость чтения</string>
+    <string name="preferences_item_readWordsSpeed_summary">Скорость чтения слов</string>
+    <string name="preferences_item_readWordsSpeed_units">%</string>
+    <string name="preferences_item_readTranslates_title">Читать перевод</string>
+    <string name="preferences_item_readTranslates_summary">Читайте перевод слов вслух</string>
+    <string name="preferences_item_readTranslatesSpeed_title">Скорость чтения</string>
+    <string name="preferences_item_readTranslatesSpeed_summary">Скорость чтения переводов</string>
+    <string name="preferences_item_readTranslatesSpeed_units">%</string>
+    <string name="preferences_item_settingsTTS_title">Настройки TTS</string>
+    <string name="preferences_item_settingsTTS_summary">Настройки преобразрвания текста в речь</string>
+
+    <!-- LearnWords screen -->
+    <string name="learnWords_button_iKnowWord">Я знаю это слово</string>
+
+    <!-- Check Translate screen -->
+    <string name="checkTranslate_button_unknown">НЕЗНАЮ</string>
+    <string name="checkTranslate_button_next">ДАЛЬШЕ</string>
+
+    <!-- Check spell screen -->
+    <string name="spellCheck_translate_hint">Введите слово с помощью перевода</string>
+    <string name="spellCheck_rightVariant">Правый вариант:</string>
+    <string name="spellCheck_wrongText">Неправильно</string>
+
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">Невозможно создать базу данных</string>
+
+
+</resources>
