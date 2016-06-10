@@ -6,10 +6,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -27,6 +31,7 @@ import ru.lazard.learnwords.utils.view.PlayPauseDrawable;
 public class LearnFragment extends Fragment implements View.OnClickListener {
     private View baseLayout;
     private FloatingActionButton floatingActionButton;
+    private GestureDetectorCompat gestureDetectorCompat;
     private Animator pausePlayAnimator;
     private PlayPauseDrawable playPauseDrawable;
 
@@ -38,6 +43,19 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private TextView translateView;
     private Word word;
     private TextView wordView;
+
+    private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.e("TAG","velocityX"+velocityX);
+            float absX = Math.abs(velocityX);
+            float absY = Math.abs(velocityY);
+            if (absX >1000&&absX > absY&&velocityX < 0) {
+                presenter.doStep();
+            }
+            return false;
+        }
+    };
 
     public void blink() {
         baseLayout.setSelected(true);
@@ -102,11 +120,22 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             if (presenter == null) {
                 presenter = new LearnPresenter(this);
             }
-//            else {
-//                presenter.restoreState();
-//            }
+
+            registerGestureRecognizer();
+
         }
         return view;
+    }
+
+    private void registerGestureRecognizer() {
+        gestureDetectorCompat=new GestureDetectorCompat(getContext(), gestureListener);
+        baseLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetectorCompat.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     @Override

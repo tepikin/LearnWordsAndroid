@@ -44,7 +44,6 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
             return;
         }
 
-
         activity.startActivityForResult(checkTTSIntent, KEY_CHECK_TTS);
     }
 
@@ -74,7 +73,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
         }
     }
 
-    public void speak(String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
+    public void speak(final String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
         if (mTts == null) {
             if (callback != null) callback.run();
             return;
@@ -107,12 +106,14 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
 
                 @Override
                 public void onFinish(String utteranceId) {
-                    if (callback != null) callback.run();
+                    if (utteranceId.equals(text)) {
+                        if (callback != null) callback.run();
+                    }
                 }
             });
 
             HashMap<String, String> myHashAlarm = new HashMap<String, String>();
-            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "1");
+            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, text);
             mTts.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
         } catch (Throwable e) {
             onSpeakError(new TtsError(e));
@@ -121,10 +122,9 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
     }
 
     public void stop() {
-        if(mTts!=null){
+        if (mTts != null) {
             mTts.stop();
         }
-
     }
 
     private void onNoEnginesInstalled() {
@@ -133,7 +133,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
         snackbar.setAction(R.string.mainActivity_tts_noTtsEnginesInstalled_install, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.showMarketPage("com.google.android.tts",activity,activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
+                Utils.showMarketPage("com.google.android.tts", activity, activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
             }
         });
         snackbar.show();
@@ -151,7 +151,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
                 List<ResolveInfo> resInfo = activity.getPackageManager()
                         .queryIntentActivities(installIntent, 0);
                 if (resInfo.isEmpty()) {
-                    Utils.showMarketPage("com.google.android.tts",activity,activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
+                    Utils.showMarketPage("com.google.android.tts", activity, activity.getString(R.string.navigation_menu_rate_exception_marketNotExist));
                     return;
                 }
 
@@ -162,7 +162,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
     }
 
     private void onSpeakError(TtsError ttsError) {
-        if (ttsError!=null){
+        if (ttsError != null) {
             ttsError.printStackTrace();
             String message = TtsError.getMessageByCode(ttsError.getCode());
 
@@ -174,8 +174,6 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
                 }
             });
             snackbar.show();
-
-
         }
     }
 

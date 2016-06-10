@@ -105,7 +105,7 @@ public class CheckTranslatePresenter implements FragmentManager.OnBackStackChang
         if (state == State.start) {
             choicedVariant = choice;
             if (choicedVariant == rightVariant) {
-                Model.getInstance().setWordStatus(randomWord,Word.STATUS_CHECK_TRANSLATE);
+                Model.getInstance().setWordStatus(randomWord,Word.STATUS_CHECK_WRITE);
 
                 doStep();
                 return;
