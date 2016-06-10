@@ -19,6 +19,7 @@ import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.utils.Utils;
 
 /**
  * Created by Egor on 03.06.2016.
@@ -76,6 +77,12 @@ public class WordEditFragment extends Fragment {
 
         }
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        Utils.hideKeyboard(wordView);
+        super.onPause();
     }
 
     private void setWord(Word word) {

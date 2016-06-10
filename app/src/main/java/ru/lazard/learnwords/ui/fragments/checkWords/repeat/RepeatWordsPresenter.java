@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.repeat;
+package ru.lazard.learnwords.ui.fragments.checkWords.repeat;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,7 @@ import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
-import ru.lazard.learnwords.ui.fragments.repeat.RepeatWordsFragment.State;
+import ru.lazard.learnwords.ui.fragments.checkWords.repeat.RepeatWordsFragment.State;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
@@ -32,7 +32,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
 
     public void doStep() {
         state=State.start;
-        randomWord = Model.getInstance().getRandomWordForLearning();
+        randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_LEARN);
         fragment.showWord(randomWord,state);
         if (settings.isReadWords()&&randomWord!=null){
             getTts().speak(randomWord.getWord(),settings.speedReadWords(), Locale.ENGLISH,null);
@@ -45,8 +45,8 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
     public void onApplyViewClick() {
         if (randomWord==null)return;
        if (state== State.start){
-           randomWord.setStatus(Word.STATUS_CHECK_1);
-           DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_1);
+           randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
+           DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_TRANSLATE);
            state = State.success;
            fragment.showWord(randomWord,state);
            if (settings.isReadWords()&&settings.isReadTranslate()){
@@ -55,8 +55,8 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
 
        }else
         if (state== State.fail){
-            randomWord.setStatus(Word.STATUS_CHECK_1);
-            DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_1);
+            randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
+            DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_TRANSLATE);
             doStep();
 
         }else

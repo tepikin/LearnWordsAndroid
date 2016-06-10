@@ -7,8 +7,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-import ru.lazard.learnwords.ui.activities.main.MainActivity;
 import ru.lazard.learnwords.R;
+import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.utils.Utils;
 
 /**
  * Created by Egor on 03.06.2016.
@@ -25,6 +26,32 @@ public class BackArrowController implements FragmentManager.OnBackStackChangedLi
         toggle.syncState();
         activity.getToolbar().setNavigationOnClickListener(this);
         activity.getSupportFragmentManager().addOnBackStackChangedListener(this);
+
+        setDrawerListener(activity);
+    }
+
+    private void setDrawerListener(MainActivity activity) {
+        activity.getDrawerLayout().addDrawerListener(new android.support.v4.widget.DrawerLayout.DrawerListener(){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                Utils.hideKeyboard(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
 

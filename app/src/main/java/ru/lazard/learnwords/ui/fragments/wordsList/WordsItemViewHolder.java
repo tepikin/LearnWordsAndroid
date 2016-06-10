@@ -26,7 +26,6 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
     private final TextView translateView;
     private final TextView transcriptionView;
     private final CheckBox visibleView;
-    private final TextView statusView;
     private final View baseView;
     private WordsListAdapter adapter;
 
@@ -38,8 +37,7 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
         wordView = (TextView) itemView.findViewById(R.id.word);
         translateView = (TextView) itemView.findViewById(R.id.translate);
         transcriptionView = (TextView) itemView.findViewById(R.id.transcription);
-        statusView = (TextView) itemView.findViewById(R.id.status);
-        visibleView = (CheckBox) itemView.findViewById(R.id.switch1);
+        visibleView = (CheckBox) itemView.findViewById(R.id.status);
     }
 
     public void bind(final Word word) {
@@ -47,9 +45,10 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
         setEmptyText(translateView,word.getTranslate());
         String transcription = TextUtils.isEmpty(word.getTranscription()) ? "" : ("[" + word.getTranscription() + "]");
         setEmptyText(transcriptionView,transcription);
-        String statusText = statusView.getResources().getStringArray(R.array.wordsList_status_items)[word.getStatus()];
-        setEmptyText(statusView, statusText);
+        String statusText = visibleView.getResources().getStringArray(R.array.wordsList_status_items)[word.getStatus()];
+        setEmptyText(visibleView, statusText);
 
+        visibleView.setEnabled(word.getStatus()<=Word.STATUS_LEARN);
         visibleView.setChecked(word.getStatus()>0);
         visibleView.setOnClickListener(new View.OnClickListener() {
             @Override

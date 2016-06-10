@@ -9,6 +9,7 @@
         <item
             android:id="@+id/nav_repeatWords"
             android:icon="@drawable/ic_repeat_black_24dp"
+            android:visible="false"
             android:title="@string/navigation_menu_repeatWords"/>
         <item
             android:id="@+id/nav_checkTranslate"

@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.learn;
+package ru.lazard.learnwords.ui.fragments.checkWords.learn;
 
 import android.animation.Animator;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.learn;
+package ru.lazard.learnwords.ui.fragments.checkWords.learn;
 
 import android.content.Context;
 import android.os.Handler;
@@ -101,8 +101,8 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
     public void onStatusViewClick() {
         if (randomWord != null) {
             if (randomWord.getStatus() == Word.STATUS_NONE || randomWord.getStatus() == Word.STATUS_LEARN) {
-                randomWord.setStatus(Word.STATUS_CHECK_1);
-                DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_1);
+                randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
+                DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_TRANSLATE);
             } else {
                 randomWord.setStatus(Word.STATUS_LEARN);
                 DAO.setStatusForWord(randomWord.getId(),Word.STATUS_LEARN);
@@ -120,7 +120,7 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
 
     public void restoreState() {
         if (randomWord == null) {
-            randomWord = Model.getInstance().getRandomWordForLearning();
+            randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_LEARN);
         }
         fragment.showWord(randomWord);
         if (isPlay){

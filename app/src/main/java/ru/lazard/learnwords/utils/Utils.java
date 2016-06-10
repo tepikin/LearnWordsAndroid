@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 /**
@@ -20,6 +22,16 @@ public class Utils {
         float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics());
         return size;
+    }
+    public static void showKeyboard(View view  ){
+        if (view == null )return;
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    }
+    public static void hideKeyboard(View view){
+        if (view == null )return;
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static final String getApplicationName(Context context) {

@@ -8,10 +8,9 @@ import android.text.TextUtils;
 public class Word {
     public static final int STATUS_NONE = 0;
     public static final int STATUS_LEARN = 1;
-    public static final int STATUS_CHECK_1 = 2;
-    public static final int STATUS_CHECK_2 = 3;
-    public static final int STATUS_CHECK_3 = 4;
-    public static final int STATUS_READY = 5;
+    public static final int STATUS_CHECK_TRANSLATE = 2;
+    public static final int STATUS_CHECK_WRITE = 3;
+    public static final int STATUS_READY = 4;
     private int id;
     private int status;
     private int difficulty;

@@ -1,36 +1,39 @@
-package ru.lazard.learnwords.ui.fragments.checkTranslate;
+package ru.lazard.learnwords.ui.fragments.checkWords.spellcheck;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.utils.Utils;
 
 /**
  * Created by Egor on 02.06.2016.
  */
-public class CheckTranslateFragment extends Fragment implements View.OnClickListener {
+public class SpellCheckFragment extends Fragment implements View.OnClickListener {
     public enum State {start, fail}
 
     private View nextView;
-    private CheckTranslatePresenter presenter;
+    private SpellCheckPresenter presenter;
     private ImageView soundView;
     private TextView transcriptionView;
+    private TextView translationView;
+    private EditText translationEditView;
     private View unknownView;
-    private AppCompatButton[] variantViews;
+    private View wordLayout;
     private TextView wordView;
 
     @Override
@@ -43,11 +46,6 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
         }
         if (unknownView== v) {
             presenter.onUnknownViewClick();
-        }
-        for (int i = 0; i < variantViews.length; i++) {
-            if (variantViews[i]==v){
-                presenter.onVariantViewClick(i);
-            }
         }
     }
 
@@ -63,9 +61,7 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public AppCompatButton[] getVariantViews() {
-        return variantViews;
-    }
+
 
     @Nullable
     @Override
@@ -74,29 +70,34 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_check_translate, container, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_check_spell, container, false);
             wordView = (TextView) view.findViewById(R.id.word);
             transcriptionView = (TextView) view.findViewById(R.id.transcription);
+            translationView = (TextView) view.findViewById(R.id.translate);
+            translationEditView = (EditText) view.findViewById(R.id.translateEdit);
             soundView = (ImageView) view.findViewById(R.id.sound);
             nextView = (View) view.findViewById(R.id.next);
             unknownView = (View) view.findViewById(R.id.unknown);
+            wordLayout = (View) view.findViewById(R.id.wordLayout);
 
-            AppCompatButton variantView1 = (AppCompatButton) view.findViewById(R.id.variant1);
-            AppCompatButton variantView2 = (AppCompatButton) view.findViewById(R.id.variant2);
-            AppCompatButton variantView3 = (AppCompatButton) view.findViewById(R.id.variant3);
-            AppCompatButton variantView4 = (AppCompatButton) view.findViewById(R.id.variant4);
-            variantViews = new AppCompatButton[]{variantView1, variantView2, variantView3, variantView4};
 
             soundView.setOnClickListener(this);
             nextView.setOnClickListener(this);
             unknownView.setOnClickListener(this);
-            for (AppCompatButton variantView : variantViews) {
-                variantView.setOnClickListener(this);
-            }
 
+            translationEditView.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        presenter.onApply(translationEditView.getText().toString());
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
             if (presenter == null) {
-                presenter = new CheckTranslatePresenter(this);
+                presenter = new SpellCheckPresenter(this);
             }
         }
         return view;
@@ -114,7 +115,7 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).getFloatingActionButton().hide();
-        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_checkTranslate);
+        ((MainActivity) getActivity()).setSelectedNavigationMenu(R.id.nav_spellcheck);
         presenter.onResume();
     }
 
@@ -124,7 +125,7 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
         soundView.setImageResource(isReadWords ? R.drawable.ic_volume_up_grey600_24dp : R.drawable.ic_volume_off_grey600_24dp);
     }
 
-    public void showWord(Word randomWord, State state, List<Word> variants, int rightVariant, int choice) {
+    public void showWord(Word randomWord, State state) {
         if (randomWord == null) {
             randomWord = new Word("No words selected", "Выбирите слова для изучения");
         }
@@ -132,38 +133,34 @@ public class CheckTranslateFragment extends Fragment implements View.OnClickList
         String transcription = TextUtils.isEmpty(randomWord.getTranscription()) ? "" : ("[" + randomWord.getTranscription() + "]");
         setNotNullText(wordView, randomWord.getWord());
         setNotNullText(transcriptionView, transcription);
-        for (View variantView : variantViews) {
-            variantView.setVisibility(View.GONE);
-        }
+        setNotNullText(translationView, randomWord.getTranslate());
+
+
         nextView.setVisibility(View.GONE);
         unknownView.setVisibility(View.GONE);
-
-        for (int i = 0; i < variants.size()&&i < variantViews.length; i++) {
-            variantViews[i].setVisibility(View.VISIBLE);
-            variantViews[i].setText(variants.get(i).getTranslate());
-            variantViews[i].setTextColor(getResources().getColor(R.color.colorSecondaryText));
-        }
+        wordLayout.setVisibility(View.GONE);
 
 
 
         if (State.start == state) {
             unknownView.setVisibility(View.VISIBLE);
-            for (int i = 0; i < variants.size()&&i < variantViews.length; i++) {
-                variantViews[i].clearAnimation();
-            }
+            translationEditView.setText("");
+            translationEditView.setError(null);
         }
         if (State.fail == state) {
-            if (rightVariant>=0&&rightVariant<=variantViews.length) {
-                variantViews[rightVariant].setTextColor(getResources().getColor(R.color.colorGreen));
-            }
-            if (choice>=0&&choice<=variantViews.length) {
-                variantViews[choice].setTextColor(getResources().getColor(R.color.colorRed));
-
-            }
-
             nextView.setVisibility(View.VISIBLE);
+            wordLayout.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(translationEditView.getText().toString())) {
+                translationEditView.setError(getContext().getString(R.string.spellCheck_wrongText));
+            }
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        Utils.hideKeyboard(translationEditView);
+        super.onPause();
     }
 
     private void setNotNullText(TextView textView, String text) {

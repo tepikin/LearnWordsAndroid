@@ -44,13 +44,25 @@ public class Model {
     }
 
     public Word getRandomWordForLearning() {
-        return getRandomWordByStatus(1);
+        Word randomWordByStatus = getRandomWordByStatus(1);
+        if (randomWordByStatus==null){
+            randomWordByStatus = getRandomWordByStatus(0);
+        }
+        return randomWordByStatus;
     }
     public Word getRandomWordByStatus(int status) {
         List<Word> wordsWithStatus = getWordsWithStatus(status);
         if (wordsWithStatus.size() <= 0) return null;
         int randomInt = Utils.randomInt(wordsWithStatus.size());
         return wordsWithStatus.get(randomInt);
+    }
+
+    public Word getRandomWordWithStatusLoverOrEqualThen(int status) {
+        for (int i = status; i >=0 ; i--) {
+             Word randomWordByStatus = getRandomWordByStatus(i);
+            if (randomWordByStatus !=null)return randomWordByStatus;
+        }
+        return null;
     }
 
     public Word getWordById(int wordId) {

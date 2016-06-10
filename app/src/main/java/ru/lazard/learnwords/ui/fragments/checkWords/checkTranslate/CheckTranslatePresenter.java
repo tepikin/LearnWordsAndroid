@@ -1,10 +1,10 @@
-package ru.lazard.learnwords.ui.fragments.spellcheck;
+package ru.lazard.learnwords.ui.fragments.checkWords.checkTranslate;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,19 +13,22 @@ import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
+import ru.lazard.learnwords.ui.fragments.checkWords.checkTranslate.CheckTranslateFragment.State;
 import ru.lazard.learnwords.ui.fragments.preferences.Settings;
-import ru.lazard.learnwords.ui.fragments.spellcheck.SpellCheckFragment.State;
+import ru.lazard.learnwords.utils.Utils;
 
 
-public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedListener {
-    private final SpellCheckFragment fragment;
+public class CheckTranslatePresenter implements FragmentManager.OnBackStackChangedListener {
+    private final CheckTranslateFragment fragment;
     private final Context context;
+    private int choicedVariant = -1;
     private Word randomWord;
+    private int rightVariant = -1;
     private Settings settings;
     private State state = State.start;
+    private List<Word> variants = new ArrayList<>();
 
-
-    public SpellCheckPresenter(SpellCheckFragment mainActivity) {
+    public CheckTranslatePresenter(CheckTranslateFragment mainActivity) {
         this.fragment = mainActivity;
         context = fragment.getContext();
         settings = new Settings(context);
@@ -34,10 +37,15 @@ public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedLi
 
     public void doStep() {
         state = State.start;
-        randomWord = Model.getInstance().getRandomWordForLearning();
-        fragment.showWord(randomWord, state);
-        if (settings.isReadWords()&&settings.isReadTranslate() && randomWord != null) {
-            getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), Locale.getDefault(), null);
+        randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_CHECK_TRANSLATE);
+        int variantsLength = fragment.getVariantViews().length;
+        variants = Model.getRandomSubItems(variantsLength, Model.getInstance().getWords());
+        rightVariant= Utils.randomInt(variants.size());
+        variants.set(rightVariant,randomWord);
+        choicedVariant=-1;
+        fragment.showWord(randomWord, state, variants, rightVariant, choicedVariant);
+        if (settings.isReadWords() && randomWord != null) {
+            getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, null);
         }
     }
 
@@ -83,29 +91,29 @@ public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedLi
         if (randomWord == null) return;
         if (state == State.start) {
             state = State.fail;
-            fragment.showWord(randomWord, state);
-            if (settings.isReadWords() ) {
-                getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, null);
+            fragment.showWord(randomWord, state, variants, rightVariant, choicedVariant);
+            if (settings.isReadWords() && settings.isReadTranslate()) {
+                getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), Locale.getDefault(), null);
             }
         } else if (state == State.fail) {
             doStep();
         }
     }
 
-    public void onApply(String word) {
-        if (TextUtils.isEmpty(word))return;
+    public void onVariantViewClick(int choice) {
         if (randomWord == null) return;
         if (state == State.start) {
-            if (word.equalsIgnoreCase(randomWord.getWord())) {
-                randomWord.setStatus(Word.STATUS_READY);
-                DAO.setStatusForWord(randomWord.getId(), Word.STATUS_READY);
+            choicedVariant = choice;
+            if (choicedVariant == rightVariant) {
+                randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
+                DAO.setStatusForWord(randomWord.getId(), Word.STATUS_CHECK_TRANSLATE);
                 doStep();
                 return;
             } else {
                 state = State.fail;
-                fragment.showWord(randomWord, state);
-                if (settings.isReadWords() ) {
-                    getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, null);
+                fragment.showWord(randomWord, state, variants, rightVariant, choicedVariant);
+                if (settings.isReadWords() && settings.isReadTranslate()) {
+                    getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), Locale.getDefault(), null);
                 }
             }
         } else if (state == State.fail) {
@@ -119,7 +127,7 @@ public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedLi
             doStep();
             return;
         }
-        fragment.showWord(randomWord, state);
+        fragment.showWord(randomWord, state,variants,rightVariant,choicedVariant);
     }
 
     private TTS getTts() {

@@ -29,7 +29,9 @@
     </style>
 
 
-
+    <style name="EditTextRedAccent" parent="AppTheme">
+        <item name="colorAccent">@color/colorRed</item>
+    </style>
 
 
 </resources>

@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.ui.fragments.repeat;
+package ru.lazard.learnwords.ui.fragments.checkWords.repeat;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

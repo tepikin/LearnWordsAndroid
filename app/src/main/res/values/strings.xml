@@ -98,8 +98,9 @@
     <string name="checkTranslate_button_next">NEXT</string>
 
     <!-- Check spell screen -->
-    <string name="spellCheck_translate_hint">Enter word translate</string>
+    <string name="spellCheck_translate_hint">Enter word by translate</string>
     <string name="spellCheck_rightVariant">Right variant:</string>
+    <string name="spellCheck_wrongText">Wrong</string>
 
 
 </resources>
