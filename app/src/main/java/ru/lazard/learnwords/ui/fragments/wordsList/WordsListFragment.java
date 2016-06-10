@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
@@ -127,57 +126,46 @@ if (presenter!=null){
             return true;
         }
         if (id == R.id.action_clearList) {
-            DAO.setLearnWordsListClear();
             Model.getInstance().setLearnWordsListClear();
             presenter.init();
             return true;
         }if (id == R.id.action_selectAllWords) {
-            DAO.setLearnWordsListAll();
+
             Model.getInstance().setLearnWordsListAll();
             presenter.init();
             return true;
         }
         if (id == R.id.action_baseWords) {
-            DAO.setLearnWordsListByDifficult(0);
             Model.getInstance().setLearnWordsListByDifficult(0);
             presenter.init();
             return true;
         }
         if (id == R.id.action_irregularVerbs) {
             int statusLearn = Word.STATUS_LEARN;
-            DAO.setLearnWordsListByDifficult(4);
             Model.getInstance().setLearnWordsListByDifficult(4);
             presenter.init();
             return true;
         }
         if (id == R.id.action_irregularVerbsShort) {
             int statusLearn = Word.STATUS_LEARN;
-            DAO.setLearnWordsListByDifficult(5);
             Model.getInstance().setLearnWordsListByDifficult(5);
             presenter.init();
             return true;
         }
         if (id == R.id.action_random20) {
-            DAO.setLearnWordsListClear();
             Model.getInstance().setLearnWordsListClear();
             List<Word> words = Model.getInstance().getWordsWithStatus(Word.STATUS_NONE);
             List<Word> randomSubItems = Model.getRandomSubItems(20, words);
-            for (Word randomSubItem : randomSubItems) {
-                randomSubItem.setStatus(Word.STATUS_LEARN);
-            }
-            DAO.setStatusForWords(Word.STATUS_LEARN,randomSubItems);
+            Model.getInstance().setWordStatus(Word.STATUS_LEARN,randomSubItems);
             presenter.init();
             return true;
         }
         if (id == R.id.action_random50) {
-            DAO.setLearnWordsListClear();
             Model.getInstance().setLearnWordsListClear();
             List<Word> words = Model.getInstance().getWordsWithStatus(Word.STATUS_NONE);
             List<Word> randomSubItems = Model.getRandomSubItems(50, words);
-            for (Word randomSubItem : randomSubItems) {
-                randomSubItem.setStatus(Word.STATUS_LEARN);
-            }
-            DAO.setStatusForWords(Word.STATUS_LEARN,randomSubItems);
+            Model.getInstance().setWordStatus(Word.STATUS_LEARN,randomSubItems);
+            presenter.init();
             presenter.init();
             return true;
         }

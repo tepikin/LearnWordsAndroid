@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
@@ -124,25 +123,21 @@ onApplay();
 
         if (!validate())return;
 
+        String wordText = wordView.getText().toString();
+        String translate =translateView.getText().toString();
+        String transcription =transcriptionView.getText().toString();
+        int status = spinerView.getSelectedItemPosition();
+
+
         if (word==null) {
-            word = new Word();
-            bindToWord(word);
-            Model.getInstance().getWords().add(word);
-            DAO.insertWord(word);
+            word = new Word(status,transcription,translate,wordText );
+            Model.getInstance().addWord(word);
             getActivity().onBackPressed();
         }else{
-            bindToWord(word);
-            DAO.updateWord(word);
+            Model.getInstance().updateWord(word,status,transcription,translate,wordText);
             getActivity().onBackPressed();
         }
 
-    }
-
-    private void bindToWord(Word word) {
-        word.setWord(wordView.getText().toString());
-        word.setTranslate(translateView.getText().toString());
-        word.setTranscription(transcriptionView.getText().toString());
-        word.setStatus(spinerView.getSelectedItemPosition());
     }
 
     private boolean validate() {

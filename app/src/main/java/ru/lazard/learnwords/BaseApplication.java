@@ -2,7 +2,7 @@ package ru.lazard.learnwords;
 
 import android.app.Application;
 
-import ru.lazard.learnwords.db.DbHelper;
+import ru.lazard.learnwords.model.db.DbHelper;
 import ru.lazard.learnwords.model.Model;
 
 /**

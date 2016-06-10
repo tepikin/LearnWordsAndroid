@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ru.lazard.learnwords.db.DAO;
+
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
@@ -105,8 +105,8 @@ public class CheckTranslatePresenter implements FragmentManager.OnBackStackChang
         if (state == State.start) {
             choicedVariant = choice;
             if (choicedVariant == rightVariant) {
-                randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
-                DAO.setStatusForWord(randomWord.getId(), Word.STATUS_CHECK_TRANSLATE);
+                Model.getInstance().setWordStatus(randomWord,Word.STATUS_CHECK_TRANSLATE);
+
                 doStep();
                 return;
             } else {

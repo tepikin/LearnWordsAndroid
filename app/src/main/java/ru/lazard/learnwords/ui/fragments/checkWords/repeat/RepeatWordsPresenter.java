@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import java.util.List;
 import java.util.Locale;
 
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
@@ -45,8 +44,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
     public void onApplyViewClick() {
         if (randomWord==null)return;
        if (state== State.start){
-           randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
-           DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_TRANSLATE);
+           Model.getInstance().setWordStatus(randomWord,Word.STATUS_CHECK_TRANSLATE);
            state = State.success;
            fragment.showWord(randomWord,state);
            if (settings.isReadWords()&&settings.isReadTranslate()){
@@ -55,8 +53,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
 
        }else
         if (state== State.fail){
-            randomWord.setStatus(Word.STATUS_CHECK_TRANSLATE);
-            DAO.setStatusForWord(randomWord.getId(),Word.STATUS_CHECK_TRANSLATE);
+            Model.getInstance().setWordStatus(randomWord,Word.STATUS_CHECK_TRANSLATE);
             doStep();
 
         }else
@@ -88,8 +85,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
             doStep();
         }else
         if (state== State.success){
-            randomWord.setStatus(Word.STATUS_LEARN);
-            DAO.setStatusForWord(randomWord.getId(),Word.STATUS_LEARN);
+            Model.getInstance().setWordStatus(randomWord,Word.STATUS_LEARN);
             doStep();
         }
     }

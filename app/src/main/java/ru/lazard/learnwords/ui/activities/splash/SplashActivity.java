@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
 
@@ -28,12 +28,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         isAlive = false;
-        finish();
+
     }
 
     @Override
@@ -47,16 +46,18 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    long time = System.currentTimeMillis();
-                    int wordsCount = DAO.getWordsCount();
-                    if (wordsCount <= 0) {
-                        DAO.addDbWordsFromXml(R.xml.en_ru);
-                    }
-                    if (Model.getInstance().getWords().size() <= 0) {
-                        Model.getInstance().setWords(DAO.getAllWords());
-                    }
+                    Model.getInstance().initDatabase();
                 } catch (Throwable e) {
-                    e.printStackTrace();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                onNotInited();
+                            } catch (Throwable e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -70,6 +71,11 @@ public class SplashActivity extends AppCompatActivity {
                 });
             }
         }.start();
+    }
+
+    private void onNotInited() {
+        Toast.makeText(SplashActivity.this, R.string.splash_error_cantCreateDb, Toast.LENGTH_LONG).show();
+        finish();
     }
 
     private void onApplicationInited() {

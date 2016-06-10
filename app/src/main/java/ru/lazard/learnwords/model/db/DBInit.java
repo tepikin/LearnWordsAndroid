@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.db;
+package ru.lazard.learnwords.model.db;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;

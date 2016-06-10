@@ -11,25 +11,34 @@ public class Word {
     public static final int STATUS_CHECK_TRANSLATE = 2;
     public static final int STATUS_CHECK_WRITE = 3;
     public static final int STATUS_READY = 4;
+    private int difficulty;
     private int id;
     private int status;
-    private int difficulty;
     private String transcription;
     private String translate;
     private int viewCount;
 
     private String word;
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public Word() {
 
+    }
+
+    public Word(int status, String transcription, String translate, String word) {
+        this.status = status;
+        this.transcription = transcription;
+        this.translate = translate;
+        this.word = word;
+    }
+
+    public Word(int difficulty, int id, int status, String transcription, String translate, int viewCount, String word) {
+        this.difficulty = difficulty;
+        this.id = id;
+        this.status = status;
+        this.transcription = transcription;
+        this.translate = translate;
+        this.viewCount = viewCount;
+        this.word = word;
     }
 
     public Word(String word, String translate) {
@@ -37,11 +46,29 @@ public class Word {
         this.translate = translate;
     }
 
+    public Word(Word word) {
+       this.difficulty=word.difficulty;
+       this.id=word.id;
+       this.status=word.status;
+       this.transcription=word.transcription;
+       this.translate=word.translate;
+       this.viewCount=word.viewCount;
+       this.word=word.word;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -49,7 +76,7 @@ public class Word {
         return status;
     }
 
-    public void setStatus(int status) {
+    void setStatus(int status) {
         this.status = status;
     }
 
@@ -57,7 +84,7 @@ public class Word {
         return transcription;
     }
 
-    public void setTranscription(String transcription) {
+    void setTranscription(String transcription) {
         this.transcription = transcription;
     }
 
@@ -65,7 +92,7 @@ public class Word {
         return translate;
     }
 
-    public void setTranslate(String translate) {
+    void setTranslate(String translate) {
         this.translate = translate;
     }
 
@@ -73,7 +100,7 @@ public class Word {
         return viewCount;
     }
 
-    public void setViewCount(int viewCount) {
+    void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
 
@@ -81,7 +108,7 @@ public class Word {
         return word;
     }
 
-    public void setWord(String word) {
+    void setWord(String word) {
         this.word = word;
     }
 
@@ -98,6 +125,4 @@ public class Word {
         }
         return false;
     }
-
-
 }

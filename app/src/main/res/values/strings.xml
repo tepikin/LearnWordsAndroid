@@ -102,5 +102,8 @@
     <string name="spellCheck_rightVariant">Right variant:</string>
     <string name="spellCheck_wrongText">Wrong</string>
 
+    <!-- Splash screen -->
+    <string name="splash_error_cantCreateDb">Can\'t create database</string>
+
 
 </resources>

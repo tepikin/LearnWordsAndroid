@@ -28,6 +28,18 @@ public class Utils {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
+    public static boolean equals(String s1,String s2){
+        if (s1==null&&s2==null)return true;
+        if (s1==null&&s2!=null)return false;
+        if (s1!=null&&s2==null)return false;
+        return s1.equals(s2);
+    }
+    public static boolean equalsIgnoreCase(String s1,String s2){
+        if (s1==null&&s2==null)return true;
+        if (s1==null&&s2!=null)return false;
+        if (s1!=null&&s2==null)return false;
+        return s1.equalsIgnoreCase(s2);
+    }
     public static void hideKeyboard(View view){
         if (view == null )return;
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

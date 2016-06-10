@@ -1,4 +1,4 @@
-package ru.lazard.learnwords.db;
+package ru.lazard.learnwords.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -16,12 +16,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import ru.lazard.learnwords.BaseApplication;
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.model.Word;
+import ru.lazard.learnwords.model.db.DBContract;
+import ru.lazard.learnwords.model.db.DBInit;
+import ru.lazard.learnwords.model.db.DbHelper;
 
 /**
  * Created by Egor on 03.06.2016.
  */
-public class DAO {
+class DAO {
 
     public static void addDbWordsFromXml(@XmlRes int xmlResId) throws ParserConfigurationException, XmlPullParserException, SAXException, IOException {
         DBInit.writeWordsToDb(BaseApplication.getInstance(), R.xml.en_ru);

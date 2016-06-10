@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import ru.lazard.learnwords.R;
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
@@ -58,8 +57,7 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
                 if (word.getStatus()==Word.STATUS_NONE){
                     newStatus=Word.STATUS_LEARN;
                 }
-                DAO.setStatusForWord(word.getId(), newStatus);
-                word.setStatus(newStatus);
+                Model.getInstance().setWordStatus(word,newStatus);
                 bind(word);
             }
         });
@@ -100,8 +98,9 @@ public class WordsItemViewHolder extends RecyclerView.ViewHolder {
                 menu.add(resources.getString(R.string.wordsList_contextMenu_remove)).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Model.getInstance().getWords().remove(word);
-                        DAO.removeById(word.getId());
+
+                        Model.getInstance().removeWord(word);
+
                         adapter.getItems().remove(word);
                         adapter.notifyDataSetChanged();
                         return true;

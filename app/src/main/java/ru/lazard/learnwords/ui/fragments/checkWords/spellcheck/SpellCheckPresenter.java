@@ -8,13 +8,12 @@ import android.text.TextUtils;
 import java.util.List;
 import java.util.Locale;
 
-import ru.lazard.learnwords.db.DAO;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.model.Word;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
-import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 import ru.lazard.learnwords.ui.fragments.checkWords.spellcheck.SpellCheckFragment.State;
+import ru.lazard.learnwords.ui.fragments.preferences.Settings;
 
 
 public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedListener {
@@ -96,8 +95,7 @@ public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedLi
         if (randomWord == null) return;
         if (state == State.start) {
             if (!TextUtils.isEmpty(word)&&word.equalsIgnoreCase(randomWord.getWord())) {
-                randomWord.setStatus(Word.STATUS_READY);
-                DAO.setStatusForWord(randomWord.getId(), Word.STATUS_READY);
+                Model.getInstance().setWordStatus(randomWord,Word.STATUS_READY);
                 doStep();
                 return;
             } else {
