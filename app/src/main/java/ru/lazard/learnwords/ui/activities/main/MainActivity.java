@@ -166,8 +166,14 @@ public class MainActivity extends BaseActivity
 
         new BackArrowController(this);
 
+        new NavCounterManager(this);
+
         addFragment(new LearnFragment(), false);
         this.tts=new TTS(this);
         this.tts.checkTTS();
+
     }
+
+
+
 }

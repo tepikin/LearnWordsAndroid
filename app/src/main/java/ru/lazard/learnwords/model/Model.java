@@ -78,6 +78,16 @@ public class Model {
         return words;
     }
 
+    public int getWordsCountByStatus(int status) {
+        int count =0;
+        for (Word word : words) {
+            if (word.getStatus()==status){
+                count++;
+            }
+        }
+    return count;
+    }
+
     public void setWords(List<Word> words) {
         this.words = words;
     }
