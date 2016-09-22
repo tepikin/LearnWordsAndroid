@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "998104558896",
+    "firebase_url": "https://learnwords-c2563.firebaseio.com",
+    "project_id": "learnwords-c2563",
+    "storage_bucket": "learnwords-c2563.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998104558896:android:2d1c5ac957167371",
+        "android_client_info": {
+          "package_name": "ru.lazard.learnwords"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998104558896-9bbkrtejqu7ohfcbdvkjgmpovu4ll9f8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.lazard.learnwords",
+            "certificate_hash": "A1DC35A29AFF4FFAE5B58E26CDDCBD84C8238B9C"
+          }
+        },
+        {
+          "client_id": "998104558896-o8amephqcqv2tnakg73q8spvnddiuug4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.lazard.learnwords",
+            "certificate_hash": "7428A0CD36C1FF9E518C0C7610FEF9177B2CDED5"
+          }
+        },
+        {
+          "client_id": "998104558896-0d805gkbruq8on4raiihsgf30q2vgsu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlrsVA8Ix7xbSEguL3_GUlf-b87NKNgCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998104558896-0d805gkbruq8on4raiihsgf30q2vgsu6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

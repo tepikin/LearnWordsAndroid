@@ -1,19 +1,4 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
 
 android {
     signingConfigs {
@@ -24,12 +9,12 @@ android {
             storePassword 'qwerty'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
     defaultConfig {
         applicationId "ru.lazard.learnwords"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -44,16 +29,20 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile project(':SeekBarPreference')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:preference-v7:23.4.0'
-    compile 'com.android.support:preference-v14:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:preference-v7:24.2.1'
+    compile 'com.android.support:preference-v14:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
-        transitive = true;
-    }
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+    testCompile 'junit:junit:4.12'
 }
+
+
+
+apply plugin: 'com.google.gms.google-services'

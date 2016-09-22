@@ -6,8 +6,6 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Model;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
@@ -20,7 +18,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash);
 
         if (Model.getInstance().getWords().size() <= 0) {
