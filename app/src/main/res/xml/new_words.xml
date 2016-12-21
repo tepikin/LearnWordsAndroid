@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<words>
+ <word rating="0" desc="ɑ:sk" word="ask" tr="спрашивать" tr_ar="تطلب" tr_bn="জিজ্ঞাসা করা" tr_de="Fragen" tr_en="ask" tr_es="pedir" tr_fi="kysyä" tr_fr="demander" tr_it="chiedere" tr_ja="頼みます" tr_ko="청하다" tr_nl="vragen" tr_pt="perguntar" tr_ru="спрашивать" tr_zh="问" tr_zh_rCN="问" tr_zh_rTW="問"/>
+ <word rating="0" desc="sʌmӨıŋ" word="something" tr="что-то; что-нибудь" tr_ar="بعض الشيء" tr_bn="কিছু" tr_de="etwas" tr_en="something" tr_es="alguna cosa" tr_fi="jotain" tr_fr="quelque chose" tr_it="qualcosa" tr_ja="何か" tr_ko="어떤 것" tr_nl="iets" tr_pt="alguma coisa" tr_ru="что-то; что-нибудь" tr_zh="某物" tr_zh_rCN="某物" tr_zh_rTW="某物"/>
+ <word rating="5" desc="rʌɪt, rəʊt, ˈrɪtn" word="write, wrote, written" tr="писать" tr_ar="يكتب كتب مكتوب" tr_bn="লেখা লিখিত লিখেছিল" tr_de="schreiben schrieb geschrieben" tr_en="write, wrote, written" tr_es="escribir escribí escrito" tr_fi="kirjoittaa kirjoitti kirjoitettu" tr_fr="écrire, a écrit, écrit" tr_it="scrivere scritto scritto" tr_ja="書く書いた書かれた" tr_ko="쓰기, 서면 쓴" tr_nl="Schrijf schreef geschreven" tr_pt="escrever, escreveu, por escrito" tr_ru="писать" tr_zh="写，写了，写" tr_zh_rCN="写，写了，写" tr_zh_rTW="寫，寫了，寫"/>
+</words>

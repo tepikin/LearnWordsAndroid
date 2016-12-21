@@ -28,16 +28,17 @@ private Context context;
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DBContract.Words.SQL_CREATE_WORDS);
+        db.execSQL(DBContract.Dictionaries.SQL_CREATE_TABLE);
+        db.execSQL(DBContract.Words.SQL_CREATE_TABLE);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL(DBContract.Words.SQL_DELETE_WORDS);
+//        db.execSQL(DBContract.Words.SQL_DELETE_TABLE);
 //        onCreate(db);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL(DBContract.Words.SQL_DELETE_WORDS);
+//        db.execSQL(DBContract.Words.SQL_DELETE_TABLE);
 //        onCreate(db);
     }
 }

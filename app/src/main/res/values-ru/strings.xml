@@ -19,12 +19,22 @@
     <string name="navigation_menu_rate">Оценить приложение</string>
     <string name="navigation_menu_rate_exception_marketNotExist">Google Play не найден</string>
     <string name="navigation_menu_preferences">Настройки</string>
-    <string name="navigation_menu_wordsList">Список слов</string>
+    <string name="navigation_menu_wordsList">Словари</string>
     <string name="navigation_menu_learnWords">Изучение слов</string>
     <string name="navigation_menu_repeatWords">Повторите слов</string>
     <string name="navigation_menu_checkTranslate">Переводы</string>
     <string name="navigation_menu_spellcheck">Орфография</string>
 
+    <!-- Dictionaries screen -->
+    <string name="dictionariesList_menu_search">Поиск</string>
+    <string name="dictionariesList_menu_addDictionary">Создать словарь</string>
+    <string name="dictionariesList_contextMenu_rename">Переименовать</string>
+    <string name="dictionariesList_contextMenu_remove">Удалить</string>
+    <string name="dictionariesList_countFormat">всего: %1$d, изучаются: %2$d, изучено: %3$d</string>
+    <string name="dictionariesList_dialog_remove_title">Удалить</string>
+    <string name="dictionariesList_dialog_remove_message">Удалить словарь и все слова в нем?</string>
+    <string name="dictionariesList_dialog_rename_title">Rename</string>
+    <string name="dictionariesList_dialog_rename_message">Введите новое название словаря.</string>
 
     <!-- WordsList screen -->
     <string name="wordsList_menu_choiceWordsForLearn">Выбор слов</string>
@@ -102,6 +112,7 @@
 
     <!-- Splash screen -->
     <string name="splash_error_cantCreateDb">Невозможно создать базу данных</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random10Words">Случайные 10 слов</string>
 
 
 </resources>

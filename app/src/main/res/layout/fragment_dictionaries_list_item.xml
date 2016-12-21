@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
 
-
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
@@ -14,64 +13,37 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:fontFamily="sans-serif"
         android:text="Medium Text"
-        android:id="@+id/word"
+        android:id="@+id/name"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/status"
         android:layout_toStartOf="@+id/status"/>
     <TextView
+        android:layout_marginLeft="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:fontFamily="sans-serif-light"
         android:text="Small Text"
-        android:id="@+id/transcription"
-        android:layout_below="@+id/word"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="16dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/word"
-        android:layout_alignEnd="@+id/word"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:fontFamily="sans-serif-light"
-        android:text="Small Text"
-        android:layout_marginLeft="16dp"
-        android:id="@+id/translate"
-        android:layout_below="@+id/transcription"
+        android:id="@+id/count"
+        android:layout_below="@+id/name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/word"
         android:layout_alignEnd="@+id/word"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_marginTop="16dp"
         android:layout_height="1px"
-
         android:background="@android:drawable/divider_horizontal_bright"
         android:id="@+id/view"
-        android:layout_below="@+id/translate"
+        android:layout_below="@+id/count"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="none"
-        android:button="@null"
-        android:padding="16dp"
-        android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
-        android:id="@+id/status"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:fontFamily="sans-serif-light"
-        android:minWidth="48dp"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+
 
 
 

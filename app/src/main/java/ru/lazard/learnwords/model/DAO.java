@@ -27,6 +27,7 @@ class DAO {
 
     public static void addDbWordsFromXml(@XmlRes int xmlResId) throws ParserConfigurationException, XmlPullParserException, SAXException, IOException {
         DBInit.writeWordsToDb(BaseApplication.getInstance(), R.xml.words);
+        DBInit.writeDictionariesToDb();
     }
 
     public static List<Word> getAllWords() {
@@ -60,7 +61,7 @@ class DAO {
     public static void updateWord(Word word) {
         if (word == null) return;
         ContentValues values=new ContentValues();
-        values.put(DBContract.Words.COLUMN_NAME_DIFFICULTY,word.getDifficulty());
+        values.put(DBContract.Words.COLUMN_NAME_DICTIONARY_ID,word.getDictionaryId());
         values.put(DBContract.Words.COLUMN_NAME_STATUS,word.getStatus());
         values.put(DBContract.Words.COLUMN_NAME_TRANSCRIPTION,word.getTranscription());
         values.put(DBContract.Words.COLUMN_NAME_TRANSLATE,word.getTranslate());
@@ -73,7 +74,7 @@ class DAO {
     public static void insertWord(Word word) {
         if (word == null) return;
         //WORD TRANSLATE TRANSCRIPTION STATUS DIFFICULTY VIEW_COUNT
-        getDb().execSQL(DBContract.Words.SQL_INSERT, new Object[]{word.getWord(),word.getTranslate(),word.getTranscription(),word.getStatus(),word.getDifficulty(),word.getViewCount()});
+        getDb().execSQL(DBContract.Words.SQL_INSERT, new Object[]{word.getWord(),word.getTranslate(),word.getTranscription(),word.getStatus(),word.getDictionaryId(),word.getViewCount()});
     }
 
     public static void setLearnWordsListAll() {
@@ -82,7 +83,7 @@ class DAO {
 
     public static void setLearnWordsListByDifficult(int difficulty) {
         setLearnWordsListClear();
-        getDb().execSQL("UPDATE " + DBContract.Words.TABLE_NAME + " SET " + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_LEARN + " WHERE (" + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_NONE + " | " + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_LEARN + ") AND " + DBContract.Words.COLUMN_NAME_DIFFICULTY + " = " + difficulty);
+        getDb().execSQL("UPDATE " + DBContract.Words.TABLE_NAME + " SET " + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_LEARN + " WHERE (" + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_NONE + " | " + DBContract.Words.COLUMN_NAME_STATUS + " = " + Word.STATUS_LEARN + ") AND " + DBContract.Words.COLUMN_NAME_DICTIONARY_ID + " = " + difficulty);
     }
 
     public static void setLearnWordsListClear() {
@@ -109,8 +110,14 @@ class DAO {
         getDb().endTransaction();
     }
 
-    public static void removeById(int id) {
+    public static void removeWordsById(int id) {
         getDb().delete(DBContract.Words.TABLE_NAME,DBContract.Words._ID+" = ?",new String[]{String.valueOf(id)});
+    }
+    public static void removeDictionaryById(int id) {
+        getDb().delete(DBContract.Dictionaries.TABLE_NAME,DBContract.Dictionaries._ID+" = ?",new String[]{String.valueOf(id)});
+    }
+    public static void removeWordsByDictionary(int dictionaryId) {
+        getDb().delete(DBContract.Words.TABLE_NAME,DBContract.Words.COLUMN_NAME_DICTIONARY_ID+" = ?",new String[]{String.valueOf(dictionaryId)});
     }
     
     private static List<Word> getWordsFromCursor(Cursor cursor) {
@@ -122,7 +129,7 @@ class DAO {
                 int columnIndexTranscription = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_TRANSCRIPTION);
                 int columnIndexTranslate = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_TRANSLATE);
                 int columnIndexViewCount = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_VIEW_COUNT);
-                int columnIndexDifficulty = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_DIFFICULTY);
+                int columnIndexDifficulty = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_DICTIONARY_ID);
                 int columnIndexStatus = cursor.getColumnIndex(DBContract.Words.COLUMN_NAME_STATUS);
                 int columnIndexId = cursor.getColumnIndex(DBContract.Words._ID);
 
@@ -143,7 +150,7 @@ class DAO {
                     word.setId(id);
                     word.setViewCount(viewCount);
                     word.setStatus(status);
-                    word.setDifficulty(difficulty);
+                    word.setDictionaryId(difficulty);
 
                     list.add(word);
                 } while (cursor.moveToNext());
@@ -151,5 +158,52 @@ class DAO {
             cursor.close();
         }
         return list;
+    }
+
+    public static void updateDictionary(Dictionary dictionary) {
+        if (dictionary == null) return;
+        ContentValues values=new ContentValues();
+        values.put(DBContract.Dictionaries.COLUMN_NAME,dictionary.getName());
+        getDb().update(DBContract.Dictionaries.TABLE_NAME,values,DBContract.Dictionaries._ID+" = ?",new String[]{String.valueOf(dictionary.getId())} );
+    }
+
+    public static List<Dictionary> getAllDictionaries() {
+        Cursor cursor = getDb().rawQuery("SELECT * FROM " + DBContract.Dictionaries.TABLE_NAME, null);
+        return getDictionariesFromCursor(cursor);
+    }
+
+
+
+    private static List<Dictionary> getDictionariesFromCursor(Cursor cursor) {
+        List<Dictionary> list = new ArrayList<>();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+
+                int columnIndexName = cursor.getColumnIndex(DBContract.Dictionaries.COLUMN_NAME);
+                int columnIndexId = cursor.getColumnIndex(DBContract.Dictionaries._ID);
+
+                do {
+
+                    String name = cursor.getString(columnIndexName);
+                    int id = cursor.getInt(columnIndexId);
+
+                    Dictionary dictionary = new Dictionary();
+                    dictionary.setName(name);
+                    dictionary.setId(id);
+
+                    list.add(dictionary);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    public static void switchWordStatusForDictionary(int fromStatus, int toStatus, int dictionaryId) {
+        getDb().execSQL("UPDATE " + DBContract.Words.TABLE_NAME + " SET " + DBContract.Words.COLUMN_NAME_STATUS + " = " + toStatus + " WHERE " + DBContract.Words.COLUMN_NAME_DICTIONARY_ID + " = " + dictionaryId+" AND "+DBContract.Words.COLUMN_NAME_STATUS+" = "+fromStatus);
+    }
+
+    public static void insertDictionary(Dictionary dictionary) {
+        getDb().execSQL(DBContract.Dictionaries.SQL_INSERT, new Object[]{dictionary.getId(),dictionary.getName()});
     }
 }

@@ -19,11 +19,22 @@
     <string name="navigation_menu_rate">Rate app</string>
     <string name="navigation_menu_rate_exception_marketNotExist">Google Play not found</string>
     <string name="navigation_menu_preferences">Settings</string>
-    <string name="navigation_menu_wordsList">List of words</string>
+    <string name="navigation_menu_wordsList">Dictionaries</string>
     <string name="navigation_menu_learnWords">Learn words</string>
     <string name="navigation_menu_repeatWords">Repeat words</string>
     <string name="navigation_menu_checkTranslate">Translate check</string>
     <string name="navigation_menu_spellcheck">Spell check</string>
+
+    <!-- Dictionaries screen -->
+    <string name="dictionariesList_menu_search">Search</string>
+    <string name="dictionariesList_menu_addDictionary">Add dictionary</string>
+    <string name="dictionariesList_contextMenu_rename">Rename</string>
+    <string name="dictionariesList_contextMenu_remove">Remove</string>
+    <string name="dictionariesList_countFormat">words: %1$d, learn: %2$d, ready: %3$d</string>
+    <string name="dictionariesList_dialog_remove_title">Remove</string>
+    <string name="dictionariesList_dialog_remove_message">Remove dictionary and all it\'s words?</string>
+    <string name="dictionariesList_dialog_rename_title">Rename</string>
+    <string name="dictionariesList_dialog_rename_message">New dictionary name</string>
 
 
     <!-- WordsList screen -->
@@ -33,6 +44,7 @@
     <string name="wordsList_menu_choiceWordsForLearn_baseWords">Base words</string>
     <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsFull">Irregular verbs</string>
     <string name="wordsList_menu_choiceWordsForLearn_irregularVerbsShort">Irregular verbs (short)</string>
+    <string name="wordsList_menu_choiceWordsForLearn_random10Words">Random 10 words</string>
     <string name="wordsList_menu_choiceWordsForLearn_random20Words">Random 20 words</string>
     <string name="wordsList_menu_choiceWordsForLearn_random50Words">Random 50 words</string>
     <string name="wordsList_menu_addWord">Add word</string>

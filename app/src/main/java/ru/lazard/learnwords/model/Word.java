@@ -11,7 +11,7 @@ public class Word {
     public static final int STATUS_CHECK_TRANSLATE = 2;
     public static final int STATUS_CHECK_WRITE = 3;
     public static final int STATUS_READY = 4;
-    private int difficulty;
+    private int dictionaryId;
     private int id;
     private int status;
     private String transcription;
@@ -31,8 +31,9 @@ public class Word {
         this.word = word;
     }
 
-    public Word(int difficulty, int id, int status, String transcription, String translate, int viewCount, String word) {
-        this.difficulty = difficulty;
+
+    public Word(int dictionaryId, int id, int status, String transcription, String translate, int viewCount, String word) {
+        this.dictionaryId = dictionaryId;
         this.id = id;
         this.status = status;
         this.transcription = transcription;
@@ -47,7 +48,7 @@ public class Word {
     }
 
     public Word(Word word) {
-       this.difficulty=word.difficulty;
+       this.dictionaryId =word.dictionaryId;
        this.id=word.id;
        this.status=word.status;
        this.transcription=word.transcription;
@@ -56,12 +57,12 @@ public class Word {
        this.word=word.word;
     }
 
-    public int getDifficulty() {
-        return difficulty;
+    public int getDictionaryId() {
+        return dictionaryId;
     }
 
-    void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
+    public void setDictionaryId(int dictionaryId) {
+        this.dictionaryId = dictionaryId;
     }
 
     public int getId() {
@@ -113,14 +114,14 @@ public class Word {
     }
 
     public boolean isContainsText(String text) {
-
-        if (!TextUtils.isEmpty(word) && word.contains(text)) {
+if (TextUtils.isEmpty(text))return true;
+        if (!TextUtils.isEmpty(word) && word.toLowerCase().contains(text.toLowerCase())) {
             return true;
         }
-        if (!TextUtils.isEmpty(translate) && translate.contains(text)) {
+        if (!TextUtils.isEmpty(translate) && translate.toLowerCase().contains(text.toLowerCase())) {
             return true;
         }
-        if (!TextUtils.isEmpty(transcription) && transcription.contains(text)) {
+        if (!TextUtils.isEmpty(transcription) && transcription.toLowerCase().contains(text.toLowerCase())) {
             return true;
         }
         return false;

@@ -14,6 +14,9 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import ru.lazard.learnwords.R;
+import ru.lazard.learnwords.model.events.EventDictionaryAdded;
+import ru.lazard.learnwords.model.events.EventDictionaryRemoved;
+import ru.lazard.learnwords.model.events.EventDictionaryUpdate;
 import ru.lazard.learnwords.model.events.EventWordAdded;
 import ru.lazard.learnwords.model.events.EventWordRemoved;
 import ru.lazard.learnwords.model.events.EventWordStatusChanged;
@@ -27,10 +30,14 @@ import ru.lazard.learnwords.utils.Utils;
 public class Model {
     private static Model instance;
     private List<Word> words = new ArrayList<>();
+    private List<Dictionary> dictionaries = new ArrayList<>();
 
-    public Model(Context context) {
+    public List<Dictionary> getDictionaries() {
+        return dictionaries;
+    }
+
+    private Model(Context context) {
         // TODO un implemented yaeat
-
     }
 
     public static final Model getInstance() {
@@ -129,6 +136,19 @@ public class Model {
         }
         return wordsByStatus;
     }
+    public List<Word> getWordsByDictionary(int dictionaryId) {
+        if (dictionaryId==Dictionary.NO_DICTIONARY_ID){
+            return new ArrayList<>(words);
+        }
+        List<Word> wordsByStatus = new ArrayList<>();
+        for (Word word : words) {
+            if (word.getDictionaryId() == dictionaryId) {
+                wordsByStatus.add(word);
+            }
+        }
+        return wordsByStatus;
+    }
+
 
     public void initDatabase() throws ParserConfigurationException, XmlPullParserException, SAXException, IOException {
         long time = System.currentTimeMillis();
@@ -139,12 +159,15 @@ public class Model {
         if (Model.getInstance().getWords().size() <= 0) {
             Model.getInstance().setWords(DAO.getAllWords());
         }
+        if (Model.getInstance().getDictionaries().size() <= 0) {
+            Model.getInstance().setDictionaries(DAO.getAllDictionaries());
+        }
     }
 
     public void removeWord(Word word) {
         if (word == null) return;
         Model.getInstance().getWords().remove(word);
-        DAO.removeById(word.getId());
+        DAO.removeWordsById(word.getId());
         EventBus.getDefault().post(this);
         EventBus.getDefault().post(new EventWordRemoved(word));
     }
@@ -168,7 +191,7 @@ public class Model {
         List<Word> wordsList = new ArrayList<>();
         for (Word word : words) {
             if (word.getStatus() == Word.STATUS_NONE || word.getStatus() == Word.STATUS_LEARN) {
-                word.setStatus(word.getDifficulty() == difficulty ? Word.STATUS_LEARN : Word.STATUS_NONE);
+                word.setStatus(word.getDictionaryId() == difficulty ? Word.STATUS_LEARN : Word.STATUS_NONE);
                 wordsList.add(word);
             }
         }
@@ -196,9 +219,9 @@ public class Model {
 
     public void setWordStatus(int status, List<Word> wordList) {
         for (Word randomSubItem : wordList) {
-            randomSubItem.setStatus(Word.STATUS_LEARN);
+            randomSubItem.setStatus(status);
         }
-        DAO.setStatusForWords(Word.STATUS_LEARN, wordList);
+        DAO.setStatusForWords(status, wordList);
         EventBus.getDefault().post(this);
         EventBus.getDefault().post(new EventWordsListStatusChanged(wordList));
     }
@@ -231,5 +254,57 @@ public class Model {
             EventBus.getDefault().post(this);
             EventBus.getDefault().post(new EventWordUpdated(fromWord, word));
         }
+    }
+
+    public void removeDictionary(Dictionary dictionary) {
+        if (dictionary == null) return;
+        Model.getInstance().getDictionaries().remove(dictionary);
+        DAO.removeDictionaryById(dictionary.getId());
+        DAO.removeWordsByDictionary(dictionary.getId());
+        EventBus.getDefault().post(this);
+        EventBus.getDefault().post(new EventDictionaryRemoved(dictionary));
+    }
+
+    public void renameDictionary(Dictionary dictionary, String text) {
+        if (dictionary == null) return;
+        if (text == null) text="";
+        dictionary.setName(text);
+        DAO.updateDictionary(dictionary);
+        EventBus.getDefault().post(this);
+        EventBus.getDefault().post(new EventDictionaryUpdate(dictionary));
+    }
+
+    public void setDictionaries(List<Dictionary> dictionaries) {
+        this.dictionaries = dictionaries;
+    }
+
+    public void switchWordStatusForDictionary(int fromStatus,int toStatus, int dictionaryId) {
+        List<Word> wordsList = new ArrayList<>();
+
+        for (Word word : words) {
+            if (word.getStatus() ==fromStatus&&word.getDictionaryId()==dictionaryId) {
+                word.setStatus(toStatus);
+                wordsList.add(word);
+            }
+        }
+        if (wordsList.size() > 0) {
+            DAO.switchWordStatusForDictionary(fromStatus,toStatus,dictionaryId);
+            EventBus.getDefault().post(this);
+            EventBus.getDefault().post(new EventWordsListStatusChanged(wordsList));
+        }
+    }
+
+    public void addDictionary(Dictionary dictionary) {
+        if (dictionary == null) return;
+        int id = 1;
+        if (dictionaries.size() > 0) {
+            id = dictionaries.get(dictionaries.size() - 1).getId();
+            id++;
+        }
+        dictionary.setId(id);
+        DAO.insertDictionary(dictionary);
+        Model.getInstance().getDictionaries().add(dictionary);
+        EventBus.getDefault().post(this);
+        EventBus.getDefault().post(new EventDictionaryAdded(dictionary));
     }
 }

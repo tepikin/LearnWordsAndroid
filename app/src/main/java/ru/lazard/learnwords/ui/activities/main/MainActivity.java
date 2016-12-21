@@ -22,7 +22,8 @@ import ru.lazard.learnwords.ui.fragments.checkWords.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
 import ru.lazard.learnwords.ui.fragments.checkWords.repeat.RepeatWordsFragment;
 import ru.lazard.learnwords.ui.fragments.checkWords.spellcheck.SpellCheckFragment;
-import ru.lazard.learnwords.ui.fragments.wordsList.WordsListFragment;
+import ru.lazard.learnwords.ui.fragments.wordsList.dictionaries.DictionariesListFragment;
+import ru.lazard.learnwords.ui.fragments.wordsList.words.WordsListFragment;
 import ru.lazard.learnwords.ui.navigator.BackArrowController;
 import ru.lazard.learnwords.utils.Utils;
 
@@ -124,7 +125,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_spellcheck) {
             addFragment(new SpellCheckFragment(), true);
         } else if (id == R.id.nav_wordsList) {
-            addFragment(new WordsListFragment(), true);
+            addFragment(new DictionariesListFragment(), true);
         } else if (id == R.id.nav_rate) {
             Utils.showMarketPage(this, R.string.navigation_menu_rate_exception_marketNotExist);
         } else if (id == R.id.nav_sendEmail) {

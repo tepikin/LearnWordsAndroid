@@ -25,16 +25,8 @@
                 android:title="@string/wordsList_menu_choiceWordsForLearn_clearList"
                 app:showAsAction="never"/>
             <item
-                android:id="@+id/action_baseWords"
-                android:title="@string/wordsList_menu_choiceWordsForLearn_baseWords"
-                app:showAsAction="never"/>
-            <item
-                android:id="@+id/action_irregularVerbs"
-                android:title="@string/wordsList_menu_choiceWordsForLearn_irregularVerbsFull"
-                app:showAsAction="never"/>
-            <item
-                android:id="@+id/action_irregularVerbsShort"
-                android:title="@string/wordsList_menu_choiceWordsForLearn_irregularVerbsShort"
+                android:id="@+id/action_random10"
+                android:title="@string/wordsList_menu_choiceWordsForLearn_random10Words"
                 app:showAsAction="never"/>
             <item
                 android:id="@+id/action_random20"

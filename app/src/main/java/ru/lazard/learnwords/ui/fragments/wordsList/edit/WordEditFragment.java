@@ -27,19 +27,22 @@ public class WordEditFragment extends Fragment {
 
 
     public static final String KEY_WORD_ID = "KEY_WORD_ID";
+    public static final String KEY_WORD_DICTIONARY_ID = "KEY_WORD_DICTIONARY_ID";
     private AppCompatSpinner spinerView;
     private AppCompatEditText transcriptionView;
     private AppCompatEditText translateView;
     private Word word;
     private AppCompatEditText wordView;
 
-    public static Fragment newInstance(Word word) {
+    public static Fragment newInstance(Word word, int dictionaryId) {
         WordEditFragment wordEditFragment = new WordEditFragment();
-        if (word!=null) {
-            Bundle args = new Bundle();
+        Bundle args = new Bundle();
+        if (word != null) {
             args.putInt(KEY_WORD_ID, word.getId());
-            wordEditFragment.setArguments(args);
         }
+        args.putInt(KEY_WORD_DICTIONARY_ID, dictionaryId);
+        wordEditFragment.setArguments(args);
+
         return wordEditFragment;
     }
 
@@ -63,13 +66,13 @@ public class WordEditFragment extends Fragment {
 
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_word_edit, container, false);
-            wordView =(AppCompatEditText) view.findViewById(R.id.word);
-            transcriptionView =(AppCompatEditText) view.findViewById(R.id.transcription);
-            translateView =(AppCompatEditText) view.findViewById(R.id.translate);
-            spinerView =(AppCompatSpinner) view.findViewById(R.id.status);
+            wordView = (AppCompatEditText) view.findViewById(R.id.word);
+            transcriptionView = (AppCompatEditText) view.findViewById(R.id.transcription);
+            translateView = (AppCompatEditText) view.findViewById(R.id.translate);
+            spinerView = (AppCompatSpinner) view.findViewById(R.id.status);
 
-            if (getArguments()!=null){
-                int wordId=getArguments().getInt(KEY_WORD_ID,-1);
+            if (getArguments() != null) {
+                int wordId = getArguments().getInt(KEY_WORD_ID, -1);
                 Word word = Model.getInstance().getWordById(wordId);
                 setWord(word);
             }
@@ -85,18 +88,19 @@ public class WordEditFragment extends Fragment {
     }
 
     private void setWord(Word word) {
-        this.word=word;
-        if (word==null)return;
-        setNotEmptyString(wordView,word.getWord());
-        setNotEmptyString(translateView,word.getTranslate());
-        setNotEmptyString(transcriptionView,word.getTranscription());
+        this.word = word;
+        if (word == null) return;
+        setNotEmptyString(wordView, word.getWord());
+        setNotEmptyString(translateView, word.getTranslate());
+        setNotEmptyString(transcriptionView, word.getTranscription());
         spinerView.setSelection(word.getStatus());
     }
-    private void setNotEmptyString(TextView view,String text){
-        if (view==null)return;
-        if (TextUtils.isEmpty(text)){
+
+    private void setNotEmptyString(TextView view, String text) {
+        if (view == null) return;
+        if (TextUtils.isEmpty(text)) {
             view.setText("");
-        }else{
+        } else {
             view.setText(text);
         }
     }
@@ -113,7 +117,7 @@ public class WordEditFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_done) {
-onApplay();
+            onApplay();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -121,27 +125,33 @@ onApplay();
 
     private void onApplay() {
 
-        if (!validate())return;
+        if (!validate()) return;
 
         String wordText = wordView.getText().toString();
-        String translate =translateView.getText().toString();
-        String transcription =transcriptionView.getText().toString();
+        String translate = translateView.getText().toString();
+        String transcription = transcriptionView.getText().toString();
         int status = spinerView.getSelectedItemPosition();
 
 
-        if (word==null) {
-            word = new Word(status,transcription,translate,wordText );
+        if (word == null) {
+            word = new Word(status, transcription, translate, wordText);
+            word.setDictionaryId(getDictionaryId());
             Model.getInstance().addWord(word);
             getActivity().onBackPressed();
-        }else{
-            Model.getInstance().updateWord(word,status,transcription,translate,wordText);
+        } else {
+            Model.getInstance().updateWord(word, status, transcription, translate, wordText);
             getActivity().onBackPressed();
         }
 
     }
 
+    private int getDictionaryId() {
+        if (getArguments() == null) return 0;
+        return getArguments().getInt(KEY_WORD_DICTIONARY_ID, 0);
+    }
+
     private boolean validate() {
-        if (TextUtils.isEmpty(wordView.getText())){
+        if (TextUtils.isEmpty(wordView.getText())) {
             wordView.setError(wordView.getResources().getString(R.string.wordEdit_word_error));
             return false;
         }
