@@ -1,18 +1,25 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+
+    compileSdkVersion compileSdk_version.toInteger()
+    buildToolsVersion buildTools_version
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 24
+        minSdkVersion minSdk_version.toInteger()
+        targetSdkVersion targetSdk_version.toInteger()
         versionCode 13
         versionName "2.3.0"
+        multiDexEnabled true
     }
 
     lintOptions {
         abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
