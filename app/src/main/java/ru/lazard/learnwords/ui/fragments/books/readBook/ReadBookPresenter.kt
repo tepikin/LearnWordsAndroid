@@ -46,6 +46,8 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 fragment.updateRow(row);
                 doSync { row.loadWords({ fragment.updateRow(row); }, { fragment.updateRow(row);countDown() }) }
 
+                if (!row.isWordsLoaded) {pause();return}
+
                 nextTextRow?.let { it.loadWords({ fragment.updateRow(it); }, { fragment.updateRow(it); }) }
 
                 row.state = TextRow.State.reading
@@ -53,10 +55,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 doSync { tts?.speak(row.src) { countDown() } }
 
 
-
-
-
-
+                row.state = TextRow.State.reading
+                fragment.updateRow(row);
+                doSync { tts?.speak(row.dst) { countDown() } }
 
                 row.state = TextRow.State.readed
                 fragment.updateRow(row);
