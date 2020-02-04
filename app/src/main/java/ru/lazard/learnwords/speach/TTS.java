@@ -25,9 +25,11 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
     private static final int KEY_CHECK_TTS = 867;
     private final MainActivity activity;
     private TextToSpeech mTts;
+    private Settings settings;
 
     public TTS(MainActivity activity) {
         this.activity = activity;
+        settings = new Settings(activity);
         activity.addOnActivityResult(this);
         activity.addOnActivityDestroyListener(this);
     }
@@ -71,6 +73,20 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
         } else if (status == TextToSpeech.ERROR) {
             onTtsNotCreated();
         }
+    }
+
+    public void speak(final String text, final Runnable callback) {
+        if (TextUtils.isEmpty(text)) {
+            if (callback != null) callback.run();
+            return;
+        }
+        boolean isEnglishLanguage = Utils.isTextEn(text);
+        if (isEnglishLanguage){
+            speak(text,settings.getSpeedReadWords() , Locale.ENGLISH, callback);
+        }else{
+            speak(text,settings.getSpeedReadTranslate() , Locale.getDefault(), callback);
+        }
+
     }
 
     public void speak(final String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {

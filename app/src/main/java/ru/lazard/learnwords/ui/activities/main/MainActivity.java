@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.speach.TTS;
 import ru.lazard.learnwords.ui.BaseActivity;
+import ru.lazard.learnwords.ui.fragments.books.readBook.ReadBookFragment;
 import ru.lazard.learnwords.ui.fragments.checkWords.checkTranslate.CheckTranslateFragment;
 import ru.lazard.learnwords.ui.fragments.checkWords.learn.LearnFragment;
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment;
@@ -126,6 +127,8 @@ public class MainActivity extends BaseActivity
             addFragment(new SpellCheckFragment(), true);
         } else if (id == R.id.nav_wordsList) {
             addFragment(new DictionariesListFragment(), true);
+        } else if (id == R.id.nav_read_book) {
+            addFragment(ReadBookFragment.Companion.newInstance(null,null), true);
         } else if (id == R.id.nav_rate) {
             Utils.showMarketPage(this, R.string.navigation_menu_rate_exception_marketNotExist);
         } else if (id == R.id.nav_sendEmail) {

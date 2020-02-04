@@ -122,4 +122,23 @@ public class Utils {
             }
         }
     }
+
+    public static boolean isTextEn(String text){
+        if (TextUtils.isEmpty(text)) return false;
+
+        char[] array= text.toCharArray();
+        String  englishChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        String  rusChars = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
+        int enCharsNum = 0;
+        int ruCharsNum = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (englishChars.contains(""+array[i]) ){
+                enCharsNum++;
+            }
+            if (rusChars.contains(""+array[i]) ){
+                ruCharsNum++;
+            }
+        }
+        return enCharsNum>ruCharsNum;
+    }
 }

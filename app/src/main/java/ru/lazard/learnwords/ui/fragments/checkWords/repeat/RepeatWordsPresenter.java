@@ -34,7 +34,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
         randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_LEARN);
         fragment.showWord(randomWord,state);
         if (settings.isReadWords()&&randomWord!=null){
-            getTts().speak(randomWord.getWord(),settings.speedReadWords(), Locale.ENGLISH,null);
+            getTts().speak(randomWord.getWord(),settings.getSpeedReadWords(), Locale.ENGLISH,null);
         }
     }
     public void onDestroy() {
@@ -48,7 +48,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
            state = State.success;
            fragment.showWord(randomWord,state);
            if (settings.isReadWords()&&settings.isReadTranslate()){
-               getTts().speak(randomWord.getTranslate(),settings.speedReadTranslate(), Locale.getDefault(),null);
+               getTts().speak(randomWord.getTranslate(),settings.getSpeedReadTranslate(), Locale.getDefault(),null);
            }
 
        }else
@@ -78,7 +78,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
             state = State.fail;
             fragment.showWord(randomWord,state);
             if (settings.isReadWords()&&settings.isReadTranslate()){
-                getTts().speak(randomWord.getTranslate(),settings.speedReadTranslate(), Locale.getDefault(),null);
+                getTts().speak(randomWord.getTranslate(),settings.getSpeedReadTranslate(), Locale.getDefault(),null);
             }
         }else
         if (state== State.fail){

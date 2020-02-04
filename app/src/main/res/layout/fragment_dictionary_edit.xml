@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="21dp"
     android:paddingRight="21dp"
+    android:background="@drawable/bg_main_activity"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
     android:orientation="vertical">

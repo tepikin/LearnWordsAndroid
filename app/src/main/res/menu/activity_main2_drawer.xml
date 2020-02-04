@@ -1,44 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_learnWords"
             android:icon="@drawable/ic_slideshow_black_24dp"
-            android:title="@string/navigation_menu_learnWords"/>
+            android:title="@string/navigation_menu_learnWords" />
         <item
             android:id="@+id/nav_repeatWords"
             android:icon="@drawable/ic_repeat_black_24dp"
-            android:visible="false"
-            android:title="@string/navigation_menu_repeatWords"/>
+            android:title="@string/navigation_menu_repeatWords"
+            android:visible="true" />
         <item
             android:id="@+id/nav_checkTranslate"
             android:icon="@drawable/ic_translate_black_24dp"
-            android:title="@string/navigation_menu_checkTranslate"/>
+            android:title="@string/navigation_menu_checkTranslate" />
         <item
             android:id="@+id/nav_spellcheck"
             android:icon="@drawable/ic_spellcheck_black_24dp"
-            android:title="@string/navigation_menu_spellcheck"/>
+            android:title="@string/navigation_menu_spellcheck" />
         <item
             android:id="@+id/nav_wordsList"
             android:icon="@drawable/ic_list_black_24dp"
-            android:title="@string/navigation_menu_wordsList"/>
+            android:title="@string/navigation_menu_wordsList" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/navigation_menu_preferences"/>
-    </group>
+            android:title="@string/navigation_menu_preferences" />
 
+<!--        <item android:title="Books">-->
+<!--            <menu>-->
+<!--                <item-->
+<!--                    android:id="@+id/nav_add_book"-->
+<!--                    android:icon="@drawable/ic_note_add_black_24dp"-->
+<!--                    android:title="@string/navigation_menu_addbook"-->
+<!--                    android:visible="false" />-->
+<!--                <item-->
+<!--                    android:id="@+id/nav_books_list"-->
+<!--                    android:icon="@drawable/ic_library_books_black_24dp"-->
+<!--                    android:title="@string/navigation_menu_bookslist"-->
+<!--                    android:visible="false" />-->
+                <item
+                    android:id="@+id/nav_read_book"
+                    android:icon="@drawable/ic_book_black_24dp"
+                    android:title="@string/navigation_menu_readbook" />
+<!--            </menu>-->
+        <!--        </item>-->
+    </group>
     <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_rate"
                 android:icon="@drawable/ic_star_black_24dp"
-                android:title="@string/navigation_menu_rate"/>
+                android:title="@string/navigation_menu_rate" />
             <item
                 android:id="@+id/nav_sendEmail"
                 android:icon="@drawable/ic_email_black_24dp"
-                android:title="@string/navigation_menu_sendEmail"/>
+                android:title="@string/navigation_menu_sendEmail" />
         </menu>
     </item>
 

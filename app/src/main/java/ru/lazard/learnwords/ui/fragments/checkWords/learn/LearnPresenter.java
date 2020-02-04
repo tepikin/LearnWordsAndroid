@@ -133,7 +133,7 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
 
     private void onStepDone() {
         if (isPlay) {
-            int delayMillis = settings.delayBetweenWords() * 1000 + 500;
+            int delayMillis = settings.getDelayBetweenWords() * 1000 + 500;
             handler.postDelayed(playProcess, delayMillis);
         }
     }
@@ -154,7 +154,7 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
             return;
         }
         final AtomicBoolean cancel = cancelSync;
-        getTts().speak(randomWord.getWord(), settings.speedReadWords(), Locale.ENGLISH, new Runnable() {
+        getTts().speak(randomWord.getWord(), settings.getSpeedReadWords(), Locale.ENGLISH, new Runnable() {
             @Override
             public void run() {
                 if (cancel.get()) {
@@ -165,7 +165,7 @@ public class LearnPresenter implements FragmentManager.OnBackStackChangedListene
                     if (callback != null) callback.run();
                     return;
                 }
-                getTts().speak(randomWord.getTranslate(), settings.speedReadTranslate(), null, callback);
+                getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), null, callback);
             }
         });
     }

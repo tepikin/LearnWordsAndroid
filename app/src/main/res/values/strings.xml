@@ -24,6 +24,9 @@
     <string name="navigation_menu_repeatWords">Repeat words</string>
     <string name="navigation_menu_checkTranslate">Translate check</string>
     <string name="navigation_menu_spellcheck">Spell check</string>
+    <string name="navigation_menu_addbook">Add book</string>
+    <string name="navigation_menu_bookslist">Books list</string>
+    <string name="navigation_menu_readbook">Read book</string>
 
     <!-- Dictionaries screen -->
     <string name="dictionariesList_menu_search">Search</string>
