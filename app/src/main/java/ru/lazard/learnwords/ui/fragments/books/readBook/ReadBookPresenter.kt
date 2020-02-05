@@ -47,6 +47,8 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         Thread(object : Runnable {
             override fun run() {
 
+                settings.lastBookProgress = 1f*position/(rows?.size?:position)
+
                 val row = currentTextRow
                 row ?: pause()
                 row ?: return
@@ -115,7 +117,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     }
 
     fun onDetach() {
-
+       pause()
     }
 
     fun onResume() {
@@ -200,7 +202,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             val isTextEn = Utils.isTextEn(text);
                             var text = " "+text?.toString()+" "
                             if (isTextEn) {
-                                words?.distinctBy { it.word }?.filter { it.status <= 0 }?.filter { it.word != it.translate }?.forEach {
+                                words?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
                                     try {
                                         text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translate}\\)\$2")
                                     } catch (e: Throwable) {
@@ -208,7 +210,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                                     }
                                 }
                             }else{
-                                words?.distinctBy { it.translate }?.filter { it.status <= 0 }?.filter { it.word != it.translate }?.forEach { try{text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")}catch (e:Throwable){e.printStackTrace()} }
+                                words?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach { try{text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")}catch (e:Throwable){e.printStackTrace()} }
                             }
                             return text;
                         }
@@ -283,7 +285,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
             if (settings.bookReaded_isUseTranslator) {
                 translate = Translate.translate(bookWord)?.second?.toLowerCase()?.trim()
             }
-            systemWord = Word(6, 0, 0, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
+            systemWord = Word(6, 0, 1, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
             if (systemWord?.getWord() != null && systemWord?.getTranslate() != null) {
                 wordsModel.addWord(systemWord);
             }

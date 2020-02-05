@@ -176,7 +176,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
             setStatePause()
 
             val bookUri = arguments?.getString(KEY_BOOK_PATH)?.let { Uri.parse(it) }
-            val bookProgress = arguments?.getFloat(KEY_BOOK_PROGRESS)
+            val bookProgress :Float? = if (arguments.containsKey(KEY_BOOK_PROGRESS) )arguments?.getFloat(KEY_BOOK_PROGRESS) else null
             presenter.openStartBook(bookUri, bookProgress)
         }
         return view
