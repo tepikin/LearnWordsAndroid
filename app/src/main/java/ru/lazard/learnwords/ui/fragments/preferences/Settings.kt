@@ -3,32 +3,31 @@ package ru.lazard.learnwords.ui.fragments.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import kotlin.reflect.KProperty
 
 
 class Settings(val context: Context) {
 
 
-    val isAutoWordsSwitch: Boolean get() = preferences.getBoolean("auto_words_switch", true)
+    var bookReaded_isReadSrc by DelegateBoolean()
+    var bookReaded_isReadDst by DelegateBoolean()
+    var bookReaded_isReadSrcWordByWord by DelegateBoolean()
+    var bookReaded_isReadDstWordByWord by DelegateBoolean()
+    var bookReaded_isReadOnlyWords by DelegateBoolean()
+    var bookReaded_isUseTranslator by DelegateBoolean()
 
-    val isBlinkEnable: Boolean get() = preferences.getBoolean("blink_screen_enable", false)
+    val isAutoWordsSwitch by DelegateBoolean("auto_words_switch", true)
+    val isBlinkEnable by DelegateBoolean("blink_screen_enable", false)
+    val isReadTranslate by DelegateBoolean("read_translates_enable", true)
+    var isReadWords by DelegateBoolean("read_words_enable", true)
 
-    val isReadTranslate: Boolean get() = preferences.getBoolean("read_translates_enable", true)
+    var lastBookPath by DelegateString("last_book_path", null)
 
-    var isReadWords: Boolean
-        get() = preferences.getBoolean("read_words_enable", true)
-        set(isReadWords) = preferences.setBoolean("read_words_enable", isReadWords)
+    var lastBookProgress by DelegateFloat("last_book_progress", 0f)
 
-    var lastBookPath: String?
-        get() = preferences.getString("last_book_path", null)
-        set(value) = preferences.setString("last_book_path", value)
+    val speedReadTranslate: Float get() = preferences.getInt("translate_read_speed", 100).toFloat() / 100f
 
-    var lastBookProgress: Float
-        get() = preferences.getFloat("last_book_progress", 0f)
-        set(value) = preferences.setFloat("last_book_progress", value)
-
-    val speedReadTranslate: Float get() = 1f * preferences.getInt("translate_read_speed", 100) / 100f
-
-    val speedReadWords: Float get() = 1f * preferences.getInt("words_read_speed", 100) / 100f
+    val speedReadWords: Float get() = preferences.getInt("words_read_speed", 100).toFloat() / 100f
 
 
     /**
@@ -55,5 +54,18 @@ class Settings(val context: Context) {
     fun SharedPreferences.setBoolean(key: String, value: Boolean) = transaction { putBoolean(key, value) }
     fun SharedPreferences.setString(key: String, value: String?) = transaction { putString(key, value) }
     fun SharedPreferences.setFloat(key: String, value: Float) = transaction { putFloat(key, value) }
+
+    inner class DelegateBoolean(val key:String?=null,val defaultValue:Boolean=true){
+        operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getBoolean(key?:property.name, defaultValue)
+        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setBoolean(key?:property.name, any as Boolean)
+    }
+    inner class DelegateString(val key:String?=null,val defaultValue:String?=null){
+        operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getString(key?:property.name, defaultValue)
+        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setString(key?:property.name, any as? String)
+    }
+    inner class DelegateFloat(val key:String?=null,val defaultValue:Float=0f){
+        operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getFloat(key?:property.name, defaultValue)
+        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setFloat(key?:property.name, any as Float)
+    }
 
 }

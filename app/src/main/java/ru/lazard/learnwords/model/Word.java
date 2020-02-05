@@ -93,7 +93,7 @@ public class Word {
         return translate;
     }
 
-    void setTranslate(String translate) {
+    public void setTranslate(String translate) {
         this.translate = translate;
     }
 
@@ -109,7 +109,7 @@ public class Word {
         return word;
     }
 
-    void setWord(String word) {
+    public void setWord(String word) {
         this.word = word;
     }
 

@@ -31,7 +31,7 @@ public class NavCounterManager implements BaseActivity.OnActivityDestroyListener
     }
     @Subscribe
     public void onModelUpdated(Model event){
-        updateCounters();
+        activity.runOnUiThread(()->{updateCounters();});
     }
     public void updateCounters(){
 

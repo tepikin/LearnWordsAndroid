@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:title="@string/wordsList_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_openBook"
+        android:icon="@drawable/ic_note_add_black_24dp"
+        android:title="@string/readBook_menu_openBook" />
+
+    <item
+        android:id="@+id/menu_viewWords"
+        android:icon="@drawable/ic_note_add_black_24dp"
+        android:title="@string/readBook_menu_viewWords" />
+
+
+    <item
+        android:id="@+id/menu_useTranslator"
+        android:icon="@drawable/ic_headset_black_24dp"
+        android:title="@string/readBook_menu_useTranslator"
+        android:checkable="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_readOptions"
+        android:icon="@drawable/ic_headset_black_24dp"
+        android:title="@string/readBook_menu_readOptions">
+        <menu>
+            <group android:checkableBehavior="all">
+
+                <item
+                    android:id="@+id/menu_readSrc"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readSrc"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/menu_readSrcWordByWord"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readSrcWordByWord"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/menu_readDst"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readDst"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/menu_readDstWordByWord"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readDstWordByWord"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/menu_readOnlyWords"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readOnlyWords"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+</menu>

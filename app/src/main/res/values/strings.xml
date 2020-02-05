@@ -120,5 +120,16 @@
     <!-- Splash screen -->
     <string name="splash_error_cantCreateDb">Can\'t create database</string>
 
+    <!-- Read book screen -->
+    <string name="readBook_menu_openBook">Open book</string>
+    <string name="readBook_menu_viewWords">View words</string>
+    <string name="readBook_menu_readOptions">Read options</string>
+    <string name="readBook_menu_readSrc">Read source</string>
+    <string name="readBook_menu_readDst">Read translate</string>
+    <string name="readBook_menu_readSrcWordByWord">Source with new words</string>
+    <string name="readBook_menu_readDstWordByWord">Translate with new words</string>
+    <string name="readBook_menu_readOnlyWords">Only words</string>
+    <string name="readBook_menu_useTranslator">Use translator</string>
+
 
 </resources>

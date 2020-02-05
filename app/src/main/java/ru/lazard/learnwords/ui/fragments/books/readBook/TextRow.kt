@@ -13,58 +13,40 @@ class TextRow(val src: String) {
 
     var isWordsLoaded: Boolean = false;
     var isWordsLoading: Boolean = false;
-    var words: List<String>? = null
-    var wordsTranslated: List<Word>? = null
+
+    var wordsSrc: List<String>? = null
+    var wordsSrcTranslated: List<Word>? = null
+    var srcWithNewWords: String? = null
+    var srcWithNewWordsList: List<String?>? = null
+
 
     var loadError:Throwable?=null
 
     var dst: String? = null
+    var wordsDst: List<String>? = null
+    var wordsDstTranslated: List<Word>? = null
+    var dstWithNewWords: String? = null
+    var dstWithNewWordsList: List<String?>? = null
 
-    fun loadWords(onStart: (() -> Unit)? = null, onEnd: (() -> Unit)? = null) {
-        if (isWordsLoaded) {
-            onStart?.invoke();onEnd?.invoke();return
-        }
-        isWordsLoading = true
-        onStart?.invoke()
-        try {
-
-            dst = dst ?: Translate.translate(src)?.second
-
-
-
-            words = words
-                    ?: src.split("[\\.\\?,!\"\\W-\\(\\)]".toRegex()).map { it.trim() }.filter { it.length > 0 }.distinct()
-            wordsTranslated = wordsTranslated ?: words?.map { bookWord ->
-                val systemWords = Model.getInstance().words
-                systemWords?.find {
-                    it.translate == bookWord || it.word == bookWord
-                }
-                        ?: systemWords?.find {
-                            it.word.startsWith(bookWord + ";")
-                                    || it.translate.startsWith(bookWord + ";")
-                        }
-                        ?: systemWords?.find {
-                            it.word.contains(bookWord + ";")
-                                    || it.translate.contains(bookWord + ";")
-                        }
-                        ?: Word(0, null, null, bookWord)
-            }
-            isWordsLoading = false
-            isWordsLoaded = true
-            loadError=null;
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            loadError=e
-            isWordsLoading = false
-            isWordsLoaded = false
-        }
-
-        onEnd?.invoke()
-    }
+    val wordsTranslated get()= mutableListOf<Word>().union(wordsDstTranslated?: emptyList()).union(wordsSrcTranslated?: emptyList()).distinct()
 
 
     override fun toString(): String {
-        return src + "\n\n"+dst+"\n\n" + wordsTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")
+        return """
+            $src
+            
+            $srcWithNewWords
+            
+            $dst
+            
+            $dstWithNewWords
+            
+            ${wordsSrcTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")}
+            
+            ${wordsDstTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")}
+            
+        """.trimIndent()
+
     }
 
     fun play(function: () -> Unit) {

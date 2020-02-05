@@ -14,10 +14,19 @@ import android.content.Context
 import android.widget.TextView
 import android.content.Intent
 import android.app.Activity
+import android.app.SearchManager
+import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.SimpleItemAnimator
+import android.text.TextUtils
 import android.widget.Toast
+import ru.lazard.learnwords.model.Dictionary
+import ru.lazard.learnwords.model.Model
+import ru.lazard.learnwords.ui.fragments.preferences.Settings
+import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment
 
 
 class ReadBookFragment : View.OnClickListener, Fragment() {
@@ -29,6 +38,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
     private val adapter by lazy { BookTextAdapter(context) }
     private val recyclerLayoutManager by lazy { LinearLayoutManager(context) }
     private val presenter by lazy { ReadBookPresenter(this) }
+    private val settings by lazy { Settings(context) }
 
     companion object{
         private val KEY_BOOK_PATH = "KEY_BOOK_PATH"
@@ -48,7 +58,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
 
     override fun onClick(v: View) {
         if (floatingActionButton === v) {
-            presenter.onFloatingActionButtonClick()
+            presenter.onFloatingActionButtonClick(recyclerLayoutManager?.findFirstVisibleItemPosition())
         }
     }
 
@@ -58,9 +68,93 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main2, menu)
+        inflater.inflate(R.menu.menu_book_read, menu)
+
+        menu?.findItem(R.id.menu_readSrc)?.isChecked =settings.bookReaded_isReadSrc
+        menu?.findItem(R.id.menu_readDst)?.isChecked =settings.bookReaded_isReadDst
+        menu?.findItem( R.id.menu_readSrcWordByWord)?.isChecked =settings.bookReaded_isReadSrcWordByWord
+        menu?.findItem( R.id.menu_readDstWordByWord)?.isChecked =settings.bookReaded_isReadDstWordByWord
+        menu?.findItem(R.id.menu_readOnlyWords)?.isChecked =settings.bookReaded_isReadOnlyWords
+        menu?.findItem(R.id.menu_useTranslator)?.isChecked =settings.bookReaded_isUseTranslator
+
+
+        val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu?.findItem(R.id.menu_search)?.actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                presenter.onSearch(query)
+                return true
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                presenter.onSearch(query)
+                return true
+            }
+        })
+
+        if (presenter != null) {
+            if (!TextUtils.isEmpty(presenter.searchQuery)) {
+                searchView.setQuery(presenter.searchQuery, true)
+                searchView.setIconified(false)
+            }
+        }
+
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.menu_openBook) {
+            showFileChoicer()
+            return true
+        }
+        if (id == R.id.menu_viewWords) {
+            //TODO
+            return true
+        }
+
+        if (id == R.id.menu_useTranslator) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isUseTranslator= item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        if (id == R.id.menu_readSrc) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadSrc = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        if (id == R.id.menu_readDst) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadDst = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        if (id == R.id.menu_readSrcWordByWord) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadSrcWordByWord = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        if (id == R.id.menu_readDstWordByWord) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadDstWordByWord = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        if (id == R.id.menu_readOnlyWords) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadOnlyWords = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -194,8 +288,19 @@ fun Fragment.runOnUiThread(function:()->Unit){
 
 class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.fragment_book_read_text_row, parent, false)) {
     val textView by lazy { itemView.findViewById<TextView>(R.id.text) }
+    val settings:Settings by lazy { Settings(itemView.context) }
     fun bind(textRow: TextRow) {
-        textView.text = textRow.toString()
+        textView.text = textRow.run {
+            var result:String =""
+            if (settings.bookReaded_isReadSrc&&src!=null){result+="\n"+src}
+            if (settings.bookReaded_isReadSrcWordByWord&&srcWithNewWords!=null){result+="\n"+srcWithNewWords}
+            if (settings.bookReaded_isReadDst&&dst!=null){result+="\n"+dst}
+            if (settings.bookReaded_isReadDstWordByWord&&dstWithNewWords!=null){result+="\n"+dstWithNewWords}
+            if (settings.bookReaded_isReadOnlyWords&&wordsTranslated.size>0){result+="\n"+wordsTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")}
+            if (result.isEmpty())result+="\n"+src
+            result=result.trim()
+            result
+        }
         textView.setTextColor(when(textRow.state){
             TextRow.State.none -> Color.GRAY
             TextRow.State.reading -> Color.BLACK

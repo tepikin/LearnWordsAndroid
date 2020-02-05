@@ -56,6 +56,7 @@ public class DBInit {
         dictionaries.add(new Dictionary("Профессиональный уровень",3));
         dictionaries.add(new Dictionary("Неправильные глаголы",4));
         dictionaries.add(new Dictionary("Основные неправильные глаголы",5));
+        dictionaries.add(new Dictionary("Из книг",6));
 
         SQLiteDatabase db = DbHelper.getInstance().getWritableDatabase();
         final SQLiteStatement statement = db.compileStatement(DBContract.Dictionaries.SQL_INSERT);
