@@ -21,10 +21,13 @@ import android.net.Uri
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.SimpleItemAnimator
-import android.text.TextUtils
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.widget.Toast
 import ru.lazard.learnwords.model.Dictionary
 import ru.lazard.learnwords.model.Model
+import ru.lazard.learnwords.model.Word
 import ru.lazard.learnwords.ui.fragments.preferences.Settings
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment
 
@@ -290,7 +293,7 @@ class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(Layout
     val textView by lazy { itemView.findViewById<TextView>(R.id.text) }
     val settings:Settings by lazy { Settings(itemView.context) }
     fun bind(textRow: TextRow) {
-        textView.text = textRow.run {
+        val text = textRow.run {
             var result:String =""
             if (settings.bookReaded_isReadSrc&&src!=null){result+="\n"+src}
             if (settings.bookReaded_isReadSrcWordByWord&&srcWithNewWords!=null){result+="\n"+srcWithNewWords}
@@ -301,8 +304,39 @@ class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(Layout
             result=result.trim()
             result
         }
+
+        val spannable = SpannableString(text)
+        textRow?.wordsTranslated?.flatMap { listOf(it to "(${it.word} : ${it.translate})",it to "(${it.translate} : ${it.word})") }?.forEach {
+            val word = it.second
+            var startIndex =0
+            while (text.indexOf(word,startIndex)>=0) {
+                startIndex = text.indexOf(word,startIndex)
+                spannable.setSpan(object:ClickableSpan(){
+                    override fun updateDrawState(ds: TextPaint) {
+                        ds.color=Color.BLUE
+                        super.updateDrawState(ds)
+                    }
+
+                    override fun onClick(p0: View) {
+                        if (it.first.status<=Word.STATUS_LEARN){
+                            Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
+                            Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()
+                        }else{
+                            Model.getInstance().setWordStatus(it.first,Word.STATUS_LEARN)
+                            Toast.makeText(itemView.context,"${it.first.word} set to LEARN",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },startIndex,startIndex + word.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                startIndex++;
+            }
+        }
+
+
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.text =spannable
+
         textView.setTextColor(when(textRow.state){
-            TextRow.State.none -> Color.GRAY
+            TextRow.State.none -> Color.DKGRAY
             TextRow.State.reading -> Color.BLACK
             TextRow.State.readed -> Color.LTGRAY
         })

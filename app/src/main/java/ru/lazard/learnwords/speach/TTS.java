@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import kotlin.text.Regex;
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.ui.BaseActivity;
 import ru.lazard.learnwords.ui.activities.main.MainActivity;
@@ -95,6 +96,10 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
             return;
         }
         if (TextUtils.isEmpty(text)) {
+            if (callback != null) callback.run();
+            return;
+        }
+        if (text.replaceAll("[^\\w]","").length()==0) {
             if (callback != null) callback.run();
             return;
         }

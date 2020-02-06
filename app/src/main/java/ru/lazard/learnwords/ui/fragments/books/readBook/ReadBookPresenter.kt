@@ -302,7 +302,15 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
 
     fun onSearch(query: String) {
+        pause()
         searchQuery = query
+        val row = rows?.find {
+            (it?.src?.contains(query,true)?:false)||
+            (it?.dst?.contains(query,true)?:false)||
+            (it?.srcWithNewWords?.contains(query,true)?:false)||
+            (it?.dstWithNewWords?.contains(query,true)?:false)
+        }
+        row?.let{fragment?.scrollToRow(it)}
     }
 
     fun onReadOrderChanged() {
