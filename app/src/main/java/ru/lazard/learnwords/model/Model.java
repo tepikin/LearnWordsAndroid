@@ -84,6 +84,15 @@ public class Model {
         return wordsWithStatus.get(randomInt);
     }
 
+    private int currentWordIndex = 0;
+    public Word getNextWordByStatus(int status) {
+        List<Word> wordsWithStatus = getWordsWithStatus(status);
+        if (wordsWithStatus.size() <= 0) return null;
+        currentWordIndex--;
+        if(currentWordIndex<0)currentWordIndex=wordsWithStatus.size()-1;
+        return wordsWithStatus.get(currentWordIndex);
+    }
+
     public Word getRandomWordForLearning() {
         Word randomWordByStatus = getRandomWordByStatus(1);
         if (randomWordByStatus == null) {
@@ -96,6 +105,14 @@ public class Model {
         for (int i = status; i >= 0; i--) {
             Word randomWordByStatus = getRandomWordByStatus(i);
             if (randomWordByStatus != null) return randomWordByStatus;
+        }
+        return null;
+    }
+
+    public Word getNextWordWithStatusLoverOrEqualThen(int status) {
+        for (int i = status; i >= 0; i--) {
+            Word nextWordByStatus = getNextWordByStatus(i);
+            if (nextWordByStatus != null) return nextWordByStatus;
         }
         return null;
     }

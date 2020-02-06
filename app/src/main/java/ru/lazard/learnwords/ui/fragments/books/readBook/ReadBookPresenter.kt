@@ -148,10 +148,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     private fun openBook(bookUri: Uri, progress: Float) {
         try {
             var bookUri = bookUri;
-            var text = context?.contentResolver?.openInputStream(bookUri)?.bufferedReader()?.readText()
 
+            var text = FileToText(context).toText(bookUri);
 
-            val targetFile = File(context.getFilesDir(), "books")
+            val targetFile = File(context.getFilesDir(), "book.txt")
             val targetUri = Uri.fromFile(targetFile)
             if (bookUri != targetUri) {
                 bookUri = targetUri
@@ -160,10 +160,17 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
 
 
-            if (text?.startsWith("<?xml") ?: false) {
-                text = text?.replace("<[?/qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM][^>]*>".toRegex(), "")
-            }
 
+//            Thread {
+//                val splits = text?.split("[^\\w]".toRegex())
+//                val groups = splits?.groupBy { it }
+//                val sorted = groups?.map { it.key to it.value.size }?.sortedBy { it.second }?.map { it.first }?.asReversed()
+//                val words = sorted?.filter { it.length>0 }?.forEach {
+//                    Log.e("words",""+it);
+//                    val word = textToWordObject(it)
+//                    Log.e("words",""+word?.word+"->"+word?.translate);
+//                }
+//        }.start()
 
             settings.lastBookPath = bookUri.toString()
             settings.lastBookProgress = progress
@@ -202,7 +209,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             val isTextEn = Utils.isTextEn(text);
                             var text = " "+text?.toString()+" "
                             if (isTextEn) {
-                                words?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
+                                words?.filter { it.word!=null&&it.translate!=null }?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
                                     try {
                                         text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translate}\\)\$2")
                                     } catch (e: Throwable) {
@@ -210,7 +217,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                                     }
                                 }
                             }else{
-                                words?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach { try{text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")}catch (e:Throwable){e.printStackTrace()} }
+                                words?.filter { it.word!=null&&it.translate!=null }?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach { try{text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")}catch (e:Throwable){e.printStackTrace()} }
                             }
                             return text;
                         }

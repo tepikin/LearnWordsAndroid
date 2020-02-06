@@ -176,8 +176,13 @@ public class MainActivity extends BaseActivity
         this.tts=new TTS(this);
         this.tts.checkTTS();
 
+        new StartIntentInvoker(this).invoke();
+
     }
 
-
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        new StartIntentInvoker(this).invoke();
+    }
 }

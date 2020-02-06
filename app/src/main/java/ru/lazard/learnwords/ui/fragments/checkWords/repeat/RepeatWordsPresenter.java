@@ -31,7 +31,7 @@ public class RepeatWordsPresenter implements FragmentManager.OnBackStackChangedL
 
     public void doStep() {
         state=State.start;
-        randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_LEARN);
+        randomWord = Model.getInstance().getNextWordWithStatusLoverOrEqualThen(Word.STATUS_LEARN);
         fragment.showWord(randomWord,state);
         if (settings.isReadWords()&&randomWord!=null){
             getTts().speak(randomWord.getWord(),settings.getSpeedReadWords(), Locale.ENGLISH,null);
