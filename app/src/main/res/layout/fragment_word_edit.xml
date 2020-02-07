@@ -58,9 +58,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/wordEdit_translate"
             android:imeOptions="actionNext"
-            android:maxLines="1"
             android:paddingRight="38dp"
-            android:singleLine="true"
             />
 
     </android.support.design.widget.TextInputLayout>

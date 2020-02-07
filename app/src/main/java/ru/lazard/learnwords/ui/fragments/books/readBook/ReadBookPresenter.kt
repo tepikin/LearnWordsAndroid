@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
+import android.text.TextUtils
 import android.util.Log
 import ru.lazard.learnwords.model.Model
 import ru.lazard.learnwords.model.Word
@@ -335,16 +336,21 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         return systemWord
     }
 
-
+    var searchFromIndex = -1;
     fun onSearch(query: String) {
+        if (TextUtils.isEmpty(query))return
+        if(query!=searchQuery){
+            searchFromIndex=-1;
+        }
         pause()
         searchQuery = query
-        val row = rows?.find {
+        val row = rows?.filterIndexed { index, textRow ->index>searchFromIndex  }?.find {
             (it?.src?.contains(query, true) ?: false) ||
                     (it?.dst?.contains(query, true) ?: false) ||
                     (it?.srcWithNewWords?.contains(query, true) ?: false) ||
                     (it?.dstWithNewWords?.contains(query, true) ?: false)
         }
+        searchFromIndex = rows?.indexOf(row)?:-1
         row?.let { fragment?.scrollToRow(it) }
     }
 

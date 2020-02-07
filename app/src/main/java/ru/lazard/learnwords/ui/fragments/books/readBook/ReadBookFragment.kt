@@ -346,7 +346,7 @@ var viewCache :View? =null
             wordPattern.findAll(text).toList().forEach {group->
                 spannable.addSpanClickable(group.range.start,group.range.endInclusive,textColor){
 
-                    val word = Model.getInstance().getWordsByDictionary(6)?.find { it?.word?.toLowerCase()==group?.value?.toLowerCase() ||it?.translate?.toLowerCase()==group?.value?.toLowerCase() }
+                    val word = Model.getInstance().getWordsByDictionary(6)?.find { it?.word?.toLowerCase()==group?.value?.toLowerCase() ||it?.translateShort?.toLowerCase()==group?.value?.toLowerCase() }
                     word?.let {
                         presenter.pause()
                         (activity as? MainActivity)?.addFragment(WordEditFragment.newInstance(word ,6),true)
@@ -356,7 +356,7 @@ var viewCache :View? =null
             }
 
 
-            textRow?.wordsTranslated?.flatMap { listOf(it to "(${it.word} : ${it.translate})",it to "(${it.translate} : ${it.word})") }?.forEach {
+            textRow?.wordsTranslated?.flatMap { listOf(it to "(${it.word} : ${it.translateShort})",it to "(${it.translateShort} : ${it.word})") }?.forEach {
                 val word = it.second
                 var startIndex =0
                 while (text.indexOf(word,startIndex)>=0) {
