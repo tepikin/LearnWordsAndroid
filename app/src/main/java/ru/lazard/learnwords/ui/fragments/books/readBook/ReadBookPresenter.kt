@@ -298,11 +298,14 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 //                            || it.translate.trim().endsWith(" " + bookWord)
 //                }
         if (systemWord == null) {
-            var translate: String? = null
+
+
             if (settings.bookReaded_isUseTranslator) {
-                translate = Translate.translate(bookWord)?.second?.toLowerCase()?.trim()
+                    systemWord = Translate.translateWordTwice(bookWord)
+            }else {
+                var translate: String? = null
+                systemWord = Word(6, 0, 1, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
             }
-            systemWord = Word(6, 0, 1, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
             if (systemWord?.getWord() != null && systemWord?.getTranslate() != null) {
                 wordsModel.addWord(systemWord);
             }

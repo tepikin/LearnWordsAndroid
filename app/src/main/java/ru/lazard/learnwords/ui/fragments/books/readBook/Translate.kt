@@ -1,6 +1,9 @@
 package ru.lazard.learnwords.ui.fragments.books.readBook
 
+import android.text.TextUtils
+import org.json.JSONArray
 import org.json.JSONObject
+import ru.lazard.learnwords.model.Word
 import ru.lazard.learnwords.utils.Utils
 import java.net.HttpURLConnection
 import java.net.URL
@@ -71,4 +74,89 @@ object Translate {
 
         return sourceText to response
     }
+
+
+
+
+
+    public fun translateWordTwice(sourceText: String?, language: String =  if (Utils.isTextEn(sourceText))"en-ru" else "ru-en"): Word {
+        var word:Word? = null
+        try{
+            word = translateWord(sourceText,language)
+            if (TextUtils.isEmpty(word.word)||TextUtils.isEmpty(word.translate)){word =null}
+        }catch (e:Throwable){
+            e.printStackTrace()
+        }
+        if (word ==null){
+            var translate: String? = translate(sourceText,language)?.second
+            val isWordEn = Utils.isTextEn(sourceText)
+            word = Word(6, 0, 1, null, if (isWordEn) translate else sourceText, 0, if (isWordEn) sourceText else translate)
+        }
+        return word
+    }
+
+    /**
+     * Api key get from here :
+     * https://developers.google.com/apis-explorer/?hl=ru#p/translate/v2/language.translations.translate
+     *
+     */
+    fun translateWord(sourceText: String?, language: String =  if (Utils.isTextEn(sourceText))"en-ru" else "ru-en"): Word {
+        val sourceText = sourceText ?: ""
+        val url = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20200207T080046Z.2d6eb7e1b9eba162.583a8615b72a4a965bbbff83ad4595feab6bd339&lang=" + language + "&flags=4&text=" + URLEncoder.encode(sourceText)
+        val httpURLConnection = URL(url).openConnection() as HttpURLConnection
+        httpURLConnection.requestMethod = "GET"
+
+
+        httpURLConnection.setRequestProperty("Host", "translate.yandex.net")
+        httpURLConnection.setRequestProperty("Connection", "keep-alive")
+        httpURLConnection.setRequestProperty("Cache-Control", "max-age=0")
+        httpURLConnection.setRequestProperty("Upgrade-Insecure-Requests", "1")
+        httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36")
+        httpURLConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+        //httpURLConnection.setRequestProperty("Accept-Encoding", "gzip, deflate, br")
+        httpURLConnection.setRequestProperty("Accept-Language", "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7")
+        //httpURLConnection.setRequestProperty("text", sourceText)
+
+
+        //httpURLConnection.addRequestProperty("text", sourceText)
+        httpURLConnection.doOutput = true
+        httpURLConnection.doInput = true
+        httpURLConnection.outputStream.use { it.bufferedWriter().write("text=$sourceText") }
+        var response:String? = ""
+        try {
+            response = httpURLConnection.inputStream.reader().readText()
+        } catch (e: Throwable) {
+            print("Error: responseCode = ${httpURLConnection.responseCode}  responseMessage = ${httpURLConnection.responseMessage}")
+            throw  e
+        }
+
+        if (httpURLConnection.responseCode != 200) throw IllegalArgumentException("Error: responseCode = ${httpURLConnection.responseCode}  responseMessage = ${httpURLConnection.responseMessage}")
+
+        println(response)
+
+
+//        response = response.replace("{\"code\":200,\"lang\":\"ru-en\",\"text\":[\"", "")
+//        response = response.replace("\"]}", "")
+
+        val jsonObject = JSONObject(response)
+        val trObject = jsonObject?.getJSONArraySafe("def")?.toJsonObjectsList()?.firstOrNull()
+        val transcription =trObject?.getStringSafe("ts")
+        val translate =trObject?.getJSONArraySafe("tr")?.toJsonObjectsList()?.firstOrNull()?.getStringSafe("text")
+
+        val isTextEn = Utils.isTextEn(sourceText)
+        return Word(6, 0, 1, if (isTextEn) transcription else null, if (isTextEn)translate else sourceText , 0, if (isTextEn)sourceText else translate);
+    }
+
+    //dict.1.1.20200207T080046Z.2d6eb7e1b9eba162.583a8615b72a4a965bbbff83ad4595feab6bd339
+}
+
+fun JSONObject.getStringSafe(name:String) = if (this.has(name))    this.getString(name) else null
+fun JSONObject.getJSONArraySafe(name:String) = if (this.has(name))    this.getJSONArray(name) else null
+
+fun JSONArray.toJsonObjectsList():List<JSONObject>{
+    val result = mutableListOf<JSONObject>()
+    for(i in 0 until length()){
+        result.add(this.getJSONObject(i))
+    }
+    return result
 }
