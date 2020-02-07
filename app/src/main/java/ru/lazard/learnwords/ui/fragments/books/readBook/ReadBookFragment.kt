@@ -24,12 +24,14 @@ import android.support.v7.widget.SimpleItemAnimator
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Range
 import android.widget.Toast
 import ru.lazard.learnwords.model.Dictionary
 import ru.lazard.learnwords.model.Model
 import ru.lazard.learnwords.model.Word
 import ru.lazard.learnwords.ui.fragments.preferences.Settings
 import ru.lazard.learnwords.ui.fragments.preferences.SettingsFragment
+import ru.lazard.learnwords.ui.fragments.wordsList.edit.WordEditFragment
 
 
 class ReadBookFragment : View.OnClickListener, Fragment() {
@@ -79,6 +81,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
         menu?.findItem( R.id.menu_readDstWordByWord)?.isChecked =settings.bookReaded_isReadDstWordByWord
         menu?.findItem(R.id.menu_readOnlyWords)?.isChecked =settings.bookReaded_isReadOnlyWords
         menu?.findItem(R.id.menu_useTranslator)?.isChecked =settings.bookReaded_isUseTranslator
+        menu?.findItem(R.id.menu_readAloud)?.isChecked =settings.bookReaded_isReadAloud
 
 
         val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -155,14 +158,20 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
             presenter?.onReadOrderChanged()
             return false
         }
+        if (id == R.id.menu_readAloud) {
+            item.isChecked=!item.isChecked
+            settings.bookReaded_isReadAloud = item.isChecked
+            presenter?.onReadOrderChanged()
+            return false
+        }
         return super.onOptionsItemSelected(item)
     }
 
-
+var viewCache :View? =null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view = super.onCreateView(inflater, container, savedInstanceState)
-
+        if (view ==null){view = viewCache }
         if (view == null) {
             view = LayoutInflater.from(context).inflate(ru.lazard.learnwords.R.layout.fragment_book_read, container, false)
             baseLayout = view?.findViewById(ru.lazard.learnwords.R.id.base_layout)
@@ -182,6 +191,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
             val bookProgress :Float? = if (arguments.containsKey(KEY_BOOK_PROGRESS) )arguments?.getFloat(KEY_BOOK_PROGRESS) else null
             presenter.openStartBook(bookUri, bookProgress)
         }
+        this.viewCache = view
         return view
     }
 
@@ -264,83 +274,139 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
         }
     }
 
+
+
+
+
+
+
+
+
+    inner class BookTextAdapter(val context: Context) : RecyclerView.Adapter<TextRowViewHolder>() {
+        private val rows = mutableListOf<TextRow>();
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = TextRowViewHolder(parent)
+        override fun getItemCount() = rows.size
+        override fun onBindViewHolder(holder: TextRowViewHolder, position: Int) = holder.bind(rows[position])
+        fun setTextRows(newRows: List<TextRow>) {
+            rows.clear()
+            rows.addAll(newRows)
+            notifyDataSetChanged()
+        }
+
+        fun updateRow(row: TextRow) {
+            notifyItemChanged(indexOfRow(row))
+        }
+        fun indexOfRow(row: TextRow) = rows.indexOf(row)
+
+    }
+
+
+    inner class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.fragment_book_read_text_row, parent, false)) {
+        val textView by lazy { itemView.findViewById<TextView>(R.id.text) }
+        val settings:Settings by lazy { Settings(itemView.context) }
+        fun bind(textRow: TextRow) {
+            val text = textRow.run {
+                var result:String =""
+                if (settings.bookReaded_isReadSrc&&src!=null){result+="\n"+src}
+                if (settings.bookReaded_isReadSrcWordByWord&&srcWithNewWords!=null){result+="\n"+srcWithNewWords}
+                if (settings.bookReaded_isReadDst&&dst!=null){result+="\n"+dst}
+                if (settings.bookReaded_isReadDstWordByWord&&dstWithNewWords!=null){result+="\n"+dstWithNewWords}
+                if (settings.bookReaded_isReadOnlyWords&&wordsTranslated.size>0){result+="\n"+wordsTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")}
+                if (result.isEmpty())result+="\n"+src
+                result=result.trim()
+                result
+            }
+
+
+            fun SpannableString.addSpanClickable(start:Int,end:Int,color:Int?,action:()->Unit){
+                this.getSpans(start,end,ClickableSpan::class.java).forEach {this.removeSpan(it)}
+                this.setSpan(object:ClickableSpan(){
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        color?.let { ds.color=it }
+                        ds.isUnderlineText=false
+                    }
+                    override fun onClick(p0: View) = action()
+                },start,end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+            val spannable = SpannableString(text)
+
+
+
+            val textColor = when (textRow.state) {
+                TextRow.State.none -> Color.DKGRAY
+                TextRow.State.reading -> Color.BLACK
+                TextRow.State.readed -> Color.LTGRAY
+            }
+
+            text.split("[^\\w]".toRegex()).filter { it.length>0 }.map { it.toLowerCase() }.distinct().flatMap { "(^|[^\\w])($it)[^\\w]".toRegex(RegexOption.IGNORE_CASE).findAll("$text").toList() }
+                    .map{
+                        it.groups.get(2)
+                    }?.filterNotNull().forEach {
+group->
+                spannable.addSpanClickable(group.range.start,group.range.endInclusive,textColor){
+
+                    val word = Model.getInstance().getWordsByDictionary(6)?.find { it?.word?.toLowerCase()==group?.value?.toLowerCase() ||it?.translate?.toLowerCase()==group?.value?.toLowerCase() }
+                    word?.let {
+                        presenter.pause()
+                        (activity as? MainActivity)?.addFragment(WordEditFragment.newInstance(word ,6),true)
+                    }
+
+                }
+            }
+
+
+            textRow?.wordsTranslated?.flatMap { listOf(it to "(${it.word} : ${it.translate})",it to "(${it.translate} : ${it.word})") }?.forEach {
+                val word = it.second
+                var startIndex =0
+                while (text.indexOf(word,startIndex)>=0) {
+                    startIndex = text.indexOf(word,startIndex)
+                    spannable.addSpanClickable(startIndex,startIndex + word.length, null){
+                        if (it.first.status<=Word.STATUS_LEARN){
+                            Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
+                            Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()
+                            presenter.onReadOrderChanged()
+                        }else{
+                            Model.getInstance().setWordStatus(it.first,Word.STATUS_LEARN)
+                            Toast.makeText(itemView.context,"${it.first.word} set to LEARN",Toast.LENGTH_SHORT).show()
+                            presenter.onReadOrderChanged()
+                        }
+                    }
+                    startIndex++;
+                }
+            }
+
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+            textView.text =spannable
+
+
+
+
+            textView.setTextColor(textColor)
+        }
+
+    }
 }
 
 
-class BookTextAdapter(val context: Context) : RecyclerView.Adapter<TextRowViewHolder>() {
-    private val rows = mutableListOf<TextRow>();
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = TextRowViewHolder(parent)
-    override fun getItemCount() = rows.size
-    override fun onBindViewHolder(holder: TextRowViewHolder, position: Int) = holder.bind(rows[position])
-    fun setTextRows(newRows: List<TextRow>) {
-        rows.clear()
-        rows.addAll(newRows)
-        notifyDataSetChanged()
-    }
 
-    fun updateRow(row: TextRow) {
-        notifyItemChanged(indexOfRow(row))
-    }
-    fun indexOfRow(row: TextRow) = rows.indexOf(row)
-
-}
 
 fun Fragment.runOnUiThread(function:()->Unit){
     activity?.runOnUiThread(function)
 }
 
-class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.fragment_book_read_text_row, parent, false)) {
-    val textView by lazy { itemView.findViewById<TextView>(R.id.text) }
-    val settings:Settings by lazy { Settings(itemView.context) }
-    fun bind(textRow: TextRow) {
-        val text = textRow.run {
-            var result:String =""
-            if (settings.bookReaded_isReadSrc&&src!=null){result+="\n"+src}
-            if (settings.bookReaded_isReadSrcWordByWord&&srcWithNewWords!=null){result+="\n"+srcWithNewWords}
-            if (settings.bookReaded_isReadDst&&dst!=null){result+="\n"+dst}
-            if (settings.bookReaded_isReadDstWordByWord&&dstWithNewWords!=null){result+="\n"+dstWithNewWords}
-            if (settings.bookReaded_isReadOnlyWords&&wordsTranslated.size>0){result+="\n"+wordsTranslated?.map { "" + it.word + " -> " + it.translate }?.joinToString("\n")}
-            if (result.isEmpty())result+="\n"+src
-            result=result.trim()
-            result
+fun String.findAll(substring:String,ignoreCase:Boolean = true):List<IntRange>{
+    val result = mutableListOf<IntRange>()
+    var startIndex = 0;
+    while(startIndex >=0) {
+        startIndex  = this.indexOf(substring, startIndex, ignoreCase)
+        if (startIndex >=0){
+            result.add(IntRange(startIndex,startIndex+substring.length))
         }
-
-        val spannable = SpannableString(text)
-        textRow?.wordsTranslated?.flatMap { listOf(it to "(${it.word} : ${it.translate})",it to "(${it.translate} : ${it.word})") }?.forEach {
-            val word = it.second
-            var startIndex =0
-            while (text.indexOf(word,startIndex)>=0) {
-                startIndex = text.indexOf(word,startIndex)
-                spannable.setSpan(object:ClickableSpan(){
-                    override fun updateDrawState(ds: TextPaint) {
-                        ds.color=Color.BLUE
-                        super.updateDrawState(ds)
-                    }
-
-                    override fun onClick(p0: View) {
-                        if (it.first.status<=Word.STATUS_LEARN){
-                            Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
-                            Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()
-                        }else{
-                            Model.getInstance().setWordStatus(it.first,Word.STATUS_LEARN)
-                            Toast.makeText(itemView.context,"${it.first.word} set to LEARN",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                },startIndex,startIndex + word.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                startIndex++;
-            }
-        }
-
-
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.text =spannable
-
-        textView.setTextColor(when(textRow.state){
-            TextRow.State.none -> Color.DKGRAY
-            TextRow.State.reading -> Color.BLACK
-            TextRow.State.readed -> Color.LTGRAY
-        })
     }
-
+    return result
 }
+
+
 

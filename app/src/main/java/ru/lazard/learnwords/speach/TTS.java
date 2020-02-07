@@ -90,19 +90,21 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
 
     }
 
-    public void speak(final String text, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
+    public void speak(final String textIn, @FloatRange(from = 0, to = 2) float speechRate, Locale locale, final Runnable callback) {
         if (mTts == null) {
             if (callback != null) callback.run();
             return;
         }
-        if (TextUtils.isEmpty(text)) {
+        if (TextUtils.isEmpty(textIn)) {
             if (callback != null) callback.run();
             return;
         }
-        if (text.replaceAll("[^\\w]","").length()==0) {
+        if (textIn.replaceAll("[^\\w]","").length()==0) {
             if (callback != null) callback.run();
             return;
         }
+        final String text = textIn.replaceAll("^[^\\w]","");
+
         if (speechRate < 0) {
             speechRate = 0;
             return;

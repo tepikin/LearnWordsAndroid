@@ -59,7 +59,19 @@
                     android:icon="@drawable/ic_headset_black_24dp"
                     android:title="@string/readBook_menu_readOnlyWords"
                     app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/menu_readAloud"
+                    android:icon="@drawable/ic_headset_black_24dp"
+                    android:title="@string/readBook_menu_readAloud"
+                    android:checkable="true"
+                    app:showAsAction="never" />
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/navigation_menu_preferences"
+        app:showAsAction="never" />
 </menu>

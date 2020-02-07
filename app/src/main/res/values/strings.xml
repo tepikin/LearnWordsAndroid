@@ -130,6 +130,7 @@
     <string name="readBook_menu_readDstWordByWord">Translate with new words</string>
     <string name="readBook_menu_readOnlyWords">Only words</string>
     <string name="readBook_menu_useTranslator">Use translator</string>
+    <string name="readBook_menu_readAloud">Read aloud</string>
 
 
 </resources>

@@ -27,9 +27,15 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     private var rows: List<TextRow>? = null
     var searchQuery: String? = null;
 
-    fun onFloatingActionButtonClick(positionIn: Int = position) = if (isPlay) pause() else play(positionIn)
+    fun onFloatingActionButtonClick(positionIn: Int = position) {
+        if (settings.bookReaded_isReadAloud){
+            if (isPlay) pause() else play(positionIn)
+        }else{
+            play(positionIn+1)
+        }
+    }
 
-    private fun pause() {
+    fun pause() {
         isPlay = false
         fragment.setStatePause()
         tts?.stop()
@@ -68,23 +74,23 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 if (!isPlay) return
 
                 if (settings.bookReaded_isReadSrc) {
-                    doSync { tts?.speak(row.src) { countDown() } }
+                    speekSynch(row.src)
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadSrcWordByWord) {
-                    row.srcWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){doSync { tts?.speak(it) { countDown() } }}}
+                    row.srcWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){speekSynch(it)}}
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadDst) {
-                    doSync { tts?.speak(row.dst) { countDown() } }
+                      speekSynch(row.dst)
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadDstWordByWord) {
-                    row.dstWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){doSync {tts?.speak(it) { countDown() } }}}
+                    row.dstWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){speekSynch(it)}}
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadOnlyWords) {
-                    row.wordsTranslated?.flatMap { listOf(it.word,it.translate," ... ") } ?.forEach {if (isPlay){doSync {tts?.speak(it) { countDown() } }}}
+                    row.wordsTranslated?.flatMap { listOf(it.word,it.translate," ... ") } ?.forEach {if (isPlay){speekSynch(it)}}
                 }
                 if (!isPlay) return
 
@@ -96,12 +102,16 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 if (!isPlay) return
 
                 position++
-                playStep()
-
-
+                if (settings.bookReaded_isReadAloud){ playStep()}
             }
         }).start()
 
+    }
+
+    private fun speekSynch(text: String?) {
+        if (settings.bookReaded_isReadAloud) {
+            doSync { tts?.speak(text) { countDown() } }
+        }
     }
 
     fun onDestroy() {
