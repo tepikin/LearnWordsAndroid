@@ -306,6 +306,7 @@ var viewCache :View? =null
     inner class TextRowViewHolder(val parent: ViewGroup?) : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.fragment_book_read_text_row, parent, false)) {
         val textView by lazy { itemView.findViewById<TextView>(R.id.text) }
         val settings:Settings by lazy { Settings(itemView.context) }
+        val wordPattern = "\\w+".toRegex(RegexOption.IGNORE_CASE)
         fun bind(textRow: TextRow) {
             val text = textRow.run {
                 var result:String =""
@@ -342,11 +343,7 @@ var viewCache :View? =null
                 TextRow.State.readed -> Color.LTGRAY
             }
 
-            text.split("[^\\w]".toRegex()).filter { it.length>0 }.map { it.toLowerCase() }.distinct().flatMap { "(^|[^\\w])($it)[^\\w]".toRegex(RegexOption.IGNORE_CASE).findAll("$text").toList() }
-                    .map{
-                        it.groups.get(2)
-                    }?.filterNotNull().forEach {
-group->
+            wordPattern.findAll(text).toList().forEach {group->
                 spannable.addSpanClickable(group.range.start,group.range.endInclusive,textColor){
 
                     val word = Model.getInstance().getWordsByDictionary(6)?.find { it?.word?.toLowerCase()==group?.value?.toLowerCase() ||it?.translate?.toLowerCase()==group?.value?.toLowerCase() }
@@ -364,7 +361,7 @@ group->
                 var startIndex =0
                 while (text.indexOf(word,startIndex)>=0) {
                     startIndex = text.indexOf(word,startIndex)
-                    spannable.addSpanClickable(startIndex,startIndex + word.length, null){
+                    spannable.addSpanClickable(startIndex,startIndex + word.length, Color.LTGRAY){
                         if (it.first.status<=Word.STATUS_LEARN){
                             Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
                             Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()

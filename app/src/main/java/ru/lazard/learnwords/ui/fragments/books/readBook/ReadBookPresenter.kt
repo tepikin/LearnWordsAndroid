@@ -233,7 +233,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             if (isTextEn) {
                                 words?.filter { it.word != null && it.translate != null }?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
                                     try {
-                                        text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translate}\\)\$2")
+                                        text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translateShort}\\)\$2")
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                     }
@@ -241,7 +241,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             } else {
                                 words?.filter { it.word != null && it.translate != null }?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
                                     try {
-                                        text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")
+                                        text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translateShort} : ${it.word}\\)\$2")
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                     }

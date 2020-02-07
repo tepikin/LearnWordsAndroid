@@ -141,9 +141,17 @@ object Translate {
         val jsonObject = JSONObject(response)
         val trObject = jsonObject?.getJSONArraySafe("def")?.toJsonObjectsList()?.firstOrNull()
         val transcription =trObject?.getStringSafe("ts")
-        val translate =trObject?.getJSONArraySafe("tr")?.toJsonObjectsList()?.firstOrNull()?.getStringSafe("text")
+        var translate =trObject?.getJSONArraySafe("tr")?.toJsonObjectsList()?.firstOrNull()?.getStringSafe("text")
 
         val isTextEn = Utils.isTextEn(sourceText)
+
+        if (isTextEn){
+            translate = jsonObject?.getJSONArraySafe("def")?.toJsonObjectsList()?.flatMap { it?.getJSONArraySafe("tr")?.toJsonObjectsList()?: emptyList() }?.flatMap {
+                linkedSetOf(it.getStringSafe("text"),*(it.getJSONArraySafe("syn")?.toJsonObjectsList()?.map{it.getStringSafe("text")}?.toTypedArray()?: emptyList<String>().toTypedArray()))
+            }?.joinToString("; ")
+
+        }
+
         return Word(6, 0, 1, if (isTextEn) transcription else null, if (isTextEn)translate else sourceText , 0, if (isTextEn)sourceText else translate);
     }
 

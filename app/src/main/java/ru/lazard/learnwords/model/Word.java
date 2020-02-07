@@ -92,6 +92,13 @@ public class Word {
     public String getTranslate() {
         return translate;
     }
+    public String getTranslateShort() {
+        if (translate==null)return translate;
+        int index = translate.indexOf(";");
+        if (index >0)return translate.substring(0,index);
+
+        return translate;
+    }
 
     public void setTranslate(String translate) {
         this.translate = translate;
