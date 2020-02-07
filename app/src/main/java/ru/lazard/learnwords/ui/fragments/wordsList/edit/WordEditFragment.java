@@ -120,6 +120,10 @@ public class WordEditFragment extends Fragment {
             onApplay();
             return true;
         }
+        if (id == R.id.menu_remove) {
+            onRemove();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -140,6 +144,14 @@ public class WordEditFragment extends Fragment {
             getActivity().onBackPressed();
         } else {
             Model.getInstance().updateWord(word, status, transcription, translate, wordText);
+            getActivity().onBackPressed();
+        }
+
+    }
+
+    private void onRemove() {
+        if (word != null) {
+            Model.getInstance().removeWord(word);
             getActivity().onBackPressed();
         }
 

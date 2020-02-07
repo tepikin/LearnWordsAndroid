@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/wordEdit_menu_done"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_remove"
+        android:title="@string/wordEdit_menu_remove"
+        app:showAsAction="never"/>
 </menu>

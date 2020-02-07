@@ -28,10 +28,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     var searchQuery: String? = null;
 
     fun onFloatingActionButtonClick(positionIn: Int = position) {
-        if (settings.bookReaded_isReadAloud){
+        if (settings.bookReaded_isReadAloud) {
             if (isPlay) pause() else play(positionIn)
-        }else{
-            play(positionIn+1)
+        } else {
+            play(positionIn + 1)
         }
     }
 
@@ -41,7 +41,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         tts?.stop()
     }
 
-    private fun play(positionIn:Int=position) {
+    private fun play(positionIn: Int = position) {
         position = positionIn
         isPlay = true
         fragment.setStatePlay()
@@ -53,7 +53,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         Thread(object : Runnable {
             override fun run() {
 
-                settings.lastBookProgress = 1f*position/(rows?.size?:position)
+                settings.lastBookProgress = 1f * position / (rows?.size ?: position)
 
                 val row = currentTextRow
                 row ?: pause()
@@ -78,19 +78,31 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadSrcWordByWord) {
-                    row.srcWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){speekSynch(it)}}
+                    row.srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
+                        if (isPlay) {
+                            speekSynch(it)
+                        }
+                    }
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadDst) {
-                      speekSynch(row.dst)
+                    speekSynch(row.dst)
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadDstWordByWord) {
-                    row.dstWithNewWordsList?.filterNotNull()?.forEach {if (isPlay){speekSynch(it)}}
+                    row.dstWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
+                        if (isPlay) {
+                            speekSynch(it)
+                        }
+                    }
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadOnlyWords) {
-                    row.wordsTranslated?.flatMap { listOf(it.word,it.translate," ... ") } ?.forEach {if (isPlay){speekSynch(it)}}
+                    row.wordsTranslated?.toMutableList()?.flatMap { listOf(it.word, it.translate, " ... ") }?.forEach {
+                        if (isPlay) {
+                            speekSynch(it)
+                        }
+                    }
                 }
                 if (!isPlay) return
 
@@ -102,7 +114,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 if (!isPlay) return
 
                 position++
-                if (settings.bookReaded_isReadAloud){ playStep()}
+                if (settings.bookReaded_isReadAloud) {
+                    playStep()
+                }
             }
         }).start()
 
@@ -127,7 +141,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     }
 
     fun onDetach() {
-       pause()
+        pause()
     }
 
     fun onResume() {
@@ -169,8 +183,6 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
             }
 
 
-
-
 //            Thread {
 //                val splits = text?.split("[^\\w]".toRegex())
 //                val groups = splits?.groupBy { it }
@@ -188,8 +200,8 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
             rows = text?.replace("([\\n\\r\\.\\?!])".toRegex(), "$1|")?.split("|")?.map { it.trim() }?.filter { it.length > 0 }?.map { TextRow(it) }
             fragment.setTextRows(rows)
 
-            position = (progress*(rows?.size?:0)).toInt()
-            rows?.getOrNull(position)?.let { fragment.scrollToRow(it)}
+            position = (progress * (rows?.size ?: 0)).toInt()
+            rows?.getOrNull(position)?.let { fragment.scrollToRow(it) }
 
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -215,19 +227,25 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
                     try {
 
-                        fun replaceSubWords(text: String?, words: List<Word>?):String? {
+                        fun replaceSubWords(text: String?, words: List<Word>?): String? {
                             val isTextEn = Utils.isTextEn(text);
-                            var text = " "+text?.toString()+" "
+                            var text = " " + text?.toString() + " "
                             if (isTextEn) {
-                                words?.filter { it.word!=null&&it.translate!=null }?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
+                                words?.filter { it.word != null && it.translate != null }?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
                                     try {
                                         text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translate}\\)\$2")
                                     } catch (e: Throwable) {
                                         e.printStackTrace()
                                     }
                                 }
-                            }else{
-                                words?.filter { it.word!=null&&it.translate!=null }?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach { try{text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")}catch (e:Throwable){e.printStackTrace()} }
+                            } else {
+                                words?.filter { it.word != null && it.translate != null }?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
+                                    try {
+                                        text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translate} : ${it.word}\\)\$2")
+                                    } catch (e: Throwable) {
+                                        e.printStackTrace()
+                                    }
+                                }
                             }
                             return text;
                         }
@@ -239,8 +257,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             wordsSrcTranslated = wordsSrcTranslated
                                     ?: wordsSrc?.map { bookWord -> textToWordObject(bookWord) }
 
-                            srcWithNewWords = srcWithNewWords?:replaceSubWords(src,wordsTranslated)
-                            srcWithNewWordsList = srcWithNewWordsList?: srcWithNewWords?.split("[\\(:\\)]".toRegex())
+                            srcWithNewWords = srcWithNewWords
+                                    ?: replaceSubWords(src, wordsTranslated)
+                            srcWithNewWordsList = srcWithNewWordsList
+                                    ?: srcWithNewWords?.split("[\\(:\\)]".toRegex())
                         }
 
 
@@ -255,8 +275,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             wordsDstTranslated = wordsDstTranslated
                                     ?: wordsDst?.map { bookWord -> textToWordObject(bookWord) }
 
-                            dstWithNewWords = dstWithNewWords?:replaceSubWords(dst,wordsTranslated)
-                            dstWithNewWordsList = dstWithNewWordsList?: dstWithNewWords?.split("[\\(:\\)]".toRegex())
+                            dstWithNewWords = dstWithNewWords
+                                    ?: replaceSubWords(dst, wordsTranslated)
+                            dstWithNewWordsList = dstWithNewWordsList
+                                    ?: dstWithNewWords?.split("[\\(:\\)]".toRegex())
 
                         }
 
@@ -283,7 +305,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     fun textToWordObject(bookWord: String?): Word {
         var bookWord = bookWord?.toLowerCase()?.trim()
         val wordsModel = Model.getInstance()
-        val systemWords = wordsModel.words.filter { it.dictionaryId==6 }
+        val systemWords = wordsModel.words.filter { it.dictionaryId == 6 }
         val isWordEn = Utils.isTextEn(bookWord)
         var systemWord: Word? = systemWords?.find { it.translate.trim() == bookWord || it.word.trim() == bookWord }
 //                ?: systemWords?.find {
@@ -301,8 +323,8 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
 
             if (settings.bookReaded_isUseTranslator) {
-                    systemWord = Translate.translateWordTwice(bookWord)
-            }else {
+                systemWord = Translate.translateWordTwice(bookWord)
+            } else {
                 var translate: String? = null
                 systemWord = Word(6, 0, 1, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
             }
@@ -318,16 +340,33 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         pause()
         searchQuery = query
         val row = rows?.find {
-            (it?.src?.contains(query,true)?:false)||
-            (it?.dst?.contains(query,true)?:false)||
-            (it?.srcWithNewWords?.contains(query,true)?:false)||
-            (it?.dstWithNewWords?.contains(query,true)?:false)
+            (it?.src?.contains(query, true) ?: false) ||
+                    (it?.dst?.contains(query, true) ?: false) ||
+                    (it?.srcWithNewWords?.contains(query, true) ?: false) ||
+                    (it?.dstWithNewWords?.contains(query, true) ?: false)
         }
-        row?.let{fragment?.scrollToRow(it)}
+        row?.let { fragment?.scrollToRow(it) }
     }
 
     fun onReadOrderChanged() {
-        //TODO
+        pause()
+        listOf(currentTextRow, nextTextRow, previousTextRow)?.filterNotNull()?.forEach {
+            it.apply {
+                isWordsLoaded = false;
+                dstWithNewWords = null
+                dstWithNewWordsList = null
+
+                loadError = null
+                srcWithNewWords = null
+                srcWithNewWordsList = null
+                state = TextRow.State.none
+                wordsDstTranslated = null
+                wordsSrcTranslated = null
+
+            }
+            loadTextRowParams(it, {}, { fragment.updateRow(it) })
+        }
+
     }
 
 

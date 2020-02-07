@@ -67,6 +67,7 @@
 
     <!-- WordEdit screen -->
     <string name="wordEdit_menu_done">Done</string>
+    <string name="wordEdit_menu_remove">Remove</string>
     <string name="wordEdit_word">Word</string>
     <string name="wordEdit_word_error">Word required</string>
     <string name="wordEdit_transcription">Transcription</string>

@@ -190,6 +190,8 @@ var viewCache :View? =null
             val bookUri = arguments?.getString(KEY_BOOK_PATH)?.let { Uri.parse(it) }
             val bookProgress :Float? = if (arguments.containsKey(KEY_BOOK_PROGRESS) )arguments?.getFloat(KEY_BOOK_PROGRESS) else null
             presenter.openStartBook(bookUri, bookProgress)
+        }else{
+            presenter.onReadOrderChanged()
         }
         this.viewCache = view
         return view
@@ -366,11 +368,11 @@ group->
                         if (it.first.status<=Word.STATUS_LEARN){
                             Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
                             Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()
-                            presenter.onReadOrderChanged()
+                           // presenter.onReadOrderChanged()
                         }else{
                             Model.getInstance().setWordStatus(it.first,Word.STATUS_LEARN)
                             Toast.makeText(itemView.context,"${it.first.word} set to LEARN",Toast.LENGTH_SHORT).show()
-                            presenter.onReadOrderChanged()
+                            //presenter.onReadOrderChanged()
                         }
                     }
                     startIndex++;
