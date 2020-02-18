@@ -198,7 +198,32 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
             settings.lastBookPath = bookUri.toString()
             settings.lastBookProgress = progress
 
-            rows = text?.replace("([\\n\\r\\.\\?!])".toRegex(), "$1|")?.split("|")?.map { it.trim() }?.filter { it.length > 0 }?.map { TextRow(it) }
+            val regexWhiteSpaces = "\\s*".toRegex()
+            rows = text?.replace("([\\n\\r\\.\\?!])(\\s)".toRegex(), "$1|$2")?.split("|")
+//                    .filter { !it.matches(regexWhiteSpaces) }
+//                    ?.toMutableList()?.let { rows ->
+//                        val regex = "\\W".toRegex()
+//                        val removeItems = mutableListOf<Int>()
+//                        rows.forEachIndexed { index, s ->
+//                        if(index>1&&s.length<10&&s.replace(regex, "").length <= 5){
+//                            removeItems.add(index)
+//                        }
+//                        }
+////                        val rowsMapped = rows.mapIndexed { index, s -> index to s }
+////                        val rowsMappedFilteredLength = rowsMapped.filter{it.second.length<=10&&it.first > 1}
+////                        val rowsMappedFilteredAll = rowsMappedFilteredLength.filter { it.second.replace("\\W".toRegex(), "").length <= 5 }
+////                        val removeItems = rowsMappedFilteredAll.map { it.first }
+//
+//                        rows.forEachIndexed { index, text ->
+//                            if (removeItems.contains(index )) {
+//                                rows[index - 1] +=  text
+//                            }
+//                        }
+//                        rows.filterIndexed { index, s ->  removeItems.contains(index)}
+//                    }
+
+                    ?.map { it.trim() }?.filter { it.length > 0 }?.map { TextRow(it) }
+
             fragment.setTextRows(rows)
 
             position = (progress * (rows?.size ?: 0)).toInt()
@@ -301,7 +326,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     }
 
 
-    fun getUniqueWordsFromText(sentence: String?) = sentence?.split("[\\.\\?,!\"\\W-\\(\\)]".toRegex())?.map { it.trim() }?.filter { it.length > 0 }?.distinct()
+    fun getUniqueWordsFromText(sentence: String?) = sentence?.split("[\\.\\?,!\"\\s\\-\\(\\)]".toRegex())?.map { it.trim() }?.filter { it.length > 0 }?.distinct()
 
     fun textToWordObject(bookWord: String?): Word {
         var bookWord = bookWord?.toLowerCase()?.trim()
@@ -338,7 +363,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     var searchFromIndex = -1;
     fun onSearch(query: String) {
-        if (TextUtils.isEmpty(query))return
+        if (TextUtils.isEmpty(query)){
+            searchQuery = query
+            searchFromIndex=-1
+            return}
         if(query!=searchQuery){
             searchFromIndex=-1;
         }

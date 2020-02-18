@@ -338,9 +338,9 @@ var viewCache :View? =null
 
 
             val textColor = when (textRow.state) {
-                TextRow.State.none -> Color.DKGRAY
+                TextRow.State.none -> Color.BLACK
                 TextRow.State.reading -> Color.BLACK
-                TextRow.State.readed -> Color.LTGRAY
+                TextRow.State.readed -> Color.GRAY
             }
 
             wordPattern.findAll(text).toList().forEach {group->
@@ -361,7 +361,7 @@ var viewCache :View? =null
                 var startIndex =0
                 while (text.indexOf(word,startIndex)>=0) {
                     startIndex = text.indexOf(word,startIndex)
-                    spannable.addSpanClickable(startIndex,startIndex + word.length, Color.LTGRAY){
+                    spannable.addSpanClickable(startIndex,startIndex + word.length, 0xFFAAAAAA.toInt()){
                         if (it.first.status<=Word.STATUS_LEARN){
                             Model.getInstance().setWordStatus(it.first,Word.STATUS_CHECK_TRANSLATE)
                             Toast.makeText(itemView.context,"${it.first.word} set to CHECK",Toast.LENGTH_SHORT).show()
