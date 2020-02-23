@@ -36,7 +36,7 @@ public class SpellCheckPresenter implements FragmentManager.OnBackStackChangedLi
         randomWord = Model.getInstance().getRandomWordWithStatusLoverOrEqualThen(Word.STATUS_CHECK_WRITE);
         fragment.showWord(randomWord, state);
         if (settings.isReadWords()&&settings.isReadTranslate() && randomWord != null) {
-            getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), Locale.getDefault(), null);
+            getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), new Locale("ru","RU"), null);
         }
     }
 

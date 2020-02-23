@@ -93,7 +93,7 @@ public class CheckTranslatePresenter implements FragmentManager.OnBackStackChang
             state = State.fail;
             fragment.showWord(randomWord, state, variants, rightVariant, choicedVariant);
             if (settings.isReadWords() && settings.isReadTranslate()) {
-                getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), Locale.getDefault(), null);
+                getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), new Locale("ru","RU"), null);
             }
         } else if (state == State.fail) {
             doStep();
@@ -113,7 +113,7 @@ public class CheckTranslatePresenter implements FragmentManager.OnBackStackChang
                 state = State.fail;
                 fragment.showWord(randomWord, state, variants, rightVariant, choicedVariant);
                 if (settings.isReadWords() && settings.isReadTranslate()) {
-                    getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), Locale.getDefault(), null);
+                    getTts().speak(randomWord.getTranslate(), settings.getSpeedReadTranslate(), new Locale("ru","RU"), null);
                 }
             }
         } else if (state == State.fail) {

@@ -24,7 +24,10 @@ class Settings(val context: Context) {
 
     var lastBookPath by DelegateString("last_book_path", null)
 
-    var lastBookProgress by DelegateFloat("last_book_progress", 0f)
+  //  var lastBookProgress by DelegateFloat("last_book_progress", 0f)
+
+    fun setBookProgress(progress:Float?  = 0f,bookId:String?="") {preferences.setFloat("last_book_progress_$bookId",progress?:0f)}
+    fun getBookProgress(bookId:String?="") = preferences.getFloat("last_book_progress_$bookId",0f)
 
     val speedReadTranslate: Float get() = preferences.getInt("translate_read_speed", 100).toFloat() / 100f
 

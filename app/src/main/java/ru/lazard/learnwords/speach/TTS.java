@@ -85,7 +85,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
         if (isEnglishLanguage){
             speak(text,settings.getSpeedReadWords() , Locale.ENGLISH, callback);
         }else{
-            speak(text,settings.getSpeedReadTranslate() , Locale.getDefault(), callback);
+            speak(text,settings.getSpeedReadTranslate() , new Locale("ru","RU"), callback);
         }
 
     }
@@ -103,7 +103,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
             if (callback != null) callback.run();
             return;
         }
-        final String text = textIn.replaceAll("^[^\\w]","");
+        final String text = textIn.replaceAll("^[^\\w]*","");
 
         if (speechRate < 0) {
             speechRate = 0;
@@ -114,7 +114,7 @@ public class TTS implements BaseActivity.OnActivityResultListener, BaseActivity.
             return;
         }
         if (locale == null) {
-            locale = Locale.getDefault();
+            locale = new Locale("ru","RU");
         }
         try {
 

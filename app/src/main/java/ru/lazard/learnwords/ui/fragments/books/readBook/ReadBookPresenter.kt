@@ -27,6 +27,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     private val previousTextRow get() = rows?.getOrNull(position - 1)
     private var rows: List<TextRow>? = null
     var searchQuery: String? = null;
+    private var bookId:String? = null;
 
     fun onFloatingActionButtonClick(positionIn: Int = position) {
         if (settings.bookReaded_isReadAloud) {
@@ -54,7 +55,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         Thread(object : Runnable {
             override fun run() {
 
-                settings.lastBookProgress = 1f * position / (rows?.size ?: position)
+                settings.setBookProgress(1f * position / (rows?.size ?: position),bookId)
 
                 val row = currentTextRow
                 row ?: pause()
@@ -149,9 +150,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     }
 
-    fun openStartBook(bookUri: Uri?, progress: Float? = 0f) {
+    fun openStartBook(bookUri: Uri?, progress: Float?) {
         val bookUri = bookUri ?: settings.lastBookPath?.let { Uri.parse(it) }
-        val progress = progress ?: settings.lastBookProgress
+
 
         if (bookUri == null) {
             fragment.showFileChoicer()
@@ -170,13 +171,14 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     }
 
-    private fun openBook(bookUri: Uri, progress: Float) {
+    private fun openBook(bookUri: Uri, progress: Float?=0f) {
         try {
             var bookUri = bookUri;
 
             var text = FileToText(context).toText(bookUri);
-
-            val targetFile = File(context.getFilesDir(), "book.txt")
+            bookId = Utils.md5(text )
+            val progress=progress?:settings.getBookProgress(bookId);
+            val targetFile = File(context.getFilesDir(), "book_$bookId.txt")
             val targetUri = Uri.fromFile(targetFile)
             if (bookUri != targetUri) {
                 bookUri = targetUri
@@ -196,7 +198,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 //        }.start()
 
             settings.lastBookPath = bookUri.toString()
-            settings.lastBookProgress = progress
+            settings.setBookProgress(progress,bookId);
 
             val regexWhiteSpaces = "\\s*".toRegex()
             rows = text?.replace("([\\n\\r\\.\\?!])(\\s)".toRegex(), "$1|$2")?.split("|")
