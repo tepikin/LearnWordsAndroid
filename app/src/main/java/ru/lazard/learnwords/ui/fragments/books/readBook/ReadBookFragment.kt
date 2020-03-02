@@ -20,7 +20,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.*
 import android.text.*
 import android.text.method.LinkMovementMethod
+import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.util.Range
 import android.widget.Toast
 import ru.lazard.learnwords.model.Dictionary
@@ -180,6 +182,7 @@ var viewCache :View? =null
 
             floatingActionButton = (activity as MainActivity).floatingActionButton
             floatingActionButton?.setOnClickListener(this)
+            floatingActionButton?.setOnLongClickListener { presenter.onReadOrderChanged();presenter.currentRowReadProgress = null;presenter.onFloatingActionButtonClick(recyclerLayoutManager?.findFirstVisibleItemPosition());true }
             floatingActionButton?.visibility = View.VISIBLE
             floatingActionButton?.setImageDrawable(playPauseDrawable)
             setStatePause()
@@ -369,6 +372,18 @@ var viewCache :View? =null
                         }
                     }
                     startIndex++;
+                }
+            }
+
+            if (presenter?.currentRowReadProgress?.first==textRow){
+                val rows = presenter?.currentRowReadProgress?.second
+                var startIndex = 0;
+                val indexes = rows?.filterNotNull()?.map{ val newStartIndex=Math.max(startIndex,text.indexOf(it.trim(),startIndex));startIndex = Math.max(startIndex ,newStartIndex+it.trim().length) ;
+                    (newStartIndex to startIndex) to it;
+                }
+                val currentRead = indexes?.getOrNull((presenter?.currentRowReadProgress?.third?:0))
+                currentRead?.let {
+                    spannable.setSpan(BackgroundColorSpan(0xffeeEEff.toInt()),currentRead.first.first,currentRead.first.second,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
 

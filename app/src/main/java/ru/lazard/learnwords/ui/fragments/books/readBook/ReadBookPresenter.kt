@@ -51,7 +51,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     }
 
 
-    var currentRowReadProgress = Triple<TextRow?,List<String?>?,Int?>(null,null,null)
+    var currentRowReadProgress:Triple<TextRow?,List<String?>?,Int?>? = null
+
+    val speechSplitRegexp = ",".toRegex()
 
     private fun playStep() {
         if (!isPlay) return
@@ -83,37 +85,44 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
 
                 // generate speak sequence
-                val speakSequence = mutableListOf<String?>();
+                val speakSequenceMutable = mutableListOf<String?>();
                 if (settings.bookReaded_isReadSrc) {
-                    speakSequence += row.src
+                    speakSequenceMutable += row.src
                 }
                 if (settings.bookReaded_isReadSrcWordByWord) {
                     row.srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
-                            speakSequence+= (it)
+                            speakSequenceMutable+= (it)
                     }
                 }
                 if (settings.bookReaded_isReadDst) {
-                    speakSequence += row.dst
+                    speakSequenceMutable += row.dst
                 }
                 if (settings.bookReaded_isReadDstWordByWord) {
-                    speakSequence += row.dstWithNewWordsList?: emptyList()
+                    speakSequenceMutable += row.dstWithNewWordsList?: emptyList()
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadOnlyWords) {
-                    speakSequence += row.wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
+                    speakSequenceMutable += row.wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
                 }
                 if (!isPlay) return
 
 
+               val speakSequence=speakSequenceMutable.flatMap { it?.split(speechSplitRegexp)?: emptyList() }
+
                 var startIndex = 0;
-                if (currentRowReadProgress.first == row &&
-                        currentRowReadProgress.second == speakSequence){
-                    startIndex = currentRowReadProgress.third?:0;
+                if (currentRowReadProgress?.first == row &&
+                        (currentRowReadProgress?.second?.size?:0) == (speakSequence?.size?:0)){
+                    startIndex = currentRowReadProgress?.third?:0;
                 }
-                speakSequence?.filterNotNull()?.forEachIndexed { index, it ->
+//                currentRowReadProgress = Triple(row,speakSequence,0)
+//                fragment.updateRow(row);
+
+                speakSequence?.forEachIndexed { index, it ->
                     if (isPlay&&index>=startIndex ) {
-                        speekSynch(it)
                         currentRowReadProgress = Triple(row,speakSequence,index)
+                        fragment.updateRow(row);
+                        speekSynch(it)
+
                     }
                 }
 
