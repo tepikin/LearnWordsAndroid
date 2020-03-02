@@ -15,6 +15,7 @@ import ru.lazard.learnwords.ui.fragments.preferences.Settings
 import ru.lazard.learnwords.utils.Utils
 import java.io.File
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ReadBookPresenter(val fragment: ReadBookFragment) {
@@ -40,6 +41,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     fun pause() {
         isPlay?.set(false)
+        synchronized(isPlay) {
+            (isPlay as? java.lang.Object)?.notifyAll()
+        }
         isPlay = AtomicBoolean(false)
         fragment.setStatePause()
         tts?.stop()
@@ -48,6 +52,9 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     private fun play(positionIn: Int = position) {
         position = positionIn
         isPlay?.set(false)
+        synchronized(isPlay) {
+        (isPlay as? java.lang.Object)?.notifyAll()
+    }
         isPlay = AtomicBoolean(true)
         fragment.setStatePlay()
         playStep(isPlay)
@@ -57,10 +64,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
     var currentRowReadProgress:Triple<TextRow?,List<String?>?,Int?>? = null
 
     val speechSplitRegexp = ",".toRegex()
-
+    val readExecutor =Executors.newSingleThreadExecutor()
     private fun playStep(isPlay:AtomicBoolean) {
         if (!isPlay.get()) return
-        Thread(object : Runnable {
+        readExecutor.submit(object : Runnable {
             override fun run() {
 
                 val progressFloat = 1f * position / (rows?.size ?: position)
@@ -87,38 +94,15 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 if (!isPlay.get()) return
 
 
-                // generate speak sequence
-                val speakSequenceMutable = mutableListOf<String?>();
-                if (settings.bookReaded_isReadSrc) {
-                    speakSequenceMutable += row.src
-                }
-                if (settings.bookReaded_isReadSrcWordByWord) {
-                    row.srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
-                            speakSequenceMutable+= (it)
-                    }
-                }
-                if (settings.bookReaded_isReadDst) {
-                    speakSequenceMutable += row.dst
-                }
-                if (settings.bookReaded_isReadDstWordByWord) {
-                    speakSequenceMutable += row.dstWithNewWordsList?: emptyList()
-                }
-                if (!isPlay.get()) return
-                if (settings.bookReaded_isReadOnlyWords) {
-                    speakSequenceMutable += row.wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
-                }
-                if (!isPlay.get()) return
 
 
-               val speakSequence=speakSequenceMutable.flatMap { it?.split(speechSplitRegexp)?: emptyList() }
+               val speakSequence=row.speakSequence
 
                 var startIndex = 0;
                 if (currentRowReadProgress?.first == row &&
                         (currentRowReadProgress?.second?.size?:0) == (speakSequence?.size?:0)){
                     startIndex = currentRowReadProgress?.third?:0;
                 }
-//                currentRowReadProgress = Triple(row,speakSequence,0)
-//                fragment.updateRow(row);
 
                 try {
                     speakSequence?.forEachIndexed { index, it ->
@@ -127,9 +111,11 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                             fragment.updateRow(row);
                             speekSynch(it)
 
-                            val delay = settings.bookReaded_delayBetweenSentences_inSeconds
+                            val delay = settings.bookReaded_delayBetweenSentences_inMillisecond
                             if (delay > 0) {
-                                Thread.sleep((delay * 1000).toLong());
+                                if (!isPlay.get()) return
+                                synchronized(isPlay){(isPlay as java.lang.Object).wait((delay).toLong())}
+                                if (!isPlay.get()) return
                             }
                         }
                     }
@@ -150,7 +136,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                     playStep(isPlay)
                 }
             }
-        }).start()
+        })
 
     }
 
@@ -340,6 +326,30 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
                         }
 
+
+                        // generate speak sequence
+                        val speakSequenceMutable = mutableListOf<String?>();
+                        if (settings.bookReaded_isReadSrc) {
+                            speakSequenceMutable += src
+                        }
+                        if (settings.bookReaded_isReadSrcWordByWord) {
+                            srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
+                                speakSequenceMutable+= (it)
+                            }
+                        }
+                        if (settings.bookReaded_isReadDst) {
+                            speakSequenceMutable += dst
+                        }
+                        if (settings.bookReaded_isReadDstWordByWord) {
+                            speakSequenceMutable += dstWithNewWordsList?: emptyList()
+                        }
+                        if (settings.bookReaded_isReadOnlyWords) {
+                            speakSequenceMutable += wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
+                        }
+                        speakSequence=speakSequenceMutable.flatMap { it?.split(speechSplitRegexp)?: emptyList() }?.filterNotNull()
+
+
+
                         isWordsLoading = false
                         isWordsLoaded = true
                         loadError = null;
@@ -428,6 +438,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 state = TextRow.State.none
                 wordsDstTranslated = null
                 wordsSrcTranslated = null
+                speakSequence = null
 
             }
             loadTextRowParams(it, {}, { fragment.updateRow(it) })
@@ -435,6 +446,29 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     }
 
+    fun onBackWordButtonClick() {
+        currentRowReadProgress?:return
+        if ((currentRowReadProgress?.third?:0)-1<0){
+            position=Math.max(0,position-1);
+            currentRowReadProgress= Triple(currentTextRow,currentTextRow?.speakSequence,(currentTextRow?.speakSequence?.size?:1) )
+        }
+        currentRowReadProgress= Triple(currentRowReadProgress?.first,currentRowReadProgress?.second,(currentRowReadProgress?.third?:1) -1)
+        pause()
+        play(position)
+
+    }
+
+    fun onForwardWordButtonClick() {
+        currentRowReadProgress?:return
+        if ((currentRowReadProgress?.third?:0)+1>currentRowReadProgress?.second?.size?.minus(1)?:0){
+            position=Math.max(0,position+1);
+            currentRowReadProgress= Triple(currentTextRow,currentTextRow?.speakSequence,(currentTextRow?.speakSequence?.size?:-1) )
+        }
+        currentRowReadProgress= Triple(currentRowReadProgress?.first,currentRowReadProgress?.second,(currentRowReadProgress?.third?:-1) +1)
+        pause()
+        play(position)
+
+    }
 
 }
 

@@ -3,7 +3,7 @@
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent">-->
 
-    <LinearLayout
+    <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fastScrollEnabled="true"
-            android:layout_weight="1"
+            android:layout_gravity="top|left"
             android:scrollbars="vertical" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/buttonBackWord"
+        android:layout_gravity="bottom|right"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="82dp"
+        android:text="b" />
+    </FrameLayout>
 <!--</android.support.v4.widget.NestedScrollView>-->

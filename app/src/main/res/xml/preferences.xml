@@ -76,6 +76,59 @@
 
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_category_bookReaded">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="bookReaded_isUseTranslator"
+            android:summary="@string/preferences_item_bookReaded_isUseTranslator_summary"
+            android:title="@string/preferences_item_bookReaded_isUseTranslator_title"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="bookReaded_isReadAloud"
+            android:summary="@string/preferences_item_bookReaded_isReadAloud_summary"
+            android:title="@string/preferences_item_bookReaded_isReadAloud_title"/>
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_delayBetweenSentences_inMillisecond"
+            android:summary="@string/preferences_item_bookReaded_delayBetweenSentences_inMillisecond_summary"
+            android:title="@string/preferences_item_bookReaded_delayBetweenSentences_inMillisecond_title"
 
+            app:msbp_dialogEnabled="true"
+            app:msbp_interval="1"
+            app:msbp_maxValue="2000"
+            app:msbp_measurementUnit=" ms "
+            app:msbp_minValue="0"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isReadSrc"
+            android:summary="@string/preferences_item_bookReaded_isReadSrc_summary"
+            android:title="@string/preferences_item_bookReaded_isReadSrc_title"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isReadSrcWordByWord"
+            android:summary="@string/preferences_item_bookReaded_isReadSrcWordByWord_summary"
+            android:title="@string/preferences_item_bookReaded_isReadSrcWordByWord_title"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isReadDst"
+            android:summary="@string/preferences_item_bookReaded_isReadDst_summary"
+            android:title="@string/preferences_item_bookReaded_isReadDst_title"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isReadDstWordByWord"
+            android:summary="@string/preferences_item_bookReaded_isReadDstWordByWord_summary"
+            android:title="@string/preferences_item_bookReaded_isReadDstWordByWord_title"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isReadOnlyWords"
+            android:summary="@string/preferences_item_bookReaded_isReadOnlyWords_summary"
+            android:title="@string/preferences_item_bookReaded_isReadOnlyWords_title"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>

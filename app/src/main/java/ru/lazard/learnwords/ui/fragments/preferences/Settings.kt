@@ -16,7 +16,7 @@ class Settings(val context: Context) {
     var bookReaded_isReadOnlyWords by DelegateBoolean()
     var bookReaded_isUseTranslator by DelegateBoolean()
     var bookReaded_isReadAloud by DelegateBoolean()
-    var bookReaded_delayBetweenSentences_inSeconds by DelegateFloat(null,0.5f)
+    var bookReaded_delayBetweenSentences_inMillisecond by DelegateInt(null,0)
 
     val isAutoWordsSwitch by DelegateBoolean("auto_words_switch", true)
     val isBlinkEnable by DelegateBoolean("blink_screen_enable", false)
@@ -59,6 +59,7 @@ class Settings(val context: Context) {
     fun SharedPreferences.setBoolean(key: String, value: Boolean) = transaction { putBoolean(key, value) }
     fun SharedPreferences.setString(key: String, value: String?) = transaction { putString(key, value) }
     fun SharedPreferences.setFloat(key: String, value: Float) = transaction { putFloat(key, value) }
+    fun SharedPreferences.setInt(key: String, value: Int) = transaction { putInt(key, value) }
 
     inner class DelegateBoolean(val key:String?=null,val defaultValue:Boolean=true){
         operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getBoolean(key?:property.name, defaultValue)
@@ -71,6 +72,10 @@ class Settings(val context: Context) {
     inner class DelegateFloat(val key:String?=null,val defaultValue:Float=0f){
         operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getFloat(key?:property.name, defaultValue)
         operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setFloat(key?:property.name, any as Float)
+    }
+    inner class DelegateInt(val key:String?=null,val defaultValue:Int=0){
+        operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getInt(key?:property.name, defaultValue)
+        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setInt(key?:property.name, any as Int)
     }
 
 }

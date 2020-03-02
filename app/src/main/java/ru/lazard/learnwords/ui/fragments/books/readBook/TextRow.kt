@@ -13,7 +13,7 @@ class TextRow(val src: String) {
 
     var isWordsLoaded: Boolean = false;
     var isWordsLoading: Boolean = false;
-
+    var speakSequence:List<String>? = null
     var wordsSrc: List<String>? = null
     var wordsSrcTranslated: List<Word>? = null
     var srcWithNewWords: String? = null

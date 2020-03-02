@@ -36,6 +36,7 @@ import ru.lazard.learnwords.ui.fragments.wordsList.edit.WordEditFragment
 class ReadBookFragment : View.OnClickListener, Fragment() {
     private var baseLayout: View? = null
     private var bookTextRecyclerView: RecyclerView? = null
+    private var buttonBackWord : View? = null
     private var floatingActionButton: FloatingActionButton? = null
     private var pausePlayAnimator: Animator? = null
     private val playPauseDrawable by lazy { PlayPauseDrawable(context).apply { setPlay() } }
@@ -185,6 +186,10 @@ var viewCache :View? =null
             floatingActionButton?.setOnLongClickListener { presenter.onReadOrderChanged();presenter.currentRowReadProgress = null;presenter.onFloatingActionButtonClick(recyclerLayoutManager?.findFirstVisibleItemPosition());true }
             floatingActionButton?.visibility = View.VISIBLE
             floatingActionButton?.setImageDrawable(playPauseDrawable)
+
+            buttonBackWord = view?.findViewById(ru.lazard.learnwords.R.id.buttonBackWord)
+            buttonBackWord?.setOnClickListener { presenter.onBackWordButtonClick(); }
+
             setStatePause()
 
             val bookUri = arguments?.getString(KEY_BOOK_PATH)?.let { Uri.parse(it) }

@@ -133,5 +133,23 @@
     <string name="readBook_menu_useTranslator">Use translator</string>
     <string name="readBook_menu_readAloud">Read aloud</string>
 
+    <string name="preferences_category_bookReaded">Book Reader</string>
+    <string name="preferences_item_bookReaded_isUseTranslator_summary">isUseTranslator_summary</string>
+    <string name="preferences_item_bookReaded_isUseTranslator_title">isUseTranslator</string>
+    <string name="preferences_item_bookReaded_isReadAloud_summary">isReadAloud_summary</string>
+    <string name="preferences_item_bookReaded_isReadAloud_title">isReadAloud</string>
+    <string name="preferences_item_bookReaded_delayBetweenSentences_inMillisecond_summary">delayBetweenSentences_inMillisecond_summary</string>
+    <string name="preferences_item_bookReaded_delayBetweenSentences_inMillisecond_title">delayBetweenSentences_inMillisecond</string>
+    <string name="preferences_item_bookReaded_isReadSrc_summary">isReadSrc_summary</string>
+    <string name="preferences_item_bookReaded_isReadSrc_title">isReadSrc</string>
+    <string name="preferences_item_bookReaded_isReadSrcWordByWord_summary">isReadSrcWordByWord_summary</string>
+    <string name="preferences_item_bookReaded_isReadSrcWordByWord_title">isReadSrcWordByWord</string>
+    <string name="preferences_item_bookReaded_isReadDst_summary">isReadDst_summary</string>
+    <string name="preferences_item_bookReaded_isReadDst_title">isReadDst</string>
+    <string name="preferences_item_bookReaded_isReadDstWordByWord_summary">isReadDstWordByWord_summary</string>
+    <string name="preferences_item_bookReaded_isReadDstWordByWord_title">isReadDstWordByWord</string>
+    <string name="preferences_item_bookReaded_isReadOnlyWords_summary">isReadOnlyWords_summary</string>
+    <string name="preferences_item_bookReaded_isReadOnlyWords_title">isReadOnlyWords</string>
+
 
 </resources>
