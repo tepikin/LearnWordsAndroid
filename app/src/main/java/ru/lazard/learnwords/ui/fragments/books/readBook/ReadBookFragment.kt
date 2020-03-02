@@ -374,17 +374,22 @@ var viewCache :View? =null
                     startIndex++;
                 }
             }
-
-            if (presenter?.currentRowReadProgress?.first==textRow){
-                val rows = presenter?.currentRowReadProgress?.second
-                var startIndex = 0;
-                val indexes = rows?.filterNotNull()?.map{ val newStartIndex=Math.max(startIndex,text.indexOf(it.trim(),startIndex));startIndex = Math.max(startIndex ,newStartIndex+it.trim().length) ;
-                    (newStartIndex to startIndex) to it;
+            try {
+                if (presenter?.currentRowReadProgress?.first == textRow) {
+                    val rows = presenter?.currentRowReadProgress?.second
+                    var startIndex = 0;
+                    val indexes = rows?.filterNotNull()?.map {
+                        val newStartIndex = Math.max(startIndex, text.indexOf(it.trim(), startIndex));startIndex = Math.max(startIndex, newStartIndex + it.trim().length);
+                        (newStartIndex to startIndex) to it;
+                    }
+                    val currentRead = indexes?.getOrNull((presenter?.currentRowReadProgress?.third
+                            ?: 0))
+                    currentRead?.let {
+                        spannable.setSpan(BackgroundColorSpan(0xffeeEEff.toInt()), currentRead.first.first, currentRead.first.second, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
                 }
-                val currentRead = indexes?.getOrNull((presenter?.currentRowReadProgress?.third?:0))
-                currentRead?.let {
-                    spannable.setSpan(BackgroundColorSpan(0xffeeEEff.toInt()),currentRead.first.first,currentRead.first.second,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
+            }catch (e:Throwable){
+                e.printStackTrace()
             }
 
             textView.setMovementMethod(LinkMovementMethod.getInstance());

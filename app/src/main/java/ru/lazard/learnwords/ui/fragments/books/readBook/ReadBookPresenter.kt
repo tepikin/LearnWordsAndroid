@@ -15,12 +15,13 @@ import ru.lazard.learnwords.ui.fragments.preferences.Settings
 import ru.lazard.learnwords.utils.Utils
 import java.io.File
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.atomic.AtomicBoolean
 
 class ReadBookPresenter(val fragment: ReadBookFragment) {
     private val context get() = fragment.context
     private val settings by lazy { Settings(context) }
     private val tts: TTS? = (fragment?.activity as? MainActivity)?.tts
-    private var isPlay: Boolean = false
+    private var isPlay: AtomicBoolean = AtomicBoolean(false)
     private var position: Int = 0
     private val currentTextRow get() = rows?.getOrNull(position)
     private val nextTextRow get() = rows?.getOrNull(position + 1)
@@ -31,23 +32,25 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     fun onFloatingActionButtonClick(positionIn: Int = position) {
         if (settings.bookReaded_isReadAloud) {
-            if (isPlay) pause() else play(positionIn)
+            if (isPlay.get()) pause() else play(positionIn)
         } else {
             play(positionIn + 1)
         }
     }
 
     fun pause() {
-        isPlay = false
+        isPlay?.set(false)
+        isPlay = AtomicBoolean(false)
         fragment.setStatePause()
         tts?.stop()
     }
 
     private fun play(positionIn: Int = position) {
         position = positionIn
-        isPlay = true
+        isPlay?.set(false)
+        isPlay = AtomicBoolean(true)
         fragment.setStatePlay()
-        playStep()
+        playStep(isPlay)
     }
 
 
@@ -55,8 +58,8 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     val speechSplitRegexp = ",".toRegex()
 
-    private fun playStep() {
-        if (!isPlay) return
+    private fun playStep(isPlay:AtomicBoolean) {
+        if (!isPlay.get()) return
         Thread(object : Runnable {
             override fun run() {
 
@@ -68,20 +71,20 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 val row = currentTextRow
                 row ?: pause()
                 row ?: return
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 fragment.scrollToRow(row)
                 fragment.updateRow(row);
                 doSync { loadTextRowParams(row, { fragment.updateRow(row); }, { fragment.updateRow(row);countDown() }) }
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 if (!row.isWordsLoaded) {
                     pause();return
                 }
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 nextTextRow?.let { loadTextRowParams(it, { fragment.updateRow(it); }, { fragment.updateRow(it); }) }
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 row.state = TextRow.State.reading
                 fragment.updateRow(row);
-                if (!isPlay) return
+                if (!isPlay.get()) return
 
 
                 // generate speak sequence
@@ -100,11 +103,11 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 if (settings.bookReaded_isReadDstWordByWord) {
                     speakSequenceMutable += row.dstWithNewWordsList?: emptyList()
                 }
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 if (settings.bookReaded_isReadOnlyWords) {
                     speakSequenceMutable += row.wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
                 }
-                if (!isPlay) return
+                if (!isPlay.get()) return
 
 
                val speakSequence=speakSequenceMutable.flatMap { it?.split(speechSplitRegexp)?: emptyList() }
@@ -117,24 +120,34 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 //                currentRowReadProgress = Triple(row,speakSequence,0)
 //                fragment.updateRow(row);
 
-                speakSequence?.forEachIndexed { index, it ->
-                    if (isPlay&&index>=startIndex ) {
-                        currentRowReadProgress = Triple(row,speakSequence,index)
-                        fragment.updateRow(row);
-                        speekSynch(it)
+                try {
+                    speakSequence?.forEachIndexed { index, it ->
+                        if (isPlay.get() && index >= startIndex) {
+                            currentRowReadProgress = Triple(row, speakSequence, index)
+                            fragment.updateRow(row);
+                            speekSynch(it)
 
+                            val delay = settings.bookReaded_delayBetweenSentences_inSeconds
+                            if (delay > 0) {
+                                Thread.sleep((delay * 1000).toLong());
+                            }
+                        }
                     }
+                }catch (e:Throwable){
+                    e.printStackTrace()
+                    pause();
+                    return
                 }
 
 
-                if (!isPlay) return
+                if (!isPlay.get()) return
                 row.state = TextRow.State.readed
                 fragment.updateRow(row);
-                if (!isPlay) return
+                if (!isPlay.get()) return
 
                 position++
                 if (settings.bookReaded_isReadAloud) {
-                    playStep()
+                    playStep(isPlay)
                 }
             }
         }).start()
