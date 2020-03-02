@@ -4,8 +4,6 @@ import android.animation.Animator
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import ru.lazard.learnwords.R
 import ru.lazard.learnwords.ui.activities.main.MainActivity
@@ -19,8 +17,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.SimpleItemAnimator
+import android.support.v7.widget.*
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -276,12 +273,11 @@ var viewCache :View? =null
         }
     }
 
-
-
-
-
-
-
+    fun onProgressChanged(progressFloat: Float) {
+        runOnUiThread {
+            (activity as? MainActivity)?.toolbar?.title = "${String.format("%.3f%n",progressFloat*100)}%"
+        }
+    }
 
 
     inner class BookTextAdapter(val context: Context) : RecyclerView.Adapter<TextRowViewHolder>() {

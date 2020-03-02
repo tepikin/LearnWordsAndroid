@@ -58,9 +58,11 @@ public class Model {
         return resultList;
     }
 
-    public static void init(Context context) {
-        if (instance != null) return;
+    public static Throwable init(Context context) {
+        if (instance != null) return null;
         instance = new Model(context);
+        if (instance .getWords().size()<= 0) {try{instance.initDatabase();}catch (Throwable e){e.printStackTrace();return e;}}
+        return null;
     }
 
     public void addWord(Word word) {

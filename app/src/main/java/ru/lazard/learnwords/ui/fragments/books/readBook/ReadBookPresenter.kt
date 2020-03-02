@@ -50,12 +50,18 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         playStep()
     }
 
+
+    var currentRowReadProgress = Triple<TextRow?,List<String?>?,Int?>(null,null,null)
+
     private fun playStep() {
         if (!isPlay) return
         Thread(object : Runnable {
             override fun run() {
 
-                settings.setBookProgress(1f * position / (rows?.size ?: position),bookId)
+                val progressFloat = 1f * position / (rows?.size ?: position)
+                settings.setBookProgress(progressFloat ,bookId)
+
+                fragment?.onProgressChanged(progressFloat)
 
                 val row = currentTextRow
                 row ?: pause()
@@ -75,39 +81,41 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
                 fragment.updateRow(row);
                 if (!isPlay) return
 
+
+                // generate speak sequence
+                val speakSequence = mutableListOf<String?>();
                 if (settings.bookReaded_isReadSrc) {
-                    speekSynch(row.src)
+                    speakSequence += row.src
                 }
-                if (!isPlay) return
                 if (settings.bookReaded_isReadSrcWordByWord) {
                     row.srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
-                        if (isPlay) {
-                            speekSynch(it)
-                        }
+                            speakSequence+= (it)
                     }
                 }
-                if (!isPlay) return
                 if (settings.bookReaded_isReadDst) {
-                    speekSynch(row.dst)
+                    speakSequence += row.dst
                 }
-                if (!isPlay) return
                 if (settings.bookReaded_isReadDstWordByWord) {
-                    row.dstWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
-                        if (isPlay) {
-                            speekSynch(it)
-                        }
-                    }
+                    speakSequence += row.dstWithNewWordsList?: emptyList()
                 }
                 if (!isPlay) return
                 if (settings.bookReaded_isReadOnlyWords) {
-                    row.wordsTranslated?.toMutableList()?.flatMap { listOf(it.word, it.translate, " ... ") }?.forEach {
-                        if (isPlay) {
-                            speekSynch(it)
-                        }
-                    }
+                    speakSequence += row.wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
                 }
                 if (!isPlay) return
 
+
+                var startIndex = 0;
+                if (currentRowReadProgress.first == row &&
+                        currentRowReadProgress.second == speakSequence){
+                    startIndex = currentRowReadProgress.third?:0;
+                }
+                speakSequence?.filterNotNull()?.forEachIndexed { index, it ->
+                    if (isPlay&&index>=startIndex ) {
+                        speekSynch(it)
+                        currentRowReadProgress = Triple(row,speakSequence,index)
+                    }
+                }
 
 
                 if (!isPlay) return
