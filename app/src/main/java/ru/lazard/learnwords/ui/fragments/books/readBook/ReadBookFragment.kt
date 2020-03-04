@@ -24,6 +24,7 @@ import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Range
+import android.widget.Button
 import android.widget.Toast
 import ru.lazard.learnwords.model.Dictionary
 import ru.lazard.learnwords.model.Model
@@ -35,8 +36,8 @@ import ru.lazard.learnwords.ui.fragments.wordsList.edit.WordEditFragment
 
 class ReadBookFragment : View.OnClickListener, Fragment() {
     private var baseLayout: View? = null
+    private var buttonPlayPause: Button? = null
     private var bookTextRecyclerView: RecyclerView? = null
-    private var buttonBackWord : View? = null
     private var floatingActionButton: FloatingActionButton? = null
     private var pausePlayAnimator: Animator? = null
     private val playPauseDrawable by lazy { PlayPauseDrawable(context).apply { setPlay() } }
@@ -187,8 +188,15 @@ var viewCache :View? =null
             floatingActionButton?.visibility = View.VISIBLE
             floatingActionButton?.setImageDrawable(playPauseDrawable)
 
-            buttonBackWord = view?.findViewById(ru.lazard.learnwords.R.id.buttonBackWord)
-            buttonBackWord?.setOnClickListener { presenter.onBackWordButtonClick(); }
+            view?.findViewById<View>(ru.lazard.learnwords.R.id.buttonBackWord)?.apply{
+                setOnClickListener { presenter.onBackWordButtonClick(); }
+            }
+            view?.findViewById<View>(ru.lazard.learnwords.R.id.buttonForwardWord)?.apply{
+                setOnClickListener { presenter.onForwardWordButtonClick(); }
+            }
+            buttonPlayPause = view?.findViewById<Button>(ru.lazard.learnwords.R.id.buttonPlayPause)?.apply{
+                setOnClickListener { presenter.onPlayPauseButtonClick(); }
+            }
 
             setStatePause()
 
@@ -237,6 +245,7 @@ var viewCache :View? =null
 
     fun setStatePause() {
         runOnUiThread {
+            buttonPlayPause?.text = "▶"
             //floatingActionButton.setImageResource(android.R.drawable.ic_media_play);
             if (pausePlayAnimator != null) {
                 pausePlayAnimator?.cancel()
@@ -248,6 +257,7 @@ var viewCache :View? =null
 
     fun setStatePlay() {
         runOnUiThread {
+            buttonPlayPause?.text = "\u23F8"
             if (pausePlayAnimator != null) {
                 pausePlayAnimator?.cancel()
             }

@@ -2,6 +2,7 @@ package ru.lazard.learnwords.ui.fragments.books.readBook
 
 import ru.lazard.learnwords.model.Model
 import ru.lazard.learnwords.model.Word
+import ru.lazard.learnwords.utils.Utils
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
@@ -49,8 +50,6 @@ class TextRow(val src: String) {
 
     }
 
-    fun play(function: () -> Unit) {
 
-    }
 
 }

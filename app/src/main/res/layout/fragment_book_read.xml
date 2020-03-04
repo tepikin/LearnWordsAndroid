@@ -17,13 +17,34 @@
             android:fastScrollEnabled="true"
             android:layout_gravity="top|left"
             android:scrollbars="vertical" />
-    <Button
-        android:id="@+id/buttonBackWord"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:layout_gravity="bottom|right"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="82dp"
-        android:text="b" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonBackWord"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|right"
+            android:text="&#x23EA;" />
+
+        <Button
+            android:id="@+id/buttonPlayPause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|right"
+            android:text="&#x25B6;" />
+
+        <Button
+            android:id="@+id/buttonForwardWord"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|right"
+            android:text="&#x23E9;" />
+    </LinearLayout>
     </FrameLayout>
 <!--</android.support.v4.widget.NestedScrollView>-->

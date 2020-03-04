@@ -63,7 +63,6 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     var currentRowReadProgress:Triple<TextRow?,List<String?>?,Int?>? = null
 
-    val speechSplitRegexp = ",".toRegex()
     val readExecutor =Executors.newSingleThreadExecutor()
     private fun playStep(isPlay:AtomicBoolean) {
         if (!isPlay.get()) return
@@ -257,151 +256,19 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     val loadWordsHandlerThread = HandlerThread("loadWordsHandlser").apply { start() }
     val loadWordsHandler: Handler? by lazy { Handler(loadWordsHandlerThread.looper) }
-
+    val textRowLoader by lazy { TextRowLoader(context)}
     fun loadTextRowParams(textRow: TextRow, onStart: (() -> Unit)? = null, onEnd: (() -> Unit)? = null) {
         loadWordsHandler?.post(object : Runnable {
             override fun run() {
-
-                textRow?.apply {
-                    if (isWordsLoaded) {
-                        onStart?.invoke();onEnd?.invoke();return
-                    }
-                    isWordsLoading = true
-                    onStart?.invoke()
-
-                    try {
-
-                        fun replaceSubWords(text: String?, words: List<Word>?): String? {
-                            val isTextEn = Utils.isTextEn(text);
-                            var text = " " + text?.toString() + " "
-                            if (isTextEn) {
-                                words?.filter { it.word != null && it.translate != null }?.distinctBy { it.word }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
-                                    try {
-                                        text = text?.replace("([^\\w]${it.word})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.word} : ${it.translateShort}\\)\$2")
-                                    } catch (e: Throwable) {
-                                        e.printStackTrace()
-                                    }
-                                }
-                            } else {
-                                words?.filter { it.word != null && it.translate != null }?.distinctBy { it.translate }?.filter { it.status <= 1 }?.filter { it.word != it.translate }?.forEach {
-                                    try {
-                                        text = text?.replace("([^\\w]${it.translate})([^\\w])".toRegex(RegexOption.IGNORE_CASE), "\$1 \\(${it.translateShort} : ${it.word}\\)\$2")
-                                    } catch (e: Throwable) {
-                                        e.printStackTrace()
-                                    }
-                                }
-                            }
-                            return text;
-                        }
-
-
-
-                        if (settings.bookReaded_isReadSrcWordByWord) {
-                            wordsSrc = wordsSrc ?: getUniqueWordsFromText(src)
-                            wordsSrcTranslated = wordsSrcTranslated
-                                    ?: wordsSrc?.map { bookWord -> textToWordObject(bookWord) }
-
-                            srcWithNewWords = srcWithNewWords
-                                    ?: replaceSubWords(src, wordsTranslated)
-                            srcWithNewWordsList = srcWithNewWordsList
-                                    ?: srcWithNewWords?.split("[\\(:\\)]".toRegex())
-                        }
-
-
-                        if (settings.bookReaded_isReadDst || settings.bookReaded_isReadDstWordByWord) {
-                            if (settings.bookReaded_isUseTranslator) {
-                                dst = dst ?: Translate.translate(src)?.second
-                            }
-                        }
-
-                        if (settings.bookReaded_isReadDstWordByWord && dst != null) {
-                            wordsDst = wordsDst ?: getUniqueWordsFromText(dst)
-                            wordsDstTranslated = wordsDstTranslated
-                                    ?: wordsDst?.map { bookWord -> textToWordObject(bookWord) }
-
-                            dstWithNewWords = dstWithNewWords
-                                    ?: replaceSubWords(dst, wordsTranslated)
-                            dstWithNewWordsList = dstWithNewWordsList
-                                    ?: dstWithNewWords?.split("[\\(:\\)]".toRegex())
-
-                        }
-
-
-                        // generate speak sequence
-                        val speakSequenceMutable = mutableListOf<String?>();
-                        if (settings.bookReaded_isReadSrc) {
-                            speakSequenceMutable += src
-                        }
-                        if (settings.bookReaded_isReadSrcWordByWord) {
-                            srcWithNewWordsList?.toMutableList()?.filterNotNull()?.forEach {
-                                speakSequenceMutable+= (it)
-                            }
-                        }
-                        if (settings.bookReaded_isReadDst) {
-                            speakSequenceMutable += dst
-                        }
-                        if (settings.bookReaded_isReadDstWordByWord) {
-                            speakSequenceMutable += dstWithNewWordsList?: emptyList()
-                        }
-                        if (settings.bookReaded_isReadOnlyWords) {
-                            speakSequenceMutable += wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
-                        }
-                        speakSequence=speakSequenceMutable.flatMap { it?.split(speechSplitRegexp)?: emptyList() }?.filterNotNull()
-
-
-
-                        isWordsLoading = false
-                        isWordsLoaded = true
-                        loadError = null;
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        loadError = e
-                        isWordsLoading = false
-                        isWordsLoaded = false
-                    }
-
-                    onEnd?.invoke()
-                }
+                onStart?.invoke()
+                textRowLoader.load(textRow)
+                onEnd?.invoke()
             }
-
         })
     }
 
 
-    fun getUniqueWordsFromText(sentence: String?) = sentence?.split("[\\.\\?,!\"\\s\\-\\(\\)]".toRegex())?.map { it.trim() }?.filter { it.length > 0 }?.distinct()
 
-    fun textToWordObject(bookWord: String?): Word {
-        var bookWord = bookWord?.toLowerCase()?.trim()
-        val wordsModel = Model.getInstance()
-        val systemWords = wordsModel.words.filter { it.dictionaryId == 6 }
-        val isWordEn = Utils.isTextEn(bookWord)
-        var systemWord: Word? = systemWords?.find { it.translate.trim() == bookWord || it.word.trim() == bookWord }
-//                ?: systemWords?.find {
-//                    it.word.trim().startsWith(bookWord + ";")
-//                            || it.translate.trim().startsWith(bookWord + ";")
-//                }
-//                ?: systemWords?.find {
-//                    it.word.trim().contains(" " + bookWord + ";")
-//                            || it.translate.trim().contains(" " + bookWord + ";")
-//                } ?: systemWords?.find {
-//                    it.word.trim().endsWith(" " + bookWord)
-//                            || it.translate.trim().endsWith(" " + bookWord)
-//                }
-        if (systemWord == null) {
-
-
-            if (settings.bookReaded_isUseTranslator) {
-                systemWord = Translate.translateWordTwice(bookWord)
-            } else {
-                var translate: String? = null
-                systemWord = Word(6, 0, 1, null, if (isWordEn) translate else bookWord, 0, if (isWordEn) bookWord else translate)
-            }
-            if (systemWord?.getWord() != null && systemWord?.getTranslate() != null) {
-                wordsModel.addWord(systemWord);
-            }
-        }
-        return systemWord
-    }
 
     var searchFromIndex = -1;
     fun onSearch(query: String) {
@@ -468,6 +335,14 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         pause()
         play(position)
 
+    }
+
+    fun onPlayPauseButtonClick() {
+        if (isPlay.get()) {
+            pause()
+        }else {
+            play(position)
+        }
     }
 
 }

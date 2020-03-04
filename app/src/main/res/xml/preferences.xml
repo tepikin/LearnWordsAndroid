@@ -87,6 +87,7 @@
             android:key="bookReaded_isReadAloud"
             android:summary="@string/preferences_item_bookReaded_isReadAloud_summary"
             android:title="@string/preferences_item_bookReaded_isReadAloud_title"/>
+
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="0"
             android:dependency="bookReaded_isReadAloud"
@@ -99,6 +100,13 @@
             app:msbp_maxValue="2000"
             app:msbp_measurementUnit=" ms "
             app:msbp_minValue="0"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_delayBetweenWords"
+            android:summary="@string/preferences_item_bookReaded_delayBetweenWords_summary"
+            android:title="@string/preferences_item_bookReaded_delayBetweenWords_title"/>
+
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="bookReaded_isReadAloud"
