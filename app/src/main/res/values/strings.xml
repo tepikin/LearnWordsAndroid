@@ -150,8 +150,10 @@
     <string name="preferences_item_bookReaded_isReadDstWordByWord_title">isReadDstWordByWord</string>
     <string name="preferences_item_bookReaded_isReadOnlyWords_summary">isReadOnlyWords_summary</string>
     <string name="preferences_item_bookReaded_isReadOnlyWords_title">isReadOnlyWords</string>
-    <string name="preferences_item_bookReaded_delayBetweenWords_summary">isDelayBetweenWords_summary</string>
-    <string name="preferences_item_bookReaded_delayBetweenWords_title">isDelayBetweenWords</string>
+    <string name="preferences_item_bookReaded_isDelayBetweenWords_summary">isDelayBetweenWords_summary</string>
+    <string name="preferences_item_bookReaded_isDelayBetweenWords_title">isDelayBetweenWords</string>
+    <string name="preferences_item_bookReaded_isDelayBetweenSentences_summary">isDelayBetweenSentences_summary</string>
+    <string name="preferences_item_bookReaded_isDelayBetweenSentences_title">isDelayBetweenSentences</string>
 
 
 </resources>

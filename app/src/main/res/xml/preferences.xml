@@ -103,10 +103,15 @@
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="bookReaded_isReadAloud"
-            android:key="bookReaded_delayBetweenWords"
-            android:summary="@string/preferences_item_bookReaded_delayBetweenWords_summary"
-            android:title="@string/preferences_item_bookReaded_delayBetweenWords_title"/>
-
+            android:key="bookReaded_isDelayBetweenSentences"
+            android:summary="@string/preferences_item_bookReaded_isDelayBetweenSentences_summary"
+            android:title="@string/preferences_item_bookReaded_isDelayBetweenSentences_title"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="bookReaded_isReadAloud"
+            android:key="bookReaded_isDelayBetweenWords"
+            android:summary="@string/preferences_item_bookReaded_isDelayBetweenWords_summary"
+            android:title="@string/preferences_item_bookReaded_isDelayBetweenWords_title"/>
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="bookReaded_isReadAloud"

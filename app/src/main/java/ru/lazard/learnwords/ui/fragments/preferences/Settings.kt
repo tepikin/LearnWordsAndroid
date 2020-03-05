@@ -17,7 +17,8 @@ class Settings(val context: Context) {
     var bookReaded_isUseTranslator by DelegateBoolean()
     var bookReaded_isReadAloud by DelegateBoolean()
     var bookReaded_delayBetweenSentences_inMillisecond by DelegateInt(null,0)
-    var bookReaded_delayBetweenWords by DelegateBoolean()
+    var bookReaded_isDelayBetweenWords by DelegateBoolean()
+    var bookReaded_isDelayBetweenSentences by DelegateBoolean()
 
     val isAutoWordsSwitch by DelegateBoolean("auto_words_switch", true)
     val isBlinkEnable by DelegateBoolean("blink_screen_enable", false)

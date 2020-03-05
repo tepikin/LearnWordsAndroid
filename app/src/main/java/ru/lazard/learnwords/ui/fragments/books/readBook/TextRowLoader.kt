@@ -99,10 +99,12 @@ class TextRowLoader(val context: Context) {
                 if (settings.bookReaded_isReadOnlyWords) {
                     speakSequenceMutable += wordsTranslated?.flatMap { listOf(it.word, it.translate, " ... ") }
                 }
-                val splitRegexp = if (settings.bookReaded_delayBetweenWords) speechSplitRegexpByWords else speechSplitRegexpBySentences;
-                speakSequence = speakSequenceMutable.flatMap {
-                    it?.split(splitRegexp) ?: emptyList()
-                }?.map { it.trim() }?.filter { it.matches(regexpContainsLetter) }?.filterNotNull()
+                var splitRegexp:Regex? = null;
+                if (settings.bookReaded_isDelayBetweenWords) splitRegexp = speechSplitRegexpByWords
+                if (settings.bookReaded_isDelayBetweenSentences) splitRegexp = speechSplitRegexpBySentences
+                speakSequence = speakSequenceMutable.flatMap {if(splitRegexp==null) arrayListOf(it)else{
+                    it?.split(splitRegexp) ?: emptyList()}
+                }?.filterNotNull()?.map { it.trim() }?.filter { it.matches(regexpContainsLetter) }?.filterNotNull()
 
 
 

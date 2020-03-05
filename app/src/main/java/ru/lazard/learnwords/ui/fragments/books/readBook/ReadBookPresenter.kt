@@ -329,7 +329,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         currentRowReadProgress?:return
         if ((currentRowReadProgress?.third?:0)+1>currentRowReadProgress?.second?.size?.minus(1)?:0){
             position=Math.max(0,position+1);
-            currentRowReadProgress= Triple(currentTextRow,currentTextRow?.speakSequence,(currentTextRow?.speakSequence?.size?:-1) )
+            currentRowReadProgress= Triple(currentTextRow,currentTextRow?.speakSequence,-1 )
         }
         currentRowReadProgress= Triple(currentRowReadProgress?.first,currentRowReadProgress?.second,(currentRowReadProgress?.third?:-1) +1)
         pause()
