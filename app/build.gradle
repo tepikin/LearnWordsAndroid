@@ -55,6 +55,7 @@ dependencies {
     implementation "com.google.firebase:firebase-crash:$play_services_version"
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.mlkit:translate:16.1.2'
 }
 
 

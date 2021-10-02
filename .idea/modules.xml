@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LearnWordsAndroid.iml" filepath="$PROJECT_DIR$/LearnWordsAndroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SeekBarPreference/LearnWordsAndroid-SeekBarPreference.iml" filepath="$PROJECT_DIR$/SeekBarPreference/LearnWordsAndroid-SeekBarPreference.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/LearnWordsAndroid-app.iml" filepath="$PROJECT_DIR$/app/LearnWordsAndroid-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SeekBarPreference/SeekBarPreference.iml" filepath="$PROJECT_DIR$/SeekBarPreference/SeekBarPreference.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/develop-LearnWordsAndroid.iml" filepath="$PROJECT_DIR$/develop-LearnWordsAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LearnWordsAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/LearnWordsAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SeekBarPreference/LearnWordsAndroid.SeekBarPreference.iml" filepath="$PROJECT_DIR$/.idea/modules/SeekBarPreference/LearnWordsAndroid.SeekBarPreference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LearnWordsAndroid.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LearnWordsAndroid.app.iml" />
     </modules>
   </component>
 </project>
