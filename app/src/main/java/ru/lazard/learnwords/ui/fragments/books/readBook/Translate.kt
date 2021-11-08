@@ -6,6 +6,7 @@ import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import ru.lazard.learnwords.model.Word
 import ru.lazard.learnwords.utils.Utils
+import java.util.concurrent.CountDownLatch
 
 object Translate {
 
@@ -37,6 +38,10 @@ object Translate {
             .setTargetLanguage(TranslateLanguage.ENGLISH)
             .setExecutor { it.run() }
             .build())
+
+        translationEnToRu.downloadModelIfNeeded()
+        translationRuToEn.downloadModelIfNeeded()
+
     }
 
 
@@ -61,13 +66,17 @@ object Translate {
     private fun translate(sourceText: String?, translator: Translator): Pair<String?, String?>? {
         var result = ""
         var resultError: Throwable? = null
+        val countDown = CountDownLatch(1)
         translator.translate(sourceText)
             .addOnSuccessListener { translatedText ->
                 result = translatedText
+                countDown.countDown()
             }
             .addOnFailureListener { exception ->
                 resultError = exception
+                countDown.countDown()
             }
+        countDown.await()
         resultError?.let { throw  it }
         return sourceText to result
     }
