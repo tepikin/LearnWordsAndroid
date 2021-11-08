@@ -3,7 +3,9 @@ package com.pavelsikun.seekbarpreference;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.preference.Preference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
+
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -29,6 +31,12 @@ public class SeekBarPreferenceCompat extends Preference implements View.OnClickL
     public SeekBarPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
+    }
+
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        controllerDelegate.onBind(holder.itemView);
     }
 
     public SeekBarPreferenceCompat(Context context) {
