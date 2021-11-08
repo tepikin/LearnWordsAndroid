@@ -3,7 +3,7 @@ package ru.lazard.learnwords.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.XmlRes;
+import androidx.annotation.XmlRes;
 
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;

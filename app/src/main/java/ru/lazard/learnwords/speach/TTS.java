@@ -3,10 +3,11 @@ package ru.lazard.learnwords.speach;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.FloatRange;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.FloatRange;
 import android.text.TextUtils;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
 import java.util.List;

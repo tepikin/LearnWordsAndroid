@@ -22,7 +22,7 @@ class StartIntentInvoker(val activity: MainActivity?){
             uri = params?.map { it as? String }?.filterNotNull()?.firstOrNull()?.let { Uri.parse(it) }
             if (uri !=null){activity?.addFragment(ReadBookFragment.newInstance(uri, null), true);return}
 
-            Log.e("intent",""+intent.extras?.keySet()?.map { it to intent.extras.get(it) }?.joinToString { "\n" })
+            Log.e("intent",""+intent.extras?.keySet()?.map { it to intent.extras?.get(it) }?.joinToString { "\n" })
         }
     }
 }

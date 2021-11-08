@@ -69,7 +69,7 @@ class Settings(val context: Context) {
     }
     inner class DelegateString(val key:String?=null,val defaultValue:String?=null){
         operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getString(key?:property.name, defaultValue)
-        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any) = preferences.setString(key?:property.name, any as? String)
+        operator fun setValue(settings: Settings, property: KProperty<*>, any: Any?) = preferences.setString(key?:property.name, any as? String)
     }
     inner class DelegateFloat(val key:String?=null,val defaultValue:Float=0f){
         operator fun getValue(settings: Settings, property: KProperty<*>)=preferences.getFloat(key?:property.name, defaultValue)

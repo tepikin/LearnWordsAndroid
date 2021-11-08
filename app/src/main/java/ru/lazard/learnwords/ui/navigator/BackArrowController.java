@@ -1,9 +1,10 @@
 package ru.lazard.learnwords.ui.navigator;
 
 import android.animation.ValueAnimator;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.view.GravityCompat;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -31,7 +32,7 @@ public class BackArrowController implements FragmentManager.OnBackStackChangedLi
     }
 
     private void setDrawerListener(MainActivity activity) {
-        activity.getDrawerLayout().addDrawerListener(new android.support.v4.widget.DrawerLayout.DrawerListener(){
+        activity.getDrawerLayout().addDrawerListener(new androidx.drawerlayout.widget.DrawerLayout.DrawerListener(){
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 Utils.hideKeyboard(drawerView);

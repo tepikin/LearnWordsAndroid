@@ -2,8 +2,8 @@ package ru.lazard.learnwords.ui.fragments.books.readBook
 
 import android.animation.Animator
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
 import android.view.*
 import ru.lazard.learnwords.R
 import ru.lazard.learnwords.ui.activities.main.MainActivity
@@ -16,8 +16,8 @@ import android.app.SearchManager
 import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.*
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.BackgroundColorSpan
@@ -26,6 +26,10 @@ import android.text.style.ForegroundColorSpan
 import android.util.Range
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import ru.lazard.learnwords.model.Dictionary
 import ru.lazard.learnwords.model.Model
 import ru.lazard.learnwords.model.Word
@@ -41,10 +45,10 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
     private var floatingActionButton: FloatingActionButton? = null
     private var pausePlayAnimator: Animator? = null
     private val playPauseDrawable by lazy { PlayPauseDrawable(context).apply { setPlay() } }
-    private val adapter by lazy { BookTextAdapter(context) }
+    private val adapter by lazy { BookTextAdapter(requireContext()) }
     private val recyclerLayoutManager by lazy { LinearLayoutManager(context) }
     private val presenter by lazy { ReadBookPresenter(this) }
-    private val settings by lazy { Settings(context) }
+    private val settings by lazy { Settings(requireContext()) }
 
     companion object{
         private val KEY_BOOK_PATH = "KEY_BOOK_PATH"
@@ -73,7 +77,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_book_read, menu)
 
         menu?.findItem(R.id.menu_readSrc)?.isChecked =settings.bookReaded_isReadSrc
@@ -85,9 +89,9 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
         menu?.findItem(R.id.menu_readAloud)?.isChecked =settings.bookReaded_isReadAloud
 
 
-        val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as? SearchManager
         val searchView = menu?.findItem(R.id.menu_search)?.actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
+        searchView.setSearchableInfo(searchManager?.getSearchableInfo(activity?.componentName))
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -169,7 +173,7 @@ class ReadBookFragment : View.OnClickListener, Fragment() {
     }
 
 var viewCache :View? =null
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view = super.onCreateView(inflater, container, savedInstanceState)
         if (view ==null){view = viewCache }
@@ -201,7 +205,7 @@ var viewCache :View? =null
             setStatePause()
 
             val bookUri = arguments?.getString(KEY_BOOK_PATH)?.let { Uri.parse(it) }
-            val bookProgress :Float? = if (arguments.containsKey(KEY_BOOK_PROGRESS) )arguments?.getFloat(KEY_BOOK_PROGRESS) else null
+            val bookProgress :Float? = if (arguments?.containsKey(KEY_BOOK_PROGRESS)?:false )arguments?.getFloat(KEY_BOOK_PROGRESS) else null
             presenter.openStartBook(bookUri, bookProgress)
         }else{
             presenter.onReadOrderChanged()
@@ -300,7 +304,7 @@ var viewCache :View? =null
 
     inner class BookTextAdapter(val context: Context) : RecyclerView.Adapter<TextRowViewHolder>() {
         private val rows = mutableListOf<TextRow>();
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = TextRowViewHolder(parent)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TextRowViewHolder(parent)
         override fun getItemCount() = rows.size
         override fun onBindViewHolder(holder: TextRowViewHolder, position: Int) = holder.bind(rows[position])
         fun setTextRows(newRows: List<TextRow>) {

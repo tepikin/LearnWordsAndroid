@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class ReadBookPresenter(val fragment: ReadBookFragment) {
     private val context get() = fragment.context
-    private val settings by lazy { Settings(context) }
+    private val settings by lazy { Settings(context!!) }
     private val tts: TTS? = (fragment?.activity as? MainActivity)?.tts
     private var isPlay: AtomicBoolean = AtomicBoolean(false)
     private var position: Int = 0
@@ -190,10 +190,10 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
         try {
             var bookUri = bookUri;
 
-            var text = FileToText(context).toText(bookUri);
+            var text = FileToText(context!!).toText(bookUri);
             bookId = Utils.md5(text )
             val progress=progress?:settings.getBookProgress(bookId);
-            val targetFile = File(context.getFilesDir(), "book_$bookId.txt")
+            val targetFile = File(context!!.getFilesDir(), "book_$bookId.txt")
             val targetUri = Uri.fromFile(targetFile)
             if (bookUri != targetUri) {
                 bookUri = targetUri
@@ -256,7 +256,7 @@ class ReadBookPresenter(val fragment: ReadBookFragment) {
 
     val loadWordsHandlerThread = HandlerThread("loadWordsHandlser").apply { start() }
     val loadWordsHandler: Handler? by lazy { Handler(loadWordsHandlerThread.looper) }
-    val textRowLoader by lazy { TextRowLoader(context)}
+    val textRowLoader by lazy { TextRowLoader(context!!)}
     fun loadTextRowParams(textRow: TextRow, onStart: (() -> Unit)? = null, onEnd: (() -> Unit)? = null) {
         loadWordsHandler?.post(object : Runnable {
             override fun run() {

@@ -12,14 +12,14 @@
     tools:context=".ui.activities.main.MainActivity">
 
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true"
         android:orientation="vertical"
         >
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/word"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -31,7 +31,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/colorPrimaryText"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/transcription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,14 +43,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/colorSecondaryText"/>
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/translateLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.15"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/translate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,17 +62,17 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorSecondaryText"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/translateIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/selector_check_words_apply"/>
-        </android.support.v7.widget.LinearLayoutCompat>
-    </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sound"
         style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
         android:layout_width="wrap_content"
@@ -86,21 +86,21 @@
         android:text=""
         app:buttonTint="@color/colorSecondaryText"/>
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
         android:layout_margin="16dp"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cancel"
             style="@style/Base.Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I don't know"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nextCancel"
             style="@style/Base.Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
@@ -112,19 +112,19 @@
             android:layout_height="1dp"
             android:layout_weight="1"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nextApply"
             style="@style/Base.Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="next"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/apply"
             style="@style/Base.Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I know"/>
-    </android.support.v7.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

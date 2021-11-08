@@ -2,8 +2,8 @@ package ru.lazard.learnwords.ui.fragments.wordsList.dictionaries;
 
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;

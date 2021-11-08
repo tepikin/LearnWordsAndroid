@@ -3,10 +3,11 @@ package ru.lazard.learnwords.ui.fragments.checkWords.learn;
 import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GestureDetectorCompat;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.view.GestureDetectorCompat;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;

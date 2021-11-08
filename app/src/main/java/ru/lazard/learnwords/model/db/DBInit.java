@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.support.annotation.XmlRes;
+import androidx.annotation.XmlRes;
 
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;

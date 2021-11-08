@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,13 +17,13 @@
         tools:context=".ui.activities.main.MainActivity">
 
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:keepScreenOn="true"
             android:orientation="vertical"
             >
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/translate"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:text="Hello World!"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorSecondaryText"/>
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -44,7 +44,7 @@
                 >
 
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/translateEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,9 +52,9 @@
                     android:imeOptions="actionDone"
                     android:inputType="textNoSuggestions"
                     >
-                </android.support.v7.widget.AppCompatEditText>
+                </androidx.appcompat.widget.AppCompatEditText>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 <LinearLayout
     android:id="@+id/wordLayout"
@@ -72,7 +72,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/word"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 android:text="Hello World!"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorPrimaryText"/>
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/transcription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,10 +119,10 @@
                 android:text="@string/checkTranslate_button_next"
                 android:textAllCaps="false"/>
 
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/sound"
             style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
@@ -137,4 +137,4 @@
             app:buttonTint="@color/colorSecondaryText"/>
 
     </FrameLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

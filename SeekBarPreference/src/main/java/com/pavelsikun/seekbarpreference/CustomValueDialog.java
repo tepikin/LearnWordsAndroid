@@ -1,9 +1,9 @@
 package com.pavelsikun.seekbarpreference;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+
 
 /**
  * Created by Pavel Sikun on 21.05.16.
@@ -70,7 +72,7 @@ class CustomValueDialog {
     private int fetchAccentColor(Context context) {
         TypedValue typedValue = new TypedValue();
 
-        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
+        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[] { R.color.color_dialog });
         int color = a.getColor(0, 0);
         a.recycle();
 

@@ -1,13 +1,14 @@
 package ru.lazard.learnwords.ui.fragments.wordsList.words;
 
 import android.content.res.Resources;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Model;
