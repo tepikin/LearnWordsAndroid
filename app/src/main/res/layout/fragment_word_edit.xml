@@ -76,5 +76,11 @@
         android:layout_height="42dp"
         android:drawSelectorOnTop="true"
         android:entries="@array/wordEdit_status_items"/>
+    <Button
+        android:id="@+id/openInTranslatorButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Open in translator"
+        />
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>

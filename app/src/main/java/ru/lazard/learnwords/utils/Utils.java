@@ -1,6 +1,7 @@
 package ru.lazard.learnwords.utils;
 
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -169,5 +170,30 @@ public class Utils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static void openTranslateApp(String text, Context context) {
+        try {
+            String languageFrom = "en";
+            String languageTo = "ru";
+            if (Utils.isTextEn(text)) {languageFrom="en";languageTo="ru";} else {languageFrom="ru";languageTo="en";}
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+            intent.putExtra("key_text_input", text);
+            intent.putExtra("key_text_output", "");
+            intent.putExtra("key_language_from", languageFrom);
+            intent.putExtra("key_language_to", languageTo);
+            intent.putExtra("key_suggest_translation", "");
+            intent.putExtra("key_from_floating_window", false);
+            intent.setComponent(new ComponentName(
+                    "com.google.android.apps.translate",
+                    //Change is here
+                    //"com.google.android.apps.translate.HomeActivity"));
+                    "com.google.android.apps.translate.TranslateActivity"));
+            context.startActivity(intent);
+        } catch (Throwable e) {
+            Toast.makeText(context, "Sorry, No Google Translation Installed",Toast.LENGTH_SHORT).show();
+        }
     }
 }

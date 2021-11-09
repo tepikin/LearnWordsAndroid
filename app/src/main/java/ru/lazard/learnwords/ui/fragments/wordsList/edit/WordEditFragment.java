@@ -1,5 +1,8 @@
 package ru.lazard.learnwords.ui.fragments.wordsList.edit;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.lazard.learnwords.R;
 import ru.lazard.learnwords.model.Model;
@@ -33,6 +37,7 @@ public class WordEditFragment extends Fragment {
     private AppCompatEditText translateView;
     private Word word;
     private AppCompatEditText wordView;
+    private View openInTranslatorButton;
 
     public static Fragment newInstance(Word word, int dictionaryId) {
         WordEditFragment wordEditFragment = new WordEditFragment();
@@ -70,6 +75,16 @@ public class WordEditFragment extends Fragment {
             transcriptionView = (AppCompatEditText) view.findViewById(R.id.transcription);
             translateView = (AppCompatEditText) view.findViewById(R.id.translate);
             spinerView = (AppCompatSpinner) view.findViewById(R.id.status);
+            openInTranslatorButton = (View) view.findViewById(R.id.openInTranslatorButton);
+
+            openInTranslatorButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = word.getWord();
+                    Context context = requireContext();
+                    Utils.openTranslateApp(text, context);
+                }
+            });
 
             if (getArguments() != null) {
                 int wordId = getArguments().getInt(KEY_WORD_ID, -1);
